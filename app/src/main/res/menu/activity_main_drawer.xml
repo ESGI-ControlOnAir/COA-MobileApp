@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_1"
+            android:icon="@android:drawable/ic_menu_sort_alphabetically"
+            android:title="Trier par ordre alphabêtique" />
+        <item
+            android:id="@+id/nav_2"
+            android:icon="@android:drawable/ic_menu_sort_by_size"
+            android:title="Trier par prix" />
+        <item
+            android:id="@+id/nav_3"
+            android:icon="@android:drawable/btn_star_big_on"
+            android:title="Trier par note" />
+        <item
+            android:id="@+id/nav_4"
+            android:icon="@android:drawable/ic_menu_recent_history"
+            android:title="Trier par date" />
+    </group>
+
+    <item android:title="Votre compte">
+        <menu>
+            <item
+                android:id="@+id/nav_5"
+                android:icon="@android:drawable/ic_menu_add"
+                android:title="Nouveau produit" />
+            <item
+                android:id="@+id/nav_6"
+                android:icon="@android:drawable/ic_menu_manage"
+                android:title="Mon compte" />
+        </menu>
+    </item>
+
+</menu>
