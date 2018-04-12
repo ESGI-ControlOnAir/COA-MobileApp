@@ -1,62 +1,54 @@
 package fr.esgi.ideal.ideal;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import fr.esgi.ideal.ideal.api.ApiService;
+import fr.esgi.ideal.ideal.api.Article;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import android.util.Log;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private static int TIME_OUT = 2000;
+    private static int TIME_OUT = 4000;
+    public static String URLServer = "10.33.1.60:8888";
+    TextView connexion;
+    ListView liste;
+    Toolbar toolbar;
+    List<Article> repoList = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         final ProgressBar chargement = (ProgressBar) findViewById(R.id.progressBar);
-        final TextView connexion = (TextView) findViewById(R.id.connexion);
-        final ListView liste = (ListView) findViewById(R.id.liste);
-        // Initializing a new String Array
-        String[] fruits = new String[] {
-                "Objet 1",
-                "Objet 2"
-        };
+        connexion = (TextView) findViewById(R.id.connexion);
+        liste = (ListView) findViewById(R.id.liste);
 
-        // Create a List from String Array elements
-        final List<String> fruits_list = new ArrayList<String>(Arrays.asList(fruits));
-
-        // Create an ArrayAdapter from List
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, fruits_list);
-
-        // DataBind ListView with items from ArrayAdapter
-        liste.setAdapter(arrayAdapter);
         setSupportActionBar(toolbar);
-
-        new Handler().postDelayed(new Runnable() { // Affichage de la liste des objets vendu après connexion - TIMEOUT à des fins de test
-            @Override
-            public void run() {
-                chargement.setVisibility(View.INVISIBLE);
-                connexion.setVisibility(View.INVISIBLE);
-                liste.setVisibility(View.VISIBLE);
-            }
-        }, TIME_OUT);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -66,6 +58,19 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        new Handler().postDelayed(new Runnable() { // Affichage de la liste des objets vendu après connexion - TIMEOUT à des fins de test
+            @Override
+            public void run() {
+                if(repoList != null) {
+                    chargement.setVisibility(View.INVISIBLE);
+                    connexion.setVisibility(View.INVISIBLE);
+                    liste.setVisibility(View.VISIBLE);
+                }
+            }
+        }, TIME_OUT);
+
+        new ListReposTask().execute();
     }
 
     @Override
@@ -94,6 +99,13 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent myIntent = new Intent(MainActivity.this, ParamActivity.class);
+            MainActivity.this.startActivity(myIntent);
+            return true;
+        }
+        if (id == R.id.action_refresh) {
+            finish();
+            startActivity(getIntent());
             return true;
         }
 
@@ -117,11 +129,60 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_5) {
 
         } else if (id == R.id.nav_6) {
+            Intent myIntent = new Intent(MainActivity.this, LoginActivity.class);
+            MainActivity.this.startActivity(myIntent);
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    class ListReposTask extends AsyncTask<Void, Void, List<Article>>{
+
+        @Override
+        protected List<Article> doInBackground(Void...params) {
+            Log.i("jeej","DIB");
+            ApiService service = new Retrofit.Builder()
+                    .baseUrl("http://"+ MainActivity.URLServer)
+                    //convertie le json automatiquement
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                    .create(ApiService.class);
+
+            try {
+                repoList = service.listArticles().execute().body();
+            } catch (IOException e) {
+                Log.e("jeej", "can't list articles from "+MainActivity.URLServer, e);
+            }
+
+            return repoList;
+        }
+
+        @Override
+        protected void onPostExecute(List<Article> repos) {
+            Log.i("jeej","PE");
+            super.onPostExecute(repos);
+            if(repos == null){ connexion.setText(R.string.erreur_reception); Log.i("jeej","err"); }
+            else { connexion.setText("Connexion..."); afficherArticles(repos); };
+        }
+    }
+
+    void afficherArticles(List<Article> repos){
+        Log.i("jeej","AFFICH");
+        // Create a List from String Array elements
+        final List<String> str_list = new ArrayList();
+
+        for(int z = 0;z<repos.size();z++)
+        {
+            str_list.add(repos.get(z).getName());
+        }
+
+        // Create an ArrayAdapter from List
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, str_list);
+
+        // DataBind ListView with items from ArrayAdapter
+        liste.setAdapter(arrayAdapter);
     }
 }

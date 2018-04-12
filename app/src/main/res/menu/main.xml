@@ -4,6 +4,11 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="-"
-        app:showAsAction="never" />
+        android:title="Paramètres"
+        android:visible="true" />
+    <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="100"
+        android:title="Rafraichir"
+        android:visible="true" />
 </menu>
