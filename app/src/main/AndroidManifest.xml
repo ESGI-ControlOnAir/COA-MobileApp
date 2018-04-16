@@ -29,7 +29,8 @@
         <activity android:name=".ParamActivity" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
+        <activity android:name=".AccountActivity"></activity>
     </application>
 
 </manifest>

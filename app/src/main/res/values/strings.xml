@@ -3,6 +3,8 @@
 
     <string name="erreur_reception">Reception error...</string>
     <string name="connecting">Connecting...</string>
+    <string name="recharticles">Check the articles !</string>
+    <string name="search">Search</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
