@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="erreur_reception">Erreur de réception...</string>
+    <string name="connecting">Connexion en cours...</string>
+    <string name="recharticles">Voir les articles !</string>
+    <string name="search">Rechercher</string>
+</resources>
