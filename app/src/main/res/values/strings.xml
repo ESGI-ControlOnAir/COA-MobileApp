@@ -25,4 +25,17 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!-- menu -->
+    <string name="Trier_par_ordre_alphabetique">Sort by alphabetic order</string>
+    <string name="Trier_par_prix">Sort by price</string>
+    <string name="Trier_par_note">Sort by note</string>
+    <string name="Trier_par_date">Sort by date</string>
+
+    <string name="Votre_compte">Your account</string>
+
+    <string name="Mes_favoris">My favs</string>
+    <string name="Mon_compte">My account</string>
+    <string name="Nouveau_produit">New product</string>
+    <string name="title_activity_adpage">Adpage</string>
 </resources>

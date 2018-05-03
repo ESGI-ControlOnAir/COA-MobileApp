@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity
     ListView liste;
     Toolbar toolbar;
     List<Article> repoList = null;
+    public static String ACTIONMAIN = ""; // Tache de l'activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +49,15 @@ public class MainActivity extends AppCompatActivity
         final ProgressBar chargement = (ProgressBar) findViewById(R.id.progressBar);
         connexion = (TextView) findViewById(R.id.connexion);
         liste = (ListView) findViewById(R.id.liste);
-
+        final Button checkarticles = (Button) findViewById(R.id.button);
+        checkarticles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Adpage.ACTIVITYTOGO = ObjectList.class;
+                Intent myIntent = new Intent(MainActivity.this, Adpage.class);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

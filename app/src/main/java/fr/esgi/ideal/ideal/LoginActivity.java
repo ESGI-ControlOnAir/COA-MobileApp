@@ -40,6 +40,11 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    // OAuth 2.0
+    private final String clientId = "acme1";
+    private final String clientSecret = "secret_";
+    private final String redirectUri = "your://redirecturi";
+
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -67,6 +72,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();

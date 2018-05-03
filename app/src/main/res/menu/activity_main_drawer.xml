@@ -7,31 +7,35 @@
         <item
             android:id="@+id/nav_1"
             android:icon="@android:drawable/ic_menu_sort_alphabetically"
-            android:title="Trier par ordre alphabêtique" />
+            android:title="@string/Trier_par_ordre_alphabetique" />
         <item
             android:id="@+id/nav_2"
             android:icon="@android:drawable/ic_menu_sort_by_size"
-            android:title="Trier par prix" />
+            android:title="@string/Trier_par_prix" />
         <item
             android:id="@+id/nav_3"
             android:icon="@android:drawable/btn_star_big_on"
-            android:title="Trier par note" />
+            android:title="@string/Trier_par_note" />
         <item
             android:id="@+id/nav_4"
             android:icon="@android:drawable/ic_menu_recent_history"
-            android:title="Trier par date" />
+            android:title="@string/Trier_par_date" />
     </group>
 
-    <item android:title="Votre compte">
+    <item android:title="@string/Votre_compte">
         <menu>
             <item
                 android:id="@+id/nav_5"
                 android:icon="@android:drawable/ic_menu_add"
-                android:title="Nouveau produit" />
+                android:title="@string/Nouveau_produit" />
             <item
                 android:id="@+id/nav_6"
                 android:icon="@android:drawable/ic_menu_manage"
-                android:title="Mon compte" />
+                android:title="@string/Mon_compte" />
+            <item
+                android:id="@+id/nav_7"
+                android:icon="@android:drawable/ic_menu_add"
+                android:title="@string/Mes_favoris" />
         </menu>
     </item>
 

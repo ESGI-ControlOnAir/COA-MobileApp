@@ -5,6 +5,7 @@ import java.util.List;
 import fr.esgi.ideal.ideal.MainActivity;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -21,4 +22,7 @@ public interface ApiService {
 
     @GET("/article/{id}")
     Call<Article> getArticle(@Path("id") String article);
+
+    /*@POST("/login")
+    Call<User> basicLogin();*/
 }
