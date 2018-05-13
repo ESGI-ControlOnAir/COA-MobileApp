@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">IDeal</string>
 
+    <string name="erreur_internet">Internet connexion needed to launch IDeal</string>
     <string name="erreur_reception">Reception error...</string>
     <string name="connecting">Connecting...</string>
     <string name="recharticles">Check the articles !</string>

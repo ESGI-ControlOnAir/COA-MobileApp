@@ -1,9 +1,16 @@
 package fr.esgi.ideal.ideal;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +26,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,25 +39,37 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.util.Log;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private static int TIME_OUT = 4000;
-    public static String URLServer = "10.33.1.60:8888";
+    private static int TIME_OUT = 2000; // Vérification du serveur 2000ms
+    private static int TIME_OUT_INTERNET = 1000; // Vérification de connexion internet 1000ms
+    public static String URLServer = "10.33.1.60:8888"; // Variable globale de l'URL du serveur
     TextView connexion;
     ListView liste;
     Toolbar toolbar;
+    RelativeLayout lay_loading;
+    ProgressBar loader;
     List<Article> repoList = null;
+    Button checkarticles;
+    Button gosearch;
     public static String ACTIONMAIN = ""; // Tache de l'activité
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialisation des objets de la vue
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         final ProgressBar chargement = (ProgressBar) findViewById(R.id.progressBar);
         connexion = (TextView) findViewById(R.id.connexion);
         liste = (ListView) findViewById(R.id.liste);
-        final Button checkarticles = (Button) findViewById(R.id.button);
+        lay_loading = (RelativeLayout) findViewById(R.id.lay1);
+        loader = (ProgressBar) findViewById(R.id.progressBar);
+        gosearch = (Button) findViewById(R.id.gosearch);
+        checkarticles = (Button) findViewById(R.id.button);
         checkarticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +79,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
         setSupportActionBar(toolbar);
+        checkarticles .setVisibility(View.INVISIBLE);
+        gosearch.setVisibility(View.INVISIBLE);
+
+        // Récupération de l'URL du serveur dans les paramètres si présent
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        URLServer = preferences.getString("URLServer", "10.33.1.60:8888");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -69,7 +95,28 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+    }
+
+    // L'activité a été dessiné - CF problème de fermeture trop tôt
+    @Override
+    protected void onStart() {
+        super.onStart();
         new Handler().postDelayed(new Runnable() { // Affichage de la liste des objets vendu après connexion - TIMEOUT à des fins de test
+            @Override
+            public void run() {
+                if(!isNetworkAvailable()){
+                    Toast.makeText(getApplicationContext(),
+                            R.string.erreur_internet,
+                            Toast.LENGTH_LONG).show();
+                    finish();
+                } else {
+                    connexion.setText("Connexion en cours...\n["+URLServer+"]");
+                    new ListReposTask().execute();
+                }
+            }
+        }, TIME_OUT_INTERNET);
+
+        /*new Handler().postDelayed(new Runnable() { // Affichage de la liste des objets vendu après connexion - TIMEOUT à des fins de test
             @Override
             public void run() {
                 if(repoList != null) {
@@ -78,9 +125,7 @@ public class MainActivity extends AppCompatActivity
                     liste.setVisibility(View.VISIBLE);
                 }
             }
-        }, TIME_OUT);
-
-        new ListReposTask().execute();
+        }, TIME_OUT);*/
     }
 
     @Override
@@ -149,11 +194,11 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    // Connexion au serveur et listage des objets dans /article
     class ListReposTask extends AsyncTask<Void, Void, List<Article>>{
 
         @Override
         protected List<Article> doInBackground(Void...params) {
-            Log.i("jeej","DIB");
             ApiService service = new Retrofit.Builder()
                     .baseUrl("http://"+ MainActivity.URLServer)
                     //convertie le json automatiquement
@@ -163,9 +208,7 @@ public class MainActivity extends AppCompatActivity
 
             try {
                 repoList = service.listArticles().execute().body();
-            } catch (IOException e) {
-                Log.e("jeej", "can't list articles from "+MainActivity.URLServer, e);
-            }
+            } catch (IOException e) {}
 
             return repoList;
         }
@@ -174,13 +217,20 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(List<Article> repos) {
             Log.i("jeej","PE");
             super.onPostExecute(repos);
-            if(repos == null){ connexion.setText(R.string.erreur_reception); Log.i("jeej","err"); }
-            else { connexion.setText("Connexion..."); afficherArticles(repos); };
+            if(repos == null){ connexion.setText(R.string.erreur_reception); }
+            else {
+                // OK Connexion réussi
+                lay_loading.setVisibility(View.INVISIBLE);
+                connexion.setVisibility(View.INVISIBLE);
+                loader.setVisibility(View.INVISIBLE);
+                gosearch.setVisibility(View.VISIBLE);
+                checkarticles.setVisibility(View.VISIBLE);
+                afficherArticles(repos);
+            };
         }
     }
 
     void afficherArticles(List<Article> repos){
-        Log.i("jeej","AFFICH");
         // Create a List from String Array elements
         final List<String> str_list = new ArrayList();
 
@@ -194,5 +244,13 @@ public class MainActivity extends AppCompatActivity
 
         // DataBind ListView with items from ArrayAdapter
         liste.setAdapter(arrayAdapter);
+    }
+
+    // Fonction générique de detection d'un accès internet existant
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

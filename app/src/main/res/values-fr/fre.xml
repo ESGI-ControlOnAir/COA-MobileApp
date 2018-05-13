@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="erreur_internet">Une connexion à internet est nécéssaire au démarrage de IDeal</string>
     <string name="erreur_reception">Erreur de réception...</string>
     <string name="connecting">Connexion en cours...</string>
     <string name="recharticles">Voir les articles !</string>
