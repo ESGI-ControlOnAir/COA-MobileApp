@@ -29,9 +29,26 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.esgi.ideal.ideal.oauth2.client.ApiService;
+import fr.esgi.ideal.ideal.oauth2.client.OauthService;
+import fr.esgi.ideal.ideal.oauth2.client.SignUpService;
+import fr.esgi.ideal.ideal.oauth2.client.UserService;
+import fr.esgi.ideal.ideal.oauth2.request.AccessTokenRequest;
+import fr.esgi.ideal.ideal.oauth2.request.SignUpRequest;
+import fr.esgi.ideal.ideal.oauth2.response.AccessTokenResponse;
+import fr.esgi.ideal.ideal.oauth2.response.ApiResponse;
+import fr.esgi.ideal.ideal.oauth2.response.SignUpResponse;
+import fr.esgi.ideal.ideal.oauth2.response.UserResponse;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+import fr.esgi.ideal.ideal.api.ServiceGenerator;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -39,6 +56,10 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+
+    // OAuth 2.0
+    private final String clientId = "acme1";
+    private final String clientSecret = "secret_";
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -67,6 +88,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -87,12 +111,45 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                //OAUTH2
+                getAccessToken();
+                //attemptLogin();
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    public void getAccessToken() {
+        AccessTokenRequest accessTokenRequest = new AccessTokenRequest();
+        accessTokenRequest.setClient_id("acme1");
+        accessTokenRequest.setClient_secret("secret_");
+        accessTokenRequest.setGrant_type("password");
+        accessTokenRequest.setUsername("user@mail.com");
+        accessTokenRequest.setPassword("password");
+        OauthService service = new OauthService();
+
+        service.getAccessToken().getAccessToken(accessTokenRequest, new Callback<AccessTokenResponse>() {
+            @Override
+            public void success(AccessTokenResponse accessTokenResponse, Response response) {
+
+                if (accessTokenResponse.getAccess_token() == null) {
+                    Toast.makeText(getApplicationContext(), accessTokenResponse.getError(), Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            accessTokenResponse.getAccess_token(),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
+        });
     }
 
     private void populateAutoComplete() {

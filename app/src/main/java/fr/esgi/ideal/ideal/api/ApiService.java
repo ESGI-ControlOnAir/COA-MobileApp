@@ -4,7 +4,10 @@ import java.util.List;
 
 import fr.esgi.ideal.ideal.MainActivity;
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -21,4 +24,11 @@ public interface ApiService {
 
     @GET("/article/{id}")
     Call<Article> getArticle(@Path("id") String article);
+
+    // OAUTH2
+    @FormUrlEncoded
+    @POST("/oauth2/token")
+    Call<AccessToken> getAccessToken(
+            @Field("code") String code,
+            @Field("grant_type") String grantType);
 }
