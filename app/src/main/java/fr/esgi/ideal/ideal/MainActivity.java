@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity
     Button checkarticles;
     Button gosearch;
     public static String ACTIONMAIN = ""; // Tache de l'activité
+    Handler Loadhandler = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        new Handler().postDelayed(new Runnable() { // Affichage de la liste des objets vendu après connexion - TIMEOUT à des fins de test
+        Loadhandler = new Handler();
+        Loadhandler.postDelayed(new Runnable() { // Affichage de la liste des objets vendu après connexion - TIMEOUT à des fins de test
             @Override
             public void run() {
                 if(!isNetworkAvailable()){
@@ -115,17 +117,6 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }, TIME_OUT_INTERNET);
-
-        /*new Handler().postDelayed(new Runnable() { // Affichage de la liste des objets vendu après connexion - TIMEOUT à des fins de test
-            @Override
-            public void run() {
-                if(repoList != null) {
-                    chargement.setVisibility(View.INVISIBLE);
-                    connexion.setVisibility(View.INVISIBLE);
-                    liste.setVisibility(View.VISIBLE);
-                }
-            }
-        }, TIME_OUT);*/
     }
 
     @Override

@@ -1,19 +1,17 @@
 package fr.esgi.ideal.ideal.oauth2.constant;
 
-/**
- * Created by gokhan on 4/8/15.
- */
-public class OauthConstant {
+import fr.esgi.ideal.ideal.MainActivity;
 
-    public static final String ACCESS_TOKEN = "access_token";
-    public static final String CLIENT_ID = "client_id";
-    public static final String CLIENT_SECRET = "client_secret";
+public class OauthConstant {
+    public static final String ACCESS_TOKEN = MainActivity.URLServer+"/oauth2/token";
+    public static final String CLIENT_ID = "acme1";
+    public static final String CLIENT_SECRET = "secret_";
     public static final String REFRESH_TOKEN = "refresh_token";
-    public static final String USERNAME = "username";
+    public static final String USERNAME = "user@mail.com";
     public static final String PASSWORD = "password";
-    public static final String AUTHENTICATION_SERVER_URL = "https://staj-io-goldenilkay92-1.c9.io/api/v1";
+    public static final String AUTHENTICATION_SERVER_URL = "http://"+MainActivity.URLServer;
     public static final String RESOURCE_SERVER_URL = "resource_server_url";
-    public static final String GRANT_TYPE = "grant_type";
+    public static final String GRANT_TYPE = "password";
     public static final String SCOPE = "scope";
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer";

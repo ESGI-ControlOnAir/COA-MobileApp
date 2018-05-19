@@ -17,4 +17,7 @@
     <string name="Mes_favoris">Mes favoris</string>
     <string name="Mon_compte">Mon compte</string>
     <string name="Nouveau_produit">Nouveau produit</string>
+
+    <string name="action_sign_in">Connexion !</string>
+    <string name="action_sign_in_short">Connexion</string>
 </resources>

@@ -19,10 +19,6 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
-    <Space
-        android:layout_width="364dp"
-        android:layout_height="100dp" />
-
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
@@ -45,7 +41,8 @@
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="user@mail.com" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -63,7 +60,8 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="password" />
 
             </android.support.design.widget.TextInputLayout>
 

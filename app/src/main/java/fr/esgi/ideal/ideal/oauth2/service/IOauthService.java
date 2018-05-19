@@ -9,7 +9,7 @@ import retrofit.http.POST;
 
 public interface IOauthService {
 
-    @POST("/oauth/token")
+    @POST("/oauth2/token")
     void getAccessToken(@Body AccessTokenRequest accessTokenRequest,
                         Callback<AccessTokenResponse> responseCallback);
 

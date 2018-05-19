@@ -7,8 +7,13 @@ android {
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 4
-        versionName "2.0"
+        versionName "2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    repositories {
+        maven{
+            url 'https://raw.github.com/zeeshanejaz/unirest-android/mvn-repo'
+        }
     }
     buildTypes {
         release {
@@ -29,4 +34,5 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.android.volley:volley:1.1.0'
 }
