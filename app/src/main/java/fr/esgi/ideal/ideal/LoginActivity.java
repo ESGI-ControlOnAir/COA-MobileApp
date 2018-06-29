@@ -30,6 +30,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,14 +56,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
 
+import fr.esgi.ideal.ideal.Crypteur;
 
 public class LoginActivity extends AppCompatActivity  {
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    public static AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private ProgressBar LoginProg;
+    private Class classe;
+    public static int classtogo = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,17 +75,19 @@ public class LoginActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_login);
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-
+        LoginProg = (ProgressBar) findViewById(R.id.LoginProg);
         mPasswordView = (EditText) findViewById(R.id.password);
 
         final RequestQueue queue = Volley.newRequestQueue(this);
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        final Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 //OAUTH2
                 Log.i("debug","CLICK");
+                LoginProg.setVisibility(View.VISIBLE);
+                mEmailSignInButton.setVisibility(View.INVISIBLE);
                 String url = "http://"+MainActivity.URLServer+"/oauth2/token";
                 StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>()
@@ -96,9 +104,13 @@ public class LoginActivity extends AppCompatActivity  {
                                     Log.d("Login", "Erreur parse JSON");
                                 }
                                 if(!token.isEmpty()){
+                                    MainActivity.AccessToken = token;
                                     Toast.makeText(getApplicationContext(),
                                             "SUCCESS! Token: "+token,
                                             Toast.LENGTH_LONG).show();
+                                    Intent myIntent = new Intent(LoginActivity.this, AccountActivity.class);
+                                    LoginActivity.this.startActivity(myIntent);
+                                    finish();
                                 } else { Log.d("Login", "Erreur login incorrect"); }
                             }
                         },
@@ -127,8 +139,36 @@ public class LoginActivity extends AppCompatActivity  {
             }
         });
 
+        final Button retour = (Button) findViewById(R.id.retoursignin);
+        retour.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Si on est déjà connecté on forward sur l'activité
+        if(MainActivity.AccessToken != null) {
+            switch (classtogo){
+                case 5 : classe = AccountActivity.class;
+                    break;
+                case 6 : classe = AccountActivity.class;
+                    break;
+                case 7 : classe = Favpage.class;
+                    break;
+                default: classe = AccountActivity.class;
+                    break;
+            }
+            Intent myIntent = new Intent(LoginActivity.this, classe);
+            LoginActivity.this.startActivity(myIntent);
+            finish();
+        }
     }
 
     private boolean isEmailValid(String email) {

@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">IDeal</string>
+
     <string name="erreur_internet">Une connexion à internet est nécéssaire au démarrage de IDeal</string>
     <string name="erreur_reception">Erreur de réception...</string>
     <string name="connecting">Connexion en cours...</string>
-    <string name="recharticles">Voir les articles !</string>
+    <string name="access_err">Vous devez être connecté à IDeal</string>
+    <string name="recharticles">Voir les articles  >></string>
     <string name="search">Rechercher</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- login -->
+    <string name="back">Retour</string>
+    <string name="valid">Valider</string>
 
     <!-- menu -->
     <string name="Trier_par_ordre_alphabetique">Trier par ordre alphabetique</string>
@@ -16,6 +26,11 @@
 
     <string name="Mes_favoris">Mes favoris</string>
     <string name="Mon_compte">Mon compte</string>
+    <string name="nonco">Vous n\'êtes pas connecté</string>
+    <string name="con">Vous êtes connecté au serveur IDeal</string>
+    <string name="nonauth">Vous n\'êtes pas authentifié</string>
+    <string name="auth">Authentifié en tant que</string>
+
     <string name="Nouveau_produit">Nouveau produit</string>
 
     <string name="action_sign_in">Connexion !</string>

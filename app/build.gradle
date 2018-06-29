@@ -6,12 +6,12 @@ android {
         applicationId "fr.esgi.ideal.ideal"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 4
-        versionName "2.1"
+        versionCode 5
+        versionName "3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     repositories {
-        maven{
+        maven {
             url 'https://raw.github.com/zeeshanejaz/unirest-android/mvn-repo'
         }
     }

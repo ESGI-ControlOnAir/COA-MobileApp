@@ -10,22 +10,24 @@ import android.view.View;
 import android.widget.Button;
 
 public class Adpage extends AppCompatActivity {
-    public static Class ACTIVITYTOGO = MainActivity.class;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adpage);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         final Button closead = (Button) findViewById(R.id.closead);
         closead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(Adpage.this, ACTIVITYTOGO);
-                Adpage.this.startActivity(myIntent);
+                finish();
+                MainActivity.addisplayed = true;
             }
         });
-
+        if(MainActivity.addisplayed)
+        {
+            finish();
+        }
     }
 
 }
