@@ -4,7 +4,8 @@
     <string name="erreur_internet">Internet connexion needed to launch IDeal</string>
     <string name="erreur_reception">Reception error...</string>
     <string name="connecting">Connecting...</string>
-    <string name="recharticles">Check the articles !</string>
+    <string name="access_err">You need to be connected</string>
+    <string name="recharticles">Check the articles  >></string>
     <string name="search">Search</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -14,10 +15,10 @@
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="title_activity_login">Sign in</string>
 
-    <!-- Strings related to login -->
+    <!-- login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in">Sign in !</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -26,6 +27,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="back">Back</string>
+    <string name="valid">Validate</string>
 
     <!-- menu -->
     <string name="Trier_par_ordre_alphabetique">Sort by alphabetic order</string>
@@ -34,6 +37,10 @@
     <string name="Trier_par_date">Sort by date</string>
 
     <string name="Votre_compte">Your account</string>
+    <string name="nonco">You are not connected</string>
+    <string name="con">Connected to IDeal Server</string>
+    <string name="nonauth">You are not signed</string>
+    <string name="auth">You are signed as</string>
 
     <string name="Mes_favoris">My favs</string>
     <string name="Mon_compte">My account</string>
