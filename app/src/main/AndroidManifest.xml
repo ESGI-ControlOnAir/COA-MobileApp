@@ -45,6 +45,9 @@
             android:name=".ObjectList"
             android:screenOrientation="portrait" />
         <activity android:name=".Favpage" />
+        <activity android:name=".RGPD" />
+        <activity android:name=".createObject" />
+        <activity android:name=".createAccount"></activity>
     </application>
 
 </manifest>

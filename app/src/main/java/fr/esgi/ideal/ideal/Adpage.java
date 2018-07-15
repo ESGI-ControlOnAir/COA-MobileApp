@@ -14,8 +14,8 @@ public class Adpage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adpage);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+
+        // Bouton X : On ferme la pub
         final Button closead = (Button) findViewById(R.id.closead);
         closead.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -24,6 +24,8 @@ public class Adpage extends AppCompatActivity {
                 MainActivity.addisplayed = true;
             }
         });
+
+        // Déjà vu : On passe la pub
         if(MainActivity.addisplayed)
         {
             finish();

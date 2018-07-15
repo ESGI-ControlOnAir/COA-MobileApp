@@ -32,6 +32,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +78,13 @@ public class LoginActivity extends AppCompatActivity  {
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         LoginProg = (ProgressBar) findViewById(R.id.LoginProg);
         mPasswordView = (EditText) findViewById(R.id.password);
+        final Button createacc = (Button) findViewById(R.id.register_button);
+
+        // Spinner : liste des methodes de cryptage pour le login
+        Spinner spinner = findViewById(R.id.cryptmeth);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.cryptlist,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         final RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -87,7 +95,8 @@ public class LoginActivity extends AppCompatActivity  {
                 //OAUTH2
                 Log.i("debug","CLICK");
                 LoginProg.setVisibility(View.VISIBLE);
-                mEmailSignInButton.setVisibility(View.INVISIBLE);
+                mEmailSignInButton.setVisibility(View.GONE);
+                createacc.setVisibility(View.GONE);
                 String url = "http://"+MainActivity.URLServer+"/oauth2/token";
                 StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>()
@@ -139,6 +148,16 @@ public class LoginActivity extends AppCompatActivity  {
             }
         });
 
+        // Creation de compte
+        createacc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(LoginActivity.this, createAccount.class);
+                LoginActivity.this.startActivity(myIntent);
+            }
+        });
+
+        // Bouton retour : On ferme
         final Button retour = (Button) findViewById(R.id.retoursignin);
         retour.setOnClickListener(new OnClickListener() {
             @Override
@@ -146,8 +165,6 @@ public class LoginActivity extends AppCompatActivity  {
                 finish();
             }
         });
-
-        mLoginFormView = findViewById(R.id.login_form);
     }
 
     @Override
@@ -156,7 +173,7 @@ public class LoginActivity extends AppCompatActivity  {
         // Si on est déjà connecté on forward sur l'activité
         if(MainActivity.AccessToken != null) {
             switch (classtogo){
-                case 5 : classe = AccountActivity.class;
+                case 5 : classe = createObject.class;
                     break;
                 case 6 : classe = AccountActivity.class;
                     break;

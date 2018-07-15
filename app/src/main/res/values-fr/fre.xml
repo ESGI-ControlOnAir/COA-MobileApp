@@ -11,6 +11,39 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="no_res">Aucun résultat.</string>
+    <string name="faved">Ajouté comme favoris</string>
+    <string name="fav">Ajouter ce produit comme favoris</string>
+    <string name="accsett">Paramètres du compte</string>
+    <string name="lang">Language (la langue actuelle est</string>
+    <string name="fn">Prénom</string><string name="ln">Nom</string>
+    <string name="changlang"> Changer la langue en </string>
+    <string name="cryptmeth">Méthode de cryptage: </string>
+    <string-array name="cryptlist">
+        <item>SHA1</item>
+    </string-array>
+    <string name="rgpd">
+        Règlement général sur la protection des données (RGPD)
+    </string>
+    <string name="rgpdrules">
+        Le Règlement européen général sur la protection des données (RGPD) protège les droits fondamentaux des personnes concernées au sein de l\'Union européenne en matière de respect de la confidentialité et de protection des données personnelles. Il intègre des exigences très strictes qui amélioreront et uniformiseront les normes de protection, de sécurité et de conformité des données.
+    </string>
+    <string name="acceptrgpd">
+        J\'ai lu et j\'accepte les conditions mentionnés ci-dessus
+    </string>
+    <string name="rgpd2">Dans ce cadre, nous souhaitons vous communiquer les informations suivantes. IDEAL est susceptible de collecter des informations lors de :
+l\'inscription,
+l\'utilisation du formulaire,
+l\'ajout de likes et favoris. \n
+Les données stockées à votre propos sont celles que vous nous fournissez en complétant les formulaires.
+En complétant et en envoyant les formulaires disponibles sur le site, vous marquez votre accord sur l\'utilisation des données fournies et ce dans le cadre du traitement de votre demande.
+Il est important de savoir que ces données sont utilisées en interne et ne sont jamais communiquées à des tierces parties.
+Vous avez le droit de : \n
+
+consulter les données collectées à votre propos,
+demander une mise à jour de ces données,
+demander une suppression de ces données,
+et ce simplement en envoyant un email à l'adresse suivante : nbaptista@myges.fr.</string>
 
     <!-- login -->
     <string name="back">Retour</string>
@@ -26,13 +59,22 @@
 
     <string name="Mes_favoris">Mes favoris</string>
     <string name="Mon_compte">Mon compte</string>
+    <string name="createacc">Créer un compte</string>
     <string name="nonco">Vous n\'êtes pas connecté</string>
     <string name="con">Vous êtes connecté au serveur IDeal</string>
     <string name="nonauth">Vous n\'êtes pas authentifié</string>
     <string name="auth">Authentifié en tant que</string>
+    <string name="pass">Nouveau mot de passe</string>
+    <string name="confirmpass">Confirmer le mot de passe</string>
+    <string name="title">Titre</string>
+    <string name="price">Prix</string>
 
     <string name="Nouveau_produit">Nouveau produit</string>
 
     <string name="action_sign_in">Connexion !</string>
     <string name="action_sign_in_short">Connexion</string>
+
+    <string name="trying">Tentative de connexion...</string>
+    <string name="favmerch">Sites marchands favoris</string>
+    <string name="favarticle">Articles favoris</string>
 </resources>
