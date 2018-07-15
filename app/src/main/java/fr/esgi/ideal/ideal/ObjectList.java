@@ -1,11 +1,14 @@
 package fr.esgi.ideal.ideal;
 
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.AndroidException;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -39,10 +42,15 @@ public class ObjectList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!fav) {
-                    star.setBackgroundResource(android.R.drawable.star_big_on);
+                    star.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(android.R.drawable.star_big_on),null,null,null);
+                    Toast.makeText(getApplicationContext(),
+                            R.string.faved,
+                            Toast.LENGTH_LONG).show();
+                    star.setBackground(getResources().getDrawable(R.drawable.favorited));
                     fav = true;
                 } else {
-                    star.setBackgroundResource(android.R.drawable.star_big_off);
+                    star.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(android.R.drawable.star_big_off),null,null,null);
+                    star.setBackground(getResources().getDrawable(android.R.drawable.btn_default));
                     fav = false;
                 }
             }

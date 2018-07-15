@@ -4,6 +4,7 @@
     <string name="erreur_internet">Internet connexion needed to launch IDeal</string>
     <string name="erreur_reception">Reception error...</string>
     <string name="connecting">Connecting...</string>
+    <string name="trying">Trying to connect...</string>
     <string name="access_err">You need to be connected</string>
     <string name="recharticles">Check the articles  >></string>
     <string name="search">Search</string>
@@ -14,6 +15,46 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="no_res">No result.</string>
+    <string name="faved">Added as favorite</string>
+    <string name="fav">Add this product as favorite</string>
+    <string name="accsett">Account settings</string>
+    <string name="lang">Language (actual is</string>
+    <string name="fn">First Name</string>
+    <string name="ln">Last Name</string>
+    <string name="changlang"> Switch language to </string>
+    <string name="cryptmeth">Encryption method : </string>
+    <string-array name="cryptlist">
+        <item>SHA1</item>
+    </string-array>
+
+    <!-- RGPD -->
+    <string name="rgpd">General Data Protection Regulation (GDPR)</string>
+    <string name="rgpdrules">
+        The European Union’s General Data Protection Regulation (GDPR) protects European Union data subjects\' fundamental right to privacy and the protection of personal data. It introduces robust requirements that will raise and harmonize standards for data protection, security, and compliance.
+    </string>
+    <string name="acceptrgpd">
+        I read and accept the conditions above
+    </string>
+    <string name="rgpd2">Therefore you need to know the following.
+
+IDEAL can collect information when : \n
+
+registering,
+using the form,
+adding likes or dislikes. \n
+The stored data is the one you gave when filling in the forms.
+
+By filling in and sending the forms available on IDEAL, you agree with the use of your personal data in treating your demand.
+
+It is important to know that this data is only used by IDEAL and will never be given to anyone else.
+
+You have the right to : \n
+
+consult your personal data,
+aks for an update of your personal data,
+ask for the withdrawal of your personal data,
+by sending an e-mail to the following address : nbaptista@myges.fr.</string>
 
     <!-- login -->
     <string name="prompt_email">Email</string>
@@ -28,7 +69,7 @@
         completions."
     </string>
     <string name="back">Back</string>
-    <string name="valid">Validate</string>
+    <string name="valid">Save</string>
 
     <!-- menu -->
     <string name="Trier_par_ordre_alphabetique">Sort by alphabetic order</string>
@@ -46,4 +87,13 @@
     <string name="Mon_compte">My account</string>
     <string name="Nouveau_produit">New product</string>
     <string name="title_activity_adpage">Adpage</string>
+
+    <string name="createacc">Create account</string>
+    <string name="pass">New password</string>
+    <string name="confirmpass">Confirm the password</string>
+    <string name="title">Title</string>
+    <string name="price">Price</string>
+    <string name="desc">Description</string>
+    <string name="favmerch">Favorite merchants</string>
+    <string name="favarticle">Favorite articles</string>
 </resources>

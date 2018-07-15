@@ -18,12 +18,32 @@ import retrofit2.http.Query;
 public interface ApiService {
     public static final String ENDPOINT = "http://"+ MainActivity.URLServer;
 
-    //TODO @GET("/articles")
     @GET("/article")
     Call<List<Article>> listArticles();
 
     @GET("/article/{id}")
     Call<Article> getArticle(@Path("id") String article);
+
+    @GET("/user/{id}")
+    Call<User> getUser(@Path("id") String User);
+
+    @GET("/user/me")
+    Call<User> getUserMe();
+
+    @GET("/user")
+    Call<User> getUser();
+
+    @GET("/partner")
+    Call<Partner> getPartner();
+
+    @GET("/partner/{id}")
+    Call<Partner> getPartner(@Path("id") String Partner);
+
+    @GET("/ad")
+    Call<Ad> getAd();
+
+    @GET("/ad/{id}")
+    Call<Ad> getAd(@Path("id") String Ad);
 
     // OAUTH2
     @FormUrlEncoded

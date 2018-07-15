@@ -20,7 +20,7 @@ public class Crypteur {
         return buf.toString();
     }
 
-    // Méthode de conversion
+    // Méthode de conversion SHA1
     public static String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = MessageDigest.getInstance("SHA-1");
         byte[] textBytes = text.getBytes("iso-8859-1");

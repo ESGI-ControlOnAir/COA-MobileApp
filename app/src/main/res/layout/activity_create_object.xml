@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gears"
-    tools:context="fr.esgi.ideal.ideal.AccountActivity"
-    tools:layout_editor_absoluteY="81dp">
+    tools:context="fr.esgi.ideal.ideal.createObject">
 
     <TextView
         android:id="@+id/textView5"
@@ -15,7 +13,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/accsett"
+        android:text="@string/Nouveau_produit"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/accountinfos"
+        android:id="@+id/objinfos"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -37,31 +35,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5">
 
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/Mon_compte"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/titleobjcreate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/radiuswhitebg"
             android:ems="10"
+            android:hint="@string/title"
             android:inputType="textPersonName"
             android:padding="5dp"
-            android:text="user@mail.com"
-            android:textSize="15sp"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -73,116 +58,74 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_weight="100"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText">
 
-            <EditText
-                android:id="@+id/editText2"
+            <Space
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:background="@drawable/radiuswhitebg"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:padding="5dp"
-                android:text="@string/fn"
-                android:textSize="15sp" />
+                android:layout_height="match_parent"
+                android:layout_weight="80" />
 
             <EditText
+                android:id="@+id/objcreateprice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:layout_weight="1"
                 android:background="@drawable/radiuswhitebg"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:hint="@string/price"
+                android:inputType="numberDecimal"
                 android:padding="5dp"
-                android:text="@string/ln"
-                android:textSize="15sp" />
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="€"
+                android:textSize="24sp" />
         </LinearLayout>
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/desccreateobj"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/radiuswhitebg"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:padding="8dp"
-            android:text="Password"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
-        <EditText
-            android:id="@+id/editText4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/radiuswhitebg"
-            android:ems="10"
-            android:hint="@string/confirmpass"
-            android:inputType="textPersonName"
-            android:padding="8dp"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.521"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText3" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:alpha="0.9"
-        android:background="@drawable/radiusgreybg"
-        android:orientation="vertical"
-        android:paddingBottom="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/accountinfos">
-
-        <TextView
-            android:id="@+id/lang"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:text="Language"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/accountinfos" />
+            android:hint="@string/desc"
+            android:inputType="textMultiLine" />
 
         <Button
-            android:id="@+id/swlang"
+            android:id="@+id/buttonLoadPicture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_weight="0"
             android:background="@drawable/buttonchange"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="Switch to "
-            android:textSize="18sp"
+            android:text="Load Picture"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lang" />
+            app:layout_constraintTop_toBottomOf="@+id/desccreateobj"></Button>
+
+        <ImageView
+            android:id="@+id/imgView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></ImageView>
+
     </LinearLayout>
 
     <LinearLayout
@@ -198,7 +141,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/retouraccount"
+            android:id="@+id/retourcreateobj"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -215,7 +158,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/save"
+            android:id="@+id/savecreateobj"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -223,6 +166,7 @@
             android:layout_marginStart="8dp"
             android:background="@drawable/greenbutton"
             android:drawableLeft="@drawable/checked"
+            android:enabled="false"
             android:paddingLeft="32dp"
             android:text="@string/valid"
             android:textSize="18sp"
@@ -230,17 +174,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tokenid"
-        android:layout_width="wrap_content"
-        android:layout_height="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Token :"
-        android:textSize="11sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

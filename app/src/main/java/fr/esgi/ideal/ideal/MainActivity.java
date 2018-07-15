@@ -21,6 +21,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,7 @@ import android.widget.TextView;
 import android.widget.RelativeLayout;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity
     public static String AccessToken = null;
     public static boolean addisplayed = false;
     public static boolean ACCESS = false;
+    public static boolean changedlang = false;
+    public static boolean acceptedRGDP = false;
     TextView connexion;
     ListView liste;
     Toolbar toolbar;
@@ -67,6 +71,8 @@ public class MainActivity extends AppCompatActivity
     Handler Loadhandler = null;
     int sortMode = 0;
     View view;
+    ArrayList<objetEnVente> dataModels;
+    private static CustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +90,6 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
             {
                 ObjectList.setObjectID((position+1));
-                Toast.makeText(getApplicationContext(), "POS " + position, Toast.LENGTH_SHORT).show();
                 Intent myIntent = new Intent(MainActivity.this, ObjectList.class);
                 MainActivity.this.startActivity(myIntent);
             }
@@ -92,15 +97,34 @@ public class MainActivity extends AppCompatActivity
         lay_loading = (RelativeLayout) findViewById(R.id.lay1);
         lay2 = (RelativeLayout) findViewById(R.id.lay2);
         loader = (ProgressBar) findViewById(R.id.progressBar);
+        // RECHERCHE
         search = (ConstraintLayout) findViewById(R.id.search);
         searchword = (TextView) findViewById(R.id.searchbar);
+        searchword.setOnKeyListener(new View.OnKeyListener() { // VALIDATION PAR TOUCHE ENTREE
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // ENTER = RECHERCHER
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    new ListReposTask().execute();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        // Bouton "GO" de recherche
         gosearch = (Button) findViewById(R.id.gosearch);
-        gosearch.setOnClickListener(new View.OnClickListener() {
+        gosearch.setOnClickListener(new View.OnClickListener() { // VALIDATION PAR LE BOUTON "GO"
             @Override
             public void onClick(View v) {
+                liste.setVisibility(View.VISIBLE);
+                lay2.setVisibility(View.INVISIBLE);
+                Intent myIntent = new Intent(MainActivity.this, Adpage.class);
+                MainActivity.this.startActivity(myIntent);
                 new ListReposTask().execute();
             }
         });
+
+        // BOUTON "VOIR LES ARTICLES"
         checkarticles = (Button) findViewById(R.id.button);
         checkarticles.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,9 +177,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(changedlang){
+            recreate();
+            changedlang = false;
+        }
+    }
+
+    @Override
     protected void onPostResume() {
         super.onPostResume();
+        Log.i("jj","on post resume");
         isauth();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("jj","on resume");
     }
 
     private void isauth() {
@@ -237,17 +277,17 @@ public class MainActivity extends AppCompatActivity
             Intent myIntent = new Intent(MainActivity.this, Adpage.class);
             MainActivity.this.startActivity(myIntent);
 
-        } else if (id == R.id.nav_5) { // Ajouter un obj
+        } else if (id == R.id.nav_5) { // Ajouter un obj : forward dans loginactivity
                 LoginActivity.classtogo = 5;
                 Intent myIntent = new Intent(MainActivity.this, LoginActivity.class);
                 MainActivity.this.startActivity(myIntent);
 
-        } else if (id == R.id.nav_6) { // Mon compte
+        } else if (id == R.id.nav_6) { // Mon compte : forward dans loginactivity
                 LoginActivity.classtogo = 6;
                 Intent myIntent = new Intent(MainActivity.this, LoginActivity.class);
                 MainActivity.this.startActivity(myIntent);
 
-        } else if (id == R.id.nav_7) { // Mes favs
+        } else if (id == R.id.nav_7) { // Mes favs : forward dans loginactivity
                 LoginActivity.classtogo = 7;
                 Intent myIntent = new Intent(MainActivity.this, LoginActivity.class);
                 MainActivity.this.startActivity(myIntent);
@@ -274,7 +314,6 @@ public class MainActivity extends AppCompatActivity
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(ApiService.class);
-
             try {
                 repoList = service.listArticles().execute().body();
             } catch (IOException e) {}
@@ -303,22 +342,27 @@ public class MainActivity extends AppCompatActivity
 
     void afficherArticles(List<Article> repos){
 
-        final List<String> str_list = new ArrayList();
+        dataModels = new ArrayList<>();
 
         for (int z = 0; z < repos.size(); z++) {
             if( repos.get(z).getName().toLowerCase().contains(searchword.getText().toString().toLowerCase()) )
-                str_list.add(repos.get(z).getName());
+                dataModels.add(new objetEnVente(repos.get(z).getName(),"-","0.00","0", ""));
+        }
+
+        if(repos.size()==0){
+            Toast.makeText(getApplicationContext(),
+                    R.string.no_res,
+                    Toast.LENGTH_LONG).show();
         }
 
         if(sortMode == 1){
-            Collections.sort(str_list,String.CASE_INSENSITIVE_ORDER);
+            //Collections.sort(objlist,String.CASE_INSENSITIVE_ORDER);
         }
 
-        // Create an ArrayAdapter from List
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, str_list);
+        // création de l'adapteur de la liste
+        adapter = new CustomAdapter(dataModels, getApplicationContext());
 
-        // DataBind ListView with items from ArrayAdapter
-        liste.setAdapter(arrayAdapter);
+        if(adapter != null) liste.setAdapter(adapter);
     }
 
     // Fonction générique de detection d'un accès internet existant
