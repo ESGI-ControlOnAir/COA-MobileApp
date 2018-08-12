@@ -6,7 +6,7 @@
     <string name="connecting">Connecting...</string>
     <string name="trying">Trying to connect...</string>
     <string name="access_err">You need to be connected</string>
-    <string name="recharticles">Check the articles  >></string>
+    <string name="recharticles">Check the articles</string>
     <string name="search">Search</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -96,4 +96,12 @@ by sending an e-mail to the following address : nbaptista@myges.fr.</string>
     <string name="desc">Description</string>
     <string name="favmerch">Favorite merchants</string>
     <string name="favarticle">Favorite articles</string>
+    <string name="nbvote">Number of votes</string>
+    <string name="logout">Logout</string>
+    <string name="logout1">You have been disconnected successfully.</string>
+    <string name="like">LIKE</string>
+    <string name="unlike">UNLIKE</string>
+    <string name="uppic">Load Picture</string>
+    <string name="addedprod">Product added successfully</string>
+    <string name="createdacc">Account created successfully</string>
 </resources>

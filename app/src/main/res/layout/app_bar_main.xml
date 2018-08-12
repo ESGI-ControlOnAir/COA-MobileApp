@@ -10,45 +10,62 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:background="@android:color/black"
+        android:theme="@android:style/ThemeOverlay.Material.Dark">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            >
+            android:background="@drawable/blacktopgradiant"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <Space
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="100" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" SERVER "
-                android:textSize="8sp" />
+                android:textSize="8sp"
+                android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/etatco"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@android:drawable/ic_notification_overlay" />
+                android:src="@android:drawable/ic_notification_overlay"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="    AUTH "
-                android:textSize="8sp" />
+                android:textSize="8sp"
+                android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/etatauth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@android:drawable/ic_notification_overlay" />
-        </android.support.v7.widget.Toolbar>
+                android:src="@android:drawable/ic_notification_overlay"
+                android:visibility="gone" />
 
+            <Button
+                android:id="@+id/barbut1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/blacktopgradiant"
+                android:drawableLeft="@drawable/signin"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/action_sign_in_short" />
+        </android.support.v7.widget.Toolbar>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/search"
@@ -62,14 +79,14 @@
                 android:id="@+id/searchbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="5dp"
                 android:layout_weight="1"
                 android:background="#eee"
                 android:ems="10"
                 android:hint="@string/search"
-                android:textColorHint="@color/colorAccent"
                 android:inputType="textPersonName"
+                android:paddingLeft="5dp"
                 android:textColor="#000"
+                android:textColorHint="@color/colorAccent"
                 android:visibility="visible"
                 tools:layout_editor_absoluteY="104dp" />
 
@@ -78,6 +95,7 @@
                 android:layout_width="43dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@android:color/darker_gray"
                 android:text="GO"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"

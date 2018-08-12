@@ -113,7 +113,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/radiuswhitebg"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:padding="8dp"
             android:text="Password"
             android:textSize="15sp"

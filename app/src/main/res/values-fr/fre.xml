@@ -6,7 +6,7 @@
     <string name="erreur_reception">Erreur de réception...</string>
     <string name="connecting">Connexion en cours...</string>
     <string name="access_err">Vous devez être connecté à IDeal</string>
-    <string name="recharticles">Voir les articles  >></string>
+    <string name="recharticles">Voir les articles</string>
     <string name="search">Rechercher</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -39,11 +39,9 @@ Les données stockées à votre propos sont celles que vous nous fournissez en c
 En complétant et en envoyant les formulaires disponibles sur le site, vous marquez votre accord sur l\'utilisation des données fournies et ce dans le cadre du traitement de votre demande.
 Il est important de savoir que ces données sont utilisées en interne et ne sont jamais communiquées à des tierces parties.
 Vous avez le droit de : \n
-
-consulter les données collectées à votre propos,
-demander une mise à jour de ces données,
-demander une suppression de ces données,
-et ce simplement en envoyant un email à l'adresse suivante : nbaptista@myges.fr.</string>
+consulter les données collectées à votre propos,\n
+demander une mise à jour/suppression de ces données,\n
+et ce simplement en envoyant un email à l\'adresse suivante : nbaptista@myges.fr.</string>
 
     <!-- login -->
     <string name="back">Retour</string>
@@ -77,4 +75,11 @@ et ce simplement en envoyant un email à l'adresse suivante : nbaptista@myges.fr
     <string name="trying">Tentative de connexion...</string>
     <string name="favmerch">Sites marchands favoris</string>
     <string name="favarticle">Articles favoris</string>
+    <string name="nbvote">Nombre de vote</string>
+    <string name="logout">Se déconnecter</string>
+    <string name="logout1">Vous vous êtes deconnecté avec succès.</string>
+    <string name="like">J\'AIME</string>
+    <string name="unlike">JE N\'AIME PAS</string>
+    <string name="uppic">Charger une image</string>
+    <string name="addedprod">Produit créé avec succès</string>
 </resources>

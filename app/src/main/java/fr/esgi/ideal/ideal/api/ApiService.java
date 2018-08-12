@@ -1,12 +1,16 @@
 package fr.esgi.ideal.ideal.api;
 
 import java.util.List;
+import java.util.jar.Attributes;
 
 import fr.esgi.ideal.ideal.MainActivity;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -22,7 +26,10 @@ public interface ApiService {
     Call<List<Article>> listArticles();
 
     @GET("/article/{id}")
-    Call<Article> getArticle(@Path("id") String article);
+    Call<Article> getArticle(@Path("id") String article );
+
+    @POST("/article")
+    Call<Article> createArticle(@Header("Authorization") String code,@Body Article article );
 
     @GET("/user/{id}")
     Call<User> getUser(@Path("id") String User);
@@ -32,6 +39,9 @@ public interface ApiService {
 
     @GET("/user")
     Call<User> getUser();
+
+    @POST("/user")
+    Call<User> createUser(@Header("Authorization") String code, User user);
 
     @GET("/partner")
     Call<Partner> getPartner();

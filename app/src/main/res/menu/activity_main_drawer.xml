@@ -34,8 +34,12 @@
                 android:title="@string/Mon_compte" />
             <item
                 android:id="@+id/nav_7"
-                android:icon="@android:drawable/ic_menu_add"
+                android:icon="@android:drawable/ic_menu_compass"
                 android:title="@string/Mes_favoris" />
+            <item
+                android:id="@+id/nav_8"
+                android:icon="@android:drawable/ic_menu_close_clear_cancel"
+                android:title="@string/logout" />
         </menu>
     </item>
 

@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import fr.esgi.ideal.ideal.api.ApiService;
 import fr.esgi.ideal.ideal.api.Article;
@@ -51,13 +53,15 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private static int TIME_OUT_INTERNET = 1000; // Vérification de connexion internet 1000ms
+    private static int TIME_OUT_INTERNET = 0; // Vérification de connexion internet 100ms
     public static String URLServer = "10.33.1.60:8888"; // Variable globale de l'URL du serveur
     public static String AccessToken = null;
     public static boolean addisplayed = false;
     public static boolean ACCESS = false;
     public static boolean changedlang = false;
     public static boolean acceptedRGDP = false;
+    protected ImageView bg;
+    protected int i=0, j=0;
     TextView connexion;
     ListView liste;
     Toolbar toolbar;
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity
     Handler Loadhandler = null;
     int sortMode = 0;
     View view;
-    ArrayList<objetEnVente> dataModels;
+    public static ArrayList<objetEnVente> dataModels;
     private static CustomAdapter adapter;
 
     @Override
@@ -80,6 +84,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         // Initialisation des objets de la vue
+        bg = (ImageView) findViewById(R.id.mainbg);
+        bg.setScaleType(ImageView.ScaleType.CENTER);
+        bg.setPadding(0,0,0,0);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         final ProgressBar chargement = (ProgressBar) findViewById(R.id.progressBar);
         connexion = (TextView) findViewById(R.id.connexion);
@@ -149,10 +156,60 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        handler.sendEmptyMessageDelayed(1, 100);
     }
     public void clickButton(){
         checkarticles.setBackgroundResource(R.drawable.greengradiantpushed);
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            i++;
+            Log.i("tag","HANDLER "+ Integer.toString(i));
+
+            if(i<70) {
+                bg.setImageResource(R.drawable.intro1);
+                bg.setScaleType(ImageView.ScaleType.MATRIX);
+                bg.setPadding(i * 6 +300, 0, i * 6, 0);
+                bg.invalidate(); // REDRAW
+            }
+            if(i>60 && i<70) {
+                j++;
+                bg.setImageAlpha(250-(25*j));
+            }
+            if(i>70 && i<80) {
+                j--;
+                bg.setImageAlpha(250-(25*j));
+            }
+            if(i>70 && i<160) {
+                bg.setImageResource(R.drawable.intro2);
+                bg.setScaleType(ImageView.ScaleType.MATRIX);
+                bg.setPadding(i * -6 +700, 0, i * -6, 0);
+                bg.invalidate(); // REDRAW
+            }
+            if(i>150 && i<160) {
+                j++;
+                bg.setImageAlpha(250-(25*j));
+            }
+            if(i>160 && i<170) {
+                j--;
+                bg.setImageAlpha(250-(25*j));
+            }
+            if(i>160 && i<240) {
+                bg.setImageResource(R.drawable.intro3);
+                bg.setScaleType(ImageView.ScaleType.MATRIX);
+                bg.setPadding(i * -6 + 960, 0, /*i * -6 + 26*/0, 0);
+                bg.invalidate(); // REDRAW
+            }
+            if(i==241) {
+                j = 0; i = 0;
+            }
+
+            handler.sendEmptyMessageDelayed(1, 30);
+        }
+    };
 
     // L'activité a été dessiné - CF problème de fermeture trop tôt
     @Override
@@ -291,6 +348,10 @@ public class MainActivity extends AppCompatActivity
                 LoginActivity.classtogo = 7;
                 Intent myIntent = new Intent(MainActivity.this, LoginActivity.class);
                 MainActivity.this.startActivity(myIntent);
+        } else if (id == R.id.nav_8) { // Logout : forward dans loginactivity
+            LoginActivity.classtogo = 8;
+            Intent myIntent = new Intent(MainActivity.this, LoginActivity.class);
+            MainActivity.this.startActivity(myIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -345,8 +406,15 @@ public class MainActivity extends AppCompatActivity
         dataModels = new ArrayList<>();
 
         for (int z = 0; z < repos.size(); z++) {
-            if( repos.get(z).getName().toLowerCase().contains(searchword.getText().toString().toLowerCase()) )
-                dataModels.add(new objetEnVente(repos.get(z).getName(),"-","0.00","0", ""));
+            if( repos.get(z).getName().toLowerCase().contains(searchword.getText().toString().toLowerCase()) ) {
+                double Price = repos.get(z).getPrice();
+                Random r = new Random();
+                double randomValue = 10 + (30 - 10) * r.nextDouble();
+                if (Price == 0) {
+                    Price = randomValue;
+                }
+                dataModels.add(new objetEnVente(repos.get(z).getName(), repos.get(z).getDescription(), String.format("%.2f",Price), Integer.toString(repos.get(z).getLike()), ""));
+            }
         }
 
         if(repos.size()==0){

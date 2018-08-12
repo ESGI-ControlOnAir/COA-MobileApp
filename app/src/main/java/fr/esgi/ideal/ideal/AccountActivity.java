@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,6 +30,38 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View v) {
                 finish();
                 recreate();
+            }
+        });
+
+        Button close = (Button) findViewById(R.id.retouraccount);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("ddd","BACKKKK");
+                // La langue a changé et que l'on annule alors elle redevient comme avant
+                if(MainActivity.changedlang){
+                    MainActivity.changedlang = false;
+
+                    if (getBaseContext().getResources().getConfiguration().locale.getLanguage().toUpperCase().contains("FR")) {
+                        // On change la langue en anglais
+                        Configuration config = getBaseContext().getResources().getConfiguration();
+                        Locale locale = new Locale("en");
+                        Locale.setDefault(locale);
+                        config.locale = locale;
+                        getBaseContext().getResources().updateConfiguration(config,
+                                getBaseContext().getResources().getDisplayMetrics());
+                    } else {
+                        // On change la langue en français
+                        Configuration config = getBaseContext().getResources().getConfiguration();
+                        Locale locale = new Locale("fr");
+                        Locale.setDefault(locale);
+                        config.locale = locale;
+                        getBaseContext().getResources().updateConfiguration(config,
+                                getBaseContext().getResources().getDisplayMetrics());
+                    }
+
+                }
+                finish();
             }
         });
 
@@ -79,36 +112,6 @@ public class AccountActivity extends AppCompatActivity {
             // Debug : affichage du token
             final TextView tok = (TextView) findViewById(R.id.tokenid);
             tok.setText("Token : " + MainActivity.AccessToken);
-
-            final Button close = (Button) findViewById(R.id.retouraccount);
-            close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // La langue a changé et que l'on annule alors elle redevient comme avant
-                    if(MainActivity.changedlang){
-                        MainActivity.changedlang = false;
-
-                        if (getBaseContext().getResources().getConfiguration().locale.getLanguage().toUpperCase().contains("FR")) {
-                            // On change la langue en anglais
-                            Configuration config = getBaseContext().getResources().getConfiguration();
-                            Locale locale = new Locale("en");
-                            Locale.setDefault(locale);
-                            config.locale = locale;
-                            getBaseContext().getResources().updateConfiguration(config,
-                                    getBaseContext().getResources().getDisplayMetrics());
-                        } else {
-                            // On change la langue en français
-                            Configuration config = getBaseContext().getResources().getConfiguration();
-                            Locale locale = new Locale("fr");
-                            Locale.setDefault(locale);
-                            config.locale = locale;
-                            getBaseContext().getResources().updateConfiguration(config,
-                                    getBaseContext().getResources().getDisplayMetrics());
-                        }
-                    }
-                    finish();
-                }
-            });
         }
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/row_item"
     android:layout_width="match_parent"
@@ -8,7 +9,7 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/row_lay1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:background="@drawable/whitegradiant"
         android:orientation="vertical"
         android:padding="10dp">
@@ -35,6 +36,19 @@
             android:textColor="@android:color/black"
             android:textSize="12sp"
             android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="false"
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="-20dp"
+            android:layout_marginLeft="40dp"
+            android:layout_toStartOf="@+id/linearLayout6"
+            android:background="@drawable/whitegradiant" />
 
         <ImageView
             android:id="@+id/row_item_image"
@@ -104,18 +118,21 @@
                         android:layout_alignBottom="@+id/row_description"
                         android:layout_alignStart="@+id/linearLayout6"
                         android:layout_weight="1"
-                        android:text="-" />
+                        android:text="-"
+                        android:textColor="@android:color/darker_gray" />
 
                     <TextView
                         android:id="@+id/textView21"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text=" LIKES" />
+                        android:text=" LIKES"
+                        android:textColor="@android:color/darker_gray" />
                 </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
 
     </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>

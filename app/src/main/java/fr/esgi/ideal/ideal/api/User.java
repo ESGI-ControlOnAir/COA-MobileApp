@@ -7,6 +7,9 @@ package fr.esgi.ideal.ideal.api;
 class User {
     private Long id;
     private String name;
+    private String email;
+    private int img;
+    private boolean isAdmin;
 
     public Long getId() {
         return id;
@@ -22,5 +25,11 @@ class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public User(String email, int img, boolean isAdmin){
+        this.email = email;
+        this.img = img;
+        this.isAdmin = isAdmin;
     }
 }
