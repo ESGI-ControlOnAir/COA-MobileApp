@@ -56,9 +56,9 @@
             android:layout_marginStart="8dp"
             android:background="@drawable/radiuswhitebg"
             android:ems="10"
+            android:hint="@string/prompt_email"
             android:inputType="textPersonName"
             android:padding="5dp"
-            android:text="user@mail.com"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,9 +84,9 @@
                 android:layout_weight="1"
                 android:background="@drawable/radiuswhitebg"
                 android:ems="10"
+                android:hint="@string/fn"
                 android:inputType="textPersonName"
                 android:padding="5dp"
-                android:text="@string/fn"
                 android:textSize="15sp" />
 
             <EditText
@@ -97,9 +97,9 @@
                 android:layout_weight="1"
                 android:background="@drawable/radiuswhitebg"
                 android:ems="10"
+                android:hint="@string/ln"
                 android:inputType="textPersonName"
                 android:padding="5dp"
-                android:text="@string/ln"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -113,7 +113,7 @@
             android:background="@drawable/radiuswhitebg"
             android:ems="10"
             android:hint="@string/pass"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:padding="8dp"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -130,7 +130,7 @@
             android:background="@drawable/radiuswhitebg"
             android:ems="10"
             android:hint="@string/confirmpass"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:padding="8dp"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -179,7 +179,6 @@
             android:layout_marginStart="8dp"
             android:background="@drawable/greenbutton"
             android:drawableLeft="@drawable/checked"
-            android:enabled="false"
             android:paddingLeft="32dp"
             android:text="@string/valid"
             android:textSize="18sp"

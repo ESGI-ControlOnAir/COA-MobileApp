@@ -114,9 +114,9 @@ public class LoginActivity extends AppCompatActivity  {
                                 }
                                 if(!token.isEmpty()){
                                     MainActivity.AccessToken = token;
-                                    Toast.makeText(getApplicationContext(),
+                                    /*Toast.makeText(getApplicationContext(),
                                             "SUCCESS! Token: "+token,
-                                            Toast.LENGTH_LONG).show();
+                                            Toast.LENGTH_LONG).show();*/
                                     Intent myIntent = new Intent(LoginActivity.this, AccountActivity.class);
                                     LoginActivity.this.startActivity(myIntent);
                                     finish();
@@ -178,6 +178,8 @@ public class LoginActivity extends AppCompatActivity  {
                 case 6 : classe = AccountActivity.class;
                     break;
                 case 7 : classe = Favpage.class;
+                    break;
+                case 8 : classe = Logout.class;
                     break;
                 default: classe = AccountActivity.class;
                     break;
