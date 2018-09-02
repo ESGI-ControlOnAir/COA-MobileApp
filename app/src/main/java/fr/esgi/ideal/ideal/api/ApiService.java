@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.jar.Attributes;
 
 import fr.esgi.ideal.ideal.MainActivity;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -29,7 +30,7 @@ public interface ApiService {
     Call<Article> getArticle(@Path("id") String article );
 
     @POST("/article")
-    Call<Article> createArticle(@Header("Authorization") String code,@Body Article article );
+    Call<ResponseBody> createArticle(@Header("Authorization") String code, @Body Article article );
 
     @GET("/user/{id}")
     Call<User> getUser(@Path("id") String User);

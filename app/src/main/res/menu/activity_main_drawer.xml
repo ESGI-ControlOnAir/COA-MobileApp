@@ -3,11 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:checkableBehavior="single"
+        android:visible="false">
         <item
             android:id="@+id/nav_1"
             android:icon="@android:drawable/ic_menu_sort_alphabetically"
             android:title="@string/Trier_par_ordre_alphabetique" />
+        <item
+            android:id="@+id/nav_10"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="@string/Mes_produits" />
         <item
             android:id="@+id/nav_2"
             android:icon="@android:drawable/ic_menu_sort_by_size"
@@ -22,7 +28,10 @@
             android:title="@string/Trier_par_date" />
     </group>
 
-    <item android:title="@string/Votre_compte">
+    <item
+        android:id="@+id/connectedmenu"
+        android:title="@string/Votre_compte"
+        android:visible="false">
         <menu>
             <item
                 android:id="@+id/nav_5"
@@ -30,7 +39,7 @@
                 android:title="@string/Nouveau_produit" />
             <item
                 android:id="@+id/nav_6"
-                android:icon="@android:drawable/ic_menu_manage"
+                android:icon="@drawable/account2"
                 android:title="@string/Mon_compte" />
             <item
                 android:id="@+id/nav_7"
@@ -38,8 +47,19 @@
                 android:title="@string/Mes_favoris" />
             <item
                 android:id="@+id/nav_8"
-                android:icon="@android:drawable/ic_menu_close_clear_cancel"
+                android:icon="@drawable/logout"
                 android:title="@string/logout" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/unconnectedmenu"
+        android:title="@string/Votre_compte">
+        <menu>
+            <item
+                android:id="@+id/nav_9"
+                android:icon="@drawable/signin2"
+                android:title="@string/action_sign_in_short" />
         </menu>
     </item>
 

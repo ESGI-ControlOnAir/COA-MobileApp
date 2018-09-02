@@ -7,6 +7,7 @@
     android:layout_marginTop="0dp"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:theme="@android:style/Theme.Black.NoTitleBar"
     tools:context="fr.esgi.ideal.ideal.Adpage"
     tools:showIn="@layout/activity_adpage">
 

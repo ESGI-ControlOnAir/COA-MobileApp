@@ -68,6 +68,7 @@ et ce simplement en envoyant un email à l\'adresse suivante : nbaptista@myges.f
     <string name="price">Prix</string>
 
     <string name="Nouveau_produit">Nouveau produit</string>
+    <string name="Mes_produits">Mes produits</string>
 
     <string name="action_sign_in">Connexion !</string>
     <string name="action_sign_in_short">Connexion</string>

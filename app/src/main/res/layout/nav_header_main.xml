@@ -20,10 +20,9 @@
         app:srcCompat="@drawable/logo" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/utilisateur"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ESGI 4AL2 Groupe 7 (Nicolas Baptista)"
         android:textAlignment="center" />
 
 </LinearLayout>
