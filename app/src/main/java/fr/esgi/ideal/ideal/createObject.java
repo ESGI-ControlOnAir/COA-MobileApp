@@ -15,10 +15,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import fr.esgi.ideal.ideal.api.ApiService;
 import fr.esgi.ideal.ideal.api.Article;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class createObject extends AppCompatActivity {
 
@@ -93,20 +100,34 @@ public class createObject extends AppCompatActivity {
         }
     }
 
-    class CreateObj extends AsyncTask<Void, Void, Void> {
+    class CreateObj extends AsyncTask<Void, Void, Article> {
 
         @Override
-        protected Void doInBackground(Void...params) {
+        protected Article doInBackground(Void...params) {
             Log.i("error","1");
             ApiService service = new Retrofit.Builder()
                     .baseUrl("http://"+ MainActivity.URLServer)
                     //convertie le json automatiquement
+                    .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(ApiService.class);
             Article article = new Article(TITRE.getText().toString(),0,DESC.getText().toString(),Double.parseDouble(PRIX.getText().toString()));
-                service.createArticle(MainActivity.AccessToken, article);
-            finish();
+            Call<ResponseBody> call = service.createArticle(MainActivity.AccessToken, article);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    try {
+                        System.out.println(response.body().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
 
             return null;
         }

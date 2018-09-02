@@ -21,7 +21,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <Space
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="100" />
 
@@ -57,14 +57,39 @@
 
             <Button
                 android:id="@+id/barbut1"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/blacktopgradiant"
-                android:drawableLeft="@drawable/signin"
+                android:background="@drawable/buttonblack"
+                android:drawableLeft="@drawable/signin2"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/action_sign_in_short" />
+
+            <Button
+                android:id="@+id/barbut2"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/buttonblack"
+                android:drawableLeft="@drawable/account"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/Mon_compte"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/barbut3"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonblack"
+                android:drawableLeft="@drawable/logout"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/logout"
+                android:visibility="gone" />
         </android.support.v7.widget.Toolbar>
 
         <android.support.constraint.ConstraintLayout
@@ -73,7 +98,7 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:textColorHint="@color/colorAccent"
-            android:visibility="invisible">
+            android:visibility="gone">
 
             <EditText
                 android:id="@+id/searchbar"

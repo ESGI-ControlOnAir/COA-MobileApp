@@ -22,6 +22,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,15 +61,17 @@ public class MainActivity extends AppCompatActivity
     public static boolean ACCESS = false;
     public static boolean changedlang = false;
     public static boolean acceptedRGDP = false;
+    NavigationView navigationView;
     protected ImageView bg;
-    protected int i=0, j=0;
+    protected int i=0, j=0, h=0;
+    ImageView Fleche1, Fleche2;
     TextView connexion;
     ListView liste;
     Toolbar toolbar;
     RelativeLayout lay_loading, lay2;
     ProgressBar loader;
     List<Article> repoList = null;
-    Button checkarticles, gosearch;
+    Button checkarticles, gosearch, connexiontop, comptetop;
     ConstraintLayout search;
     TextView searchword;
     public static String ACTIONMAIN = ""; // Tache de l'activité
@@ -87,6 +90,8 @@ public class MainActivity extends AppCompatActivity
         bg = (ImageView) findViewById(R.id.mainbg);
         bg.setScaleType(ImageView.ScaleType.CENTER);
         bg.setPadding(0,0,0,0);
+        Fleche1 = (ImageView) findViewById(R.id.checkit1);
+        Fleche2 = (ImageView) findViewById(R.id.checkit2);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         final ProgressBar chargement = (ProgressBar) findViewById(R.id.progressBar);
         connexion = (TextView) findViewById(R.id.connexion);
@@ -96,7 +101,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
             {
-                ObjectList.setObjectID((position+1));
+                ObjectList.setObjectID((position));
                 Intent myIntent = new Intent(MainActivity.this, ObjectList.class);
                 MainActivity.this.startActivity(myIntent);
             }
@@ -144,6 +149,26 @@ public class MainActivity extends AppCompatActivity
         });
         setSupportActionBar(toolbar);
 
+        // BOUTON "CONNEXION"
+        connexiontop = (Button) findViewById(R.id.barbut1);
+        connexiontop.setOnClickListener(new View.OnClickListener() { // VALIDATION PAR LE BOUTON "GO"
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainActivity.this, LoginActivity.class);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
+
+        // BOUTON "MON COMPTE"
+        comptetop = (Button) findViewById(R.id.barbut2);
+        comptetop.setOnClickListener(new View.OnClickListener() { // VALIDATION PAR LE BOUTON "GO"
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainActivity.this, AccountActivity.class);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
+
         // Récupération de l'URL du serveur dans les paramètres si présent
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         URLServer = preferences.getString("URLServer", "10.33.1.60:8888");
@@ -154,7 +179,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         handler.sendEmptyMessageDelayed(1, 100);
@@ -167,8 +192,22 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void handleMessage(Message msg) {
             i++;
-            Log.i("tag","HANDLER "+ Integer.toString(i));
+            h++;
 
+            // Fleche bounding
+            if(h<=8) {
+                Fleche1.setPadding(0,-h*4,0,0);
+                Fleche2.setPadding(0,h*4,0,0);
+            }
+            if(h>8 && h<16) {
+                Fleche1.setPadding(0,-40+(h*4),0,0);
+                Fleche2.setPadding(0,40-(h*4),0,0);
+            }
+            if(h == 16) {
+                h = 0;
+            }
+
+            // Fond BG
             if(i<70) {
                 bg.setImageResource(R.drawable.intro1);
                 bg.setScaleType(ImageView.ScaleType.MATRIX);
@@ -176,12 +215,14 @@ public class MainActivity extends AppCompatActivity
                 bg.invalidate(); // REDRAW
             }
             if(i>60 && i<70) {
+                i++;
                 j++;
-                bg.setImageAlpha(250-(25*j));
+                bg.setImageAlpha(250-(50*j));
             }
             if(i>70 && i<80) {
+                i++;
                 j--;
-                bg.setImageAlpha(250-(25*j));
+                bg.setImageAlpha(250-(50*j));
             }
             if(i>70 && i<160) {
                 bg.setImageResource(R.drawable.intro2);
@@ -190,12 +231,14 @@ public class MainActivity extends AppCompatActivity
                 bg.invalidate(); // REDRAW
             }
             if(i>150 && i<160) {
+                i++;
                 j++;
-                bg.setImageAlpha(250-(25*j));
+                bg.setImageAlpha(250-(50*j));
             }
             if(i>160 && i<170) {
+                i++;
                 j--;
-                bg.setImageAlpha(250-(25*j));
+                bg.setImageAlpha(250-(50*j));
             }
             if(i>160 && i<240) {
                 bg.setImageResource(R.drawable.intro3);
@@ -252,7 +295,30 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("jj","on resume");
+
+        Menu menu = navigationView.getMenu();
+        MenuItem conmenu = menu.findItem(R.id.connectedmenu);
+        MenuItem unconmenu = menu.findItem(R.id.unconnectedmenu);
+        Button button1 = findViewById(R.id.barbut1);
+        Button button2 = findViewById(R.id.barbut2);
+        Button button3 = findViewById(R.id.barbut3);
+
+        if (AccessToken == null )
+        {
+            conmenu.setVisible(false);
+            unconmenu.setVisible(true);
+            button1.setVisibility(View.VISIBLE);
+            button2.setVisibility(View.GONE);
+            //button3.setVisibility(View.GONE);
+        }
+        else
+        {
+            unconmenu.setVisible(false);
+            conmenu.setVisible(true);
+            button1.setVisibility(View.GONE);
+            button2.setVisibility(View.VISIBLE);
+            //button3.setVisibility(View.VISIBLE);
+        }
     }
 
     private void isauth() {
@@ -275,7 +341,35 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) { // Menu paramètre droite
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) { // Menu gauche
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuItem conmenu = menu.findItem(R.id.connectedmenu);
+        MenuItem unconmenu = menu.findItem(R.id.unconnectedmenu);
+        Button button1 = findViewById(R.id.barbut1);
+        Button button2 = findViewById(R.id.barbut2);
+        Button button3 = findViewById(R.id.barbut3);
+
+        if (AccessToken != null )
+        {
+            conmenu.setVisible(false);
+            unconmenu.setVisible(true);
+            button1.setVisibility(View.VISIBLE);
+            button2.setVisibility(View.GONE);
+            button3.setVisibility(View.GONE);
+        }
+        else
+        {
+            unconmenu.setVisible(false);
+            conmenu.setVisible(true);
+            button1.setVisibility(View.GONE);
+            button2.setVisibility(View.VISIBLE);
+            button3.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -350,6 +444,10 @@ public class MainActivity extends AppCompatActivity
                 MainActivity.this.startActivity(myIntent);
         } else if (id == R.id.nav_8) { // Logout : forward dans loginactivity
             LoginActivity.classtogo = 8;
+            Intent myIntent = new Intent(MainActivity.this, LoginActivity.class);
+            MainActivity.this.startActivity(myIntent);
+        } else if (id == R.id.nav_9) { // connection
+            LoginActivity.classtogo = 8; // ok whatever 6 7 8
             Intent myIntent = new Intent(MainActivity.this, LoginActivity.class);
             MainActivity.this.startActivity(myIntent);
         }

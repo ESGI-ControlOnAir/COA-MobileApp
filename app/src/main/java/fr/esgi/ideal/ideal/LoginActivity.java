@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -117,8 +118,8 @@ public class LoginActivity extends AppCompatActivity  {
                                     /*Toast.makeText(getApplicationContext(),
                                             "SUCCESS! Token: "+token,
                                             Toast.LENGTH_LONG).show();*/
-                                    Intent myIntent = new Intent(LoginActivity.this, AccountActivity.class);
-                                    LoginActivity.this.startActivity(myIntent);
+                                    //Intent myIntent = new Intent(LoginActivity.this, AccountActivity.class);
+                                    //LoginActivity.this.startActivity(myIntent);
                                     finish();
                                 } else { Log.d("Login", "Erreur login incorrect"); }
                             }
@@ -180,6 +181,8 @@ public class LoginActivity extends AppCompatActivity  {
                 case 7 : classe = Favpage.class;
                     break;
                 case 8 : classe = Logout.class;
+                    break;
+                case 9 : classe = Logout.class;
                     break;
                 default: classe = AccountActivity.class;
                     break;
