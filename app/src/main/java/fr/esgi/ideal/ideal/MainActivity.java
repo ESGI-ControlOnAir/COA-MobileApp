@@ -52,6 +52,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import static android.view.View.GONE;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static int TIME_OUT_INTERNET = 0; // Vérification de connexion internet 100ms
@@ -65,7 +69,7 @@ public class MainActivity extends AppCompatActivity
     protected ImageView bg;
     protected int i=0, j=0, h=0;
     ImageView Fleche1, Fleche2;
-    TextView connexion;
+    TextView connexion, fleche1txt, fleche2txt;
     ListView liste;
     Toolbar toolbar;
     RelativeLayout lay_loading, lay2;
@@ -91,7 +95,9 @@ public class MainActivity extends AppCompatActivity
         bg.setScaleType(ImageView.ScaleType.CENTER);
         bg.setPadding(0,0,0,0);
         Fleche1 = (ImageView) findViewById(R.id.checkit1);
+        fleche1txt = (TextView) findViewById(R.id.fleche1txt);
         Fleche2 = (ImageView) findViewById(R.id.checkit2);
+        fleche2txt = (TextView) findViewById(R.id.fleche2txt);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         final ProgressBar chargement = (ProgressBar) findViewById(R.id.progressBar);
         connexion = (TextView) findViewById(R.id.connexion);
@@ -133,6 +139,10 @@ public class MainActivity extends AppCompatActivity
                 Intent myIntent = new Intent(MainActivity.this, Adpage.class);
                 MainActivity.this.startActivity(myIntent);
                 new ListReposTask().execute();
+                Fleche1.setVisibility(View.GONE);
+                Fleche2.setVisibility(View.GONE);
+                fleche1txt.setVisibility(View.GONE);
+                fleche2txt.setVisibility(View.GONE);
             }
         });
 
@@ -145,6 +155,10 @@ public class MainActivity extends AppCompatActivity
                 lay2.setVisibility(View.INVISIBLE);
                 Intent myIntent = new Intent(MainActivity.this, Adpage.class);
                 MainActivity.this.startActivity(myIntent);
+                Fleche1.setVisibility(View.GONE);
+                Fleche2.setVisibility(View.GONE);
+                fleche1txt.setVisibility(View.INVISIBLE);
+                fleche2txt.setVisibility(View.INVISIBLE);
             }
         });
         setSupportActionBar(toolbar);
@@ -183,9 +197,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         handler.sendEmptyMessageDelayed(1, 100);
-    }
-    public void clickButton(){
-        checkarticles.setBackgroundResource(R.drawable.greengradiantpushed);
     }
 
     private Handler handler = new Handler() {
@@ -288,7 +299,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        Log.i("jj","on post resume");
         isauth();
     }
 
@@ -308,14 +318,14 @@ public class MainActivity extends AppCompatActivity
             conmenu.setVisible(false);
             unconmenu.setVisible(true);
             button1.setVisibility(View.VISIBLE);
-            button2.setVisibility(View.GONE);
+            button2.setVisibility(GONE);
             //button3.setVisibility(View.GONE);
         }
         else
         {
             unconmenu.setVisible(false);
             conmenu.setVisible(true);
-            button1.setVisibility(View.GONE);
+            button1.setVisibility(GONE);
             button2.setVisibility(View.VISIBLE);
             //button3.setVisibility(View.VISIBLE);
         }
@@ -359,14 +369,14 @@ public class MainActivity extends AppCompatActivity
             conmenu.setVisible(false);
             unconmenu.setVisible(true);
             button1.setVisibility(View.VISIBLE);
-            button2.setVisibility(View.GONE);
-            button3.setVisibility(View.GONE);
+            button2.setVisibility(GONE);
+            button3.setVisibility(GONE);
         }
         else
         {
             unconmenu.setVisible(false);
             conmenu.setVisible(true);
-            button1.setVisibility(View.GONE);
+            button1.setVisibility(GONE);
             button2.setVisibility(View.VISIBLE);
             button3.setVisibility(View.VISIBLE);
         }

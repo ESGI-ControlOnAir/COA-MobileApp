@@ -83,4 +83,7 @@ et ce simplement en envoyant un email à l\'adresse suivante : nbaptista@myges.f
     <string name="unlike">JE N\'AIME PAS</string>
     <string name="uppic">Charger une image</string>
     <string name="addedprod">Produit créé avec succès</string>
+
+    <string name="fleche1txt">Ou laissez-vous tenter par nos produits</string>
+    <string name="fleche2txt">Recherchez des articles pour commencer</string>
 </resources>
