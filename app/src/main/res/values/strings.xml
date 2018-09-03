@@ -105,4 +105,7 @@ by sending an e-mail to the following address : nbaptista@myges.fr.</string>
     <string name="uppic">Load Picture</string>
     <string name="addedprod">Product added successfully</string>
     <string name="createdacc">Account created successfully</string>
+
+    <string name="fleche1txt">Or should you want to see our products</string>
+    <string name="fleche2txt">Find the article you need</string>
 </resources>
