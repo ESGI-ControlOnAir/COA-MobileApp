@@ -1,6 +1,8 @@
 package fr.esgi.ideal.ideal;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +14,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+
+import java.io.IOException;
 import java.util.ArrayList;
+
+import fr.esgi.ideal.ideal.api.ApiService;
+import okhttp3.ResponseBody;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CustomAdapter extends ArrayAdapter<objetEnVente> implements View.OnClickListener{
 
@@ -93,7 +105,29 @@ public class CustomAdapter extends ArrayAdapter<objetEnVente> implements View.On
         viewHolder.txtLike.setText(objetEnVente.getLike());
         viewHolder.image.setOnClickListener(this);
         viewHolder.image.setTag(position);
-        // Return the completed view to render on screen
+
+        ApiService service = new Retrofit.Builder()
+                .baseUrl("http://"+ MainActivity.URLServer)
+                .build()
+                .create(ApiService.class);
+
+        ResponseBody body = null;
+        try {
+            body = service.retrieveImageData(0).execute().body();
+            byte[] bytes = new byte[0];
+            try {
+                bytes = body.bytes();
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                viewHolder.image.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                Log.i("err","uka uka gros problemes");
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            Log.i("err","uka uka ptititi problemes");
+            e.printStackTrace();
+        }
+
         return convertView;
     }
 }

@@ -1,5 +1,7 @@
 package fr.esgi.ideal.ideal.api;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Kray on 09/04/2018.
  */
@@ -10,7 +12,6 @@ public class Article {
     private String description;
     private double price;
     private int like;
-    private int img;
 
     public Long getId() {
         return id;
@@ -52,9 +53,8 @@ public class Article {
         this.like = like;
     }
 
-    public Article(String name, int img, String description, double Price){
+    public Article(String name, String description, double Price){
         this.name = name;
-        this.img = img;
         this.description = description;
         this.price = Price;
     }

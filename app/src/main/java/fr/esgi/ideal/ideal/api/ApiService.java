@@ -48,13 +48,16 @@ public interface ApiService {
     Call<Partner> getPartner();
 
     @GET("/partner/{id}")
-    Call<Partner> getPartner(@Path("id") String Partner);
+    Call<Partner> getPartner(@Path("id") int ID);
 
     @GET("/ad")
     Call<Ad> getAd();
 
     @GET("/ad/{id}")
-    Call<Ad> getAd(@Path("id") String Ad);
+    Call<Ad> getAd(@Path("id") int ID);
+
+    @GET("/image/{id}/file")
+    Call<ResponseBody> retrieveImageData(@Path("id") int ID);
 
     // OAUTH2
     @FormUrlEncoded
