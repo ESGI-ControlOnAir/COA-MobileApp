@@ -1,14 +1,16 @@
 package fr.esgi.ideal.ideal;
 
+import android.graphics.Bitmap;
+
 public class objetEnVente {
 
     String nom;
     String description;
     String prix;
     String like;
-    String image;
+    Bitmap image;
 
-    public objetEnVente(String name, String description, String prix, String like, String URLImage ) {
+    public objetEnVente(String name, String description, String prix, String like, Bitmap image ) {
         this.nom=name;
         this.description=description;
         this.prix=prix;
@@ -30,7 +32,7 @@ public class objetEnVente {
 
     public String getLike() { return like; }
 
-    public String getImage() {
+    public Bitmap getImage() {
         return image;
     }
 }

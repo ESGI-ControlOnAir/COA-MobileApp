@@ -48,7 +48,11 @@
         <activity android:name=".createObject" />
         <activity android:name=".createAccount" />
         <activity android:name=".Logout" />
-        <activity android:name=".Myobjects"></activity>
+        <activity android:name=".Myobjects" />
+        <activity
+            android:name=".ArticleViewer"
+            android:label="@string/title_activity_article_viewer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

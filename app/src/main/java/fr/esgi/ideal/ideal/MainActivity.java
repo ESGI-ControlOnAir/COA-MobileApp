@@ -3,6 +3,8 @@ package fr.esgi.ideal.ideal;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.session.MediaSession;
 import android.net.ConnectivityManager;
@@ -12,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PersistableBundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -46,6 +49,7 @@ import java.util.Random;
 
 import fr.esgi.ideal.ideal.api.ApiService;
 import fr.esgi.ideal.ideal.api.Article;
+import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -84,11 +88,15 @@ public class MainActivity extends AppCompatActivity
     View view;
     public static ArrayList<objetEnVente> dataModels;
     private static CustomAdapter adapter;
+    ApiService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         // Initialisation des objets de la vue
         bg = (ImageView) findViewById(R.id.mainbg);
@@ -108,7 +116,7 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
             {
                 ObjectList.setObjectID((position));
-                Intent myIntent = new Intent(MainActivity.this, ObjectList.class);
+                Intent myIntent = new Intent(MainActivity.this, /*ObjectList.class*/ ArticleViewer.class);
                 MainActivity.this.startActivity(myIntent);
             }
         });
@@ -196,7 +204,7 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        handler.sendEmptyMessageDelayed(1, 100);
+        handler.sendEmptyMessageDelayed(1, 150);
     }
 
     private Handler handler = new Handler() {
@@ -477,7 +485,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected List<Article> doInBackground(Void...params) {
-            ApiService service = new Retrofit.Builder()
+            service = new Retrofit.Builder()
                     .baseUrl("http://"+ MainActivity.URLServer)
                     //convertie le json automatiquement
                     .addConverterFactory(GsonConverterFactory.create())
@@ -521,7 +529,30 @@ public class MainActivity extends AppCompatActivity
                 if (Price == 0) {
                     Price = randomValue;
                 }
-                dataModels.add(new objetEnVente(repos.get(z).getName(), repos.get(z).getDescription(), String.format("%.2f",Price), Integer.toString(repos.get(z).getLike()), ""));
+
+                /*ApiService service = new Retrofit.Builder()
+                        .baseUrl("http://"+ MainActivity.URLServer)
+                        .build()
+                        .create(ApiService.class);*/
+
+                ResponseBody body = null;
+                Bitmap imagedata = null;
+                try {
+                    body = service.retrieveImageData(0).execute().body();
+                    byte[] bytes = new byte[0];
+                    try {
+                        bytes = body.bytes();
+                        imagedata = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    } catch (IOException e) {
+                        Log.i("err","uka uka gros problemes");
+                        e.printStackTrace();
+                    }
+                } catch (IOException e) {
+                    Log.i("err","uka uka ptititi problemes");
+                    e.printStackTrace();
+                }
+
+                dataModels.add(new objetEnVente(repos.get(z).getName(), repos.get(z).getDescription(), String.format("%.2f",Price), Integer.toString(repos.get(z).getLike()), imagedata));
             }
         }
 

@@ -112,7 +112,7 @@ public class createObject extends AppCompatActivity {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(ApiService.class);
-            Article article = new Article(TITRE.getText().toString(),0,DESC.getText().toString(),Double.parseDouble(PRIX.getText().toString()));
+            Article article = new Article(TITRE.getText().toString(),DESC.getText().toString(),Double.parseDouble(PRIX.getText().toString()));
             Call<ResponseBody> call = service.createArticle(MainActivity.AccessToken, article);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override

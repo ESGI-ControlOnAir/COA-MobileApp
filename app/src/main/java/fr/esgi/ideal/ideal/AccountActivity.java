@@ -2,17 +2,22 @@ package fr.esgi.ideal.ideal;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
 import java.util.Locale;
 
 public class AccountActivity extends AppCompatActivity {
+    Handler Loadhandler = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +48,7 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
-        Button close = (Button) findViewById(R.id.retouraccount);
+        /*Button close = (Button) findViewById(R.id.retouraccount);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +78,7 @@ public class AccountActivity extends AppCompatActivity {
                 }
                 finish();
             }
-        });
+        });*/
 
         // Affichage de la langue actuelle
         TextView lang = (TextView) findViewById(R.id.lang);
@@ -123,5 +128,19 @@ public class AccountActivity extends AppCompatActivity {
             final TextView tok = (TextView) findViewById(R.id.tokenid);
             tok.setText("Token : " + MainActivity.AccessToken);
         }
+
+        //handler.sendEmptyMessageDelayed(1, 100);
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+                /*
+                i++;
+
+
+                handler.sendEmptyMessageDelayed(1, 30);
+                */
+        }
+    };
 }
