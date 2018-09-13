@@ -69,17 +69,18 @@ public class MainActivity extends AppCompatActivity
     public static boolean ACCESS = false;
     public static boolean changedlang = false;
     public static boolean acceptedRGDP = false;
+    public static String email = "";
     NavigationView navigationView;
     protected ImageView bg;
     protected int i=0, j=0, h=0;
     ImageView Fleche1, Fleche2;
-    TextView connexion, fleche1txt, fleche2txt;
+    TextView connexion, fleche1txt, fleche2txt, user;
     ListView liste;
     Toolbar toolbar;
     RelativeLayout lay_loading, lay2;
     ProgressBar loader;
     List<Article> repoList = null;
-    Button checkarticles, gosearch, connexiontop, comptetop;
+    Button checkarticles, gosearch, connexiontop, comptetop, regbutton;
     ConstraintLayout search;
     TextView searchword;
     public static String ACTIONMAIN = ""; // Tache de l'activité
@@ -205,6 +206,9 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        user = (TextView) findViewById(R.id.utilisateur);
+        regbutton = (Button) findViewById(R.id.registerbutton);
+
         handler.sendEmptyMessageDelayed(1, 150);
     }
 
@@ -270,7 +274,7 @@ public class MainActivity extends AppCompatActivity
                 j = 0; i = 0;
             }
 
-            handler.sendEmptyMessageDelayed(1, 30);
+            handler.sendEmptyMessageDelayed(1, 40);
         }
     };
 
@@ -329,6 +333,8 @@ public class MainActivity extends AppCompatActivity
             button1.setVisibility(View.VISIBLE);
             button2.setVisibility(GONE);
             //button3.setVisibility(View.GONE);
+            if(user!=null)user.setText(R.string.invit);
+            regbutton.setVisibility(View.VISIBLE);
         }
         else
         {
@@ -337,6 +343,12 @@ public class MainActivity extends AppCompatActivity
             button1.setVisibility(GONE);
             button2.setVisibility(View.VISIBLE);
             //button3.setVisibility(View.VISIBLE);
+            if(user!=null)user.setText(email);
+            regbutton.setVisibility(View.GONE);
+            fleche1txt.setVisibility(View.GONE);
+            fleche2txt.setVisibility(View.GONE);
+            Fleche1.setVisibility(View.GONE);
+            Fleche2.setVisibility(View.GONE);
         }
     }
 
