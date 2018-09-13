@@ -115,7 +115,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
             {
-                ObjectList.setObjectID((position));
+                /*ObjectList.setObjectID((position));*/
+                ArticleViewer.setObjectID((position));
                 Intent myIntent = new Intent(MainActivity.this, /*ObjectList.class*/ ArticleViewer.class);
                 MainActivity.this.startActivity(myIntent);
             }

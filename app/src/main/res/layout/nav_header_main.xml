@@ -23,6 +23,11 @@
         android:id="@+id/utilisateur"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center" />
+        android:fontFamily="@font/anaheim"
+        android:text="@string/invit"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
 </LinearLayout>
