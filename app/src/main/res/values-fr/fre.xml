@@ -71,7 +71,10 @@ et ce simplement en envoyant un email à l\'adresse suivante : nbaptista@myges.f
     <string name="Mes_produits">Mes produits</string>
 
     <string name="action_sign_in">Connexion !</string>
-    <string name="action_sign_in_short">Connexion</string>
+    <string name="action_sign_in_short">Se connecter</string>
+    <string name="register">S\'inscrire</string>
+    <string name="needlog">Vous devez faire partie de la communauté IDeal pour pouvoir gérer des articles et ajouter des articles</string>
+    <string name="invit">Bonjour, vous n\'êtes actuellement pas connecté.</string>
 
     <string name="trying">Tentative de connexion...</string>
     <string name="favmerch">Sites marchands favoris</string>

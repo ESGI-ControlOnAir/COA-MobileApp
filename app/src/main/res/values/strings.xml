@@ -24,6 +24,9 @@
     <string name="ln">Last Name</string>
     <string name="changlang"> Switch language to </string>
     <string name="cryptmeth">Encryption method : </string>
+    <string name="register">Register</string>
+    <string name="needlog">You need to be part of the community to add and manage your articles</string>
+    <string name="invit">Hi, you are currently not logged.</string>
     <string-array name="cryptlist">
         <item>SHA1</item>
     </string-array>

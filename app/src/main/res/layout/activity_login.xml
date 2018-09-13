@@ -78,7 +78,8 @@
             android:layout_marginTop="20dp"
             android:text="@string/cryptmeth"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="invisible" />
 
         <Spinner
             android:id="@+id/cryptmeth"
@@ -88,7 +89,8 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/spinner" />
+            android:background="@drawable/spinner"
+            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/LoginProg"

@@ -7,15 +7,22 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 
 public class ArticleViewer extends AppCompatActivity {
+    static int ObjectID = 1;
+    ImageView ArticleView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_viewer);
+
+        ArticleView = findViewById(R.id.articleImage);
+        ArticleView.setImageBitmap(MainActivity.dataModels.get(ObjectID).image);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("My Title");
+        toolbar.setTitle(MainActivity.dataModels.get(ObjectID).nom);
         toolbar.setTitleTextColor(0);
         //toolbar.setTitleTextAppearance(getApplicationContext(),R.style.AppTheme);
         setSupportActionBar(toolbar);
@@ -31,5 +38,9 @@ public class ArticleViewer extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    public static void setObjectID(int ID_Article){
+        ObjectID = ID_Article;
     }
 }
