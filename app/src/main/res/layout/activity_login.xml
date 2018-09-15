@@ -4,7 +4,7 @@
     android:id="@+id/linearLayout5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/deal"
+
     android:gravity="center_horizontal"
     tools:context="fr.esgi.ideal.ideal.LoginActivity"
     tools:layout_editor_absoluteY="81dp">
