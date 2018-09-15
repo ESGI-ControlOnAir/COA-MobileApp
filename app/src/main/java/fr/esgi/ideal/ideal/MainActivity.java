@@ -19,6 +19,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -41,6 +42,7 @@ import android.widget.RelativeLayout;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.security.AccessController;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity
     RelativeLayout lay_loading, lay2;
     ProgressBar loader;
     List<Article> repoList = null;
-    Button checkarticles, gosearch, connexiontop, comptetop, regbutton;
+    Button checkarticles, gosearch, connexiontop, comptetop, regbutton, searchbarbut;
     ConstraintLayout search;
     TextView searchword;
     public static String ACTIONMAIN = ""; // Tache de l'activité
@@ -139,6 +141,20 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        searchbarbut = (Button) findViewById(R.id.searchbarbut);
+        searchbarbut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(search.getVisibility() == View.VISIBLE){
+                    search.setVisibility(View.GONE);
+                    searchbarbut.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search_category_defaul2,0,0,0);
+                }else{
+                    search.setVisibility(View.VISIBLE);
+                    searchbarbut.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search_category_default,0,0,0);
+                }
+            }
+        });
+
         // Bouton "GO" de recherche
         gosearch = (Button) findViewById(R.id.gosearch);
         gosearch.setOnClickListener(new View.OnClickListener() { // VALIDATION PAR LE BOUTON "GO"
@@ -174,24 +190,24 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         // BOUTON "CONNEXION"
-        connexiontop = (Button) findViewById(R.id.barbut1);
+        /*connexiontop = (Button) findViewById(R.id.barbut1);
         connexiontop.setOnClickListener(new View.OnClickListener() { // VALIDATION PAR LE BOUTON "GO"
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, LoginActivity.class);
                 MainActivity.this.startActivity(myIntent);
             }
-        });
+        });*/
 
         // BOUTON "MON COMPTE"
-        comptetop = (Button) findViewById(R.id.barbut2);
+        /*comptetop = (Button) findViewById(R.id.barbut2);
         comptetop.setOnClickListener(new View.OnClickListener() { // VALIDATION PAR LE BOUTON "GO"
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, AccountActivity.class);
                 MainActivity.this.startActivity(myIntent);
             }
-        });
+        });*/
 
         // Récupération de l'URL du serveur dans les paramètres si présent
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -322,16 +338,16 @@ public class MainActivity extends AppCompatActivity
         Menu menu = navigationView.getMenu();
         MenuItem conmenu = menu.findItem(R.id.connectedmenu);
         MenuItem unconmenu = menu.findItem(R.id.unconnectedmenu);
-        Button button1 = findViewById(R.id.barbut1);
+        /*Button button1 = findViewById(R.id.barbut1);
         Button button2 = findViewById(R.id.barbut2);
-        Button button3 = findViewById(R.id.barbut3);
+        Button button3 = findViewById(R.id.barbut3);*/
 
         if (AccessToken == null )
         {
             conmenu.setVisible(false);
             unconmenu.setVisible(true);
-            button1.setVisibility(View.VISIBLE);
-            button2.setVisibility(GONE);
+            //button1.setVisibility(View.VISIBLE);
+            //button2.setVisibility(GONE);
             //button3.setVisibility(View.GONE);
             if(user!=null)user.setText(R.string.invit);
             regbutton.setVisibility(View.VISIBLE);
@@ -340,8 +356,8 @@ public class MainActivity extends AppCompatActivity
         {
             unconmenu.setVisible(false);
             conmenu.setVisible(true);
-            button1.setVisibility(GONE);
-            button2.setVisibility(View.VISIBLE);
+            //button1.setVisibility(GONE);
+            //button2.setVisibility(View.VISIBLE);
             //button3.setVisibility(View.VISIBLE);
             if(user!=null)user.setText(email);
             regbutton.setVisibility(View.GONE);
@@ -381,25 +397,25 @@ public class MainActivity extends AppCompatActivity
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuItem conmenu = menu.findItem(R.id.connectedmenu);
         MenuItem unconmenu = menu.findItem(R.id.unconnectedmenu);
-        Button button1 = findViewById(R.id.barbut1);
+        /*Button button1 = findViewById(R.id.barbut1);
         Button button2 = findViewById(R.id.barbut2);
-        Button button3 = findViewById(R.id.barbut3);
+        Button button3 = findViewById(R.id.barbut3);*/
 
         if (AccessToken != null )
         {
             conmenu.setVisible(false);
             unconmenu.setVisible(true);
-            button1.setVisibility(View.VISIBLE);
+            /*button1.setVisibility(View.VISIBLE);
             button2.setVisibility(GONE);
-            button3.setVisibility(GONE);
+            button3.setVisibility(GONE);*/
         }
         else
         {
             unconmenu.setVisible(false);
             conmenu.setVisible(true);
-            button1.setVisibility(GONE);
+            /*button1.setVisibility(GONE);
             button2.setVisibility(View.VISIBLE);
-            button3.setVisibility(View.VISIBLE);
+            button3.setVisibility(View.VISIBLE);*/
         }
     }
 

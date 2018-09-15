@@ -61,7 +61,7 @@
                 android:icon="@drawable/signin2"
                 android:title="@string/action_sign_in_short" />
             <item
-                android:id="@+id/nav_10"
+                android:id="@+id/nav_11"
                 android:icon="@drawable/regist"
                 android:title="@string/register" />
         </menu>
