@@ -29,12 +29,12 @@
             android:layout_width="230dp"
             android:layout_height="100dp"
             android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="350dp"
             android:alpha="0.65"
-            android:background="@drawable/buttonaction"
+
             android:drawableLeft="@android:drawable/ic_dialog_info"
-            android:padding="10dp"
+            android:padding="9dp"
             android:shadowRadius="3"
             android:text="@string/needlog"
             android:textColor="@android:color/white" />

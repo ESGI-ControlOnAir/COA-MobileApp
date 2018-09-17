@@ -75,7 +75,7 @@
         android:id="@+id/checkit1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="76dp"
+        android:layout_marginBottom="75dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:rotation="180"
