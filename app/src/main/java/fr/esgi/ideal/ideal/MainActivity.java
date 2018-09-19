@@ -1,8 +1,8 @@
 package fr.esgi.ideal.ideal;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -41,6 +41,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -96,8 +97,6 @@ public class MainActivity extends AppCompatActivity
     Handler Loadhandler = null;
     int sortMode = 0;
     View view;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
     public static ArrayList<objetEnVente> dataModels;
     private static CustomAdapter adapter;
     ApiService service;
@@ -122,6 +121,8 @@ public class MainActivity extends AppCompatActivity
         final ProgressBar chargement = (ProgressBar) findViewById(R.id.progressBar);
         connexion = (TextView) findViewById(R.id.connexion);
         liste = (ListView) findViewById(R.id.liste);
+        HorizontalScrollView scrollbar = (HorizontalScrollView) findViewById(R.id.scrollbar);
+        scrollbar.setHorizontalScrollBarEnabled(false);
         liste.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -240,54 +241,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
         handler.sendEmptyMessageDelayed(1, 150);
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getApplicationContext().getAcgetSupportFragmentManager());
-        adapter.addFrag(new OneFragment(), "ONE");
-        adapter.addFrag(new TwoFragment(), "TWO");
-        adapter.addFrag(new ThreeFragment(), "THREE");
-        adapter.addFrag(new FourFragment(), "FOUR");
-        adapter.addFrag(new FiveFragment(), "FIVE");
-        adapter.addFrag(new SixFragment(), "SIX");
-        adapter.addFrag(new SevenFragment(), "SEVEN");
-        adapter.addFrag(new EightFragment(), "EIGHT");
-        adapter.addFrag(new NineFragment(), "NINE");
-        adapter.addFrag(new TenFragment(), "TEN");
-        viewPager.setAdapter(adapter);
-    }
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFrag(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
     }
 
     private Handler handler = new Handler() {
