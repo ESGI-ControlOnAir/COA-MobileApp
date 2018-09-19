@@ -1,6 +1,8 @@
 package fr.esgi.ideal.ideal;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.inputmethodservice.Keyboard;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentActivity;
@@ -38,6 +40,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -99,7 +103,8 @@ public class MainActivity extends AppCompatActivity
     View view;
     public static ArrayList<objetEnVente> dataModels;
     private static CustomAdapter adapter;
-    ApiService service;
+    ApiService service = null;
+    TranslateAnimation animate = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,10 +161,32 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 if(search.getVisibility() == View.VISIBLE){
-                    search.setVisibility(View.GONE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+
+                    animate = new TranslateAnimation(0,search.getWidth(),0,0);
+                    animate.setDuration(500);
+                    animate.setFillAfter(true);
+                    search.startAnimation(animate);
+                    search.setVisibility(View.INVISIBLE);
+                    Loadhandler = new Handler();
+                    Loadhandler.postDelayed(new Runnable() { // Affichage de la liste des objets vendu après connexion - TIMEOUT à des fins de test
+                        @Override
+                        public void run() {
+                            search.setVisibility(View.GONE);
+                        }
+                    }, 500);
+
                     searchbarbut.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search_category_defaul2,0,0,0);
                 }else{
                     search.setVisibility(View.VISIBLE);
+                    animate = new TranslateAnimation(search.getWidth(),0,0,0);
+                    animate.setDuration(250);
+                    animate.setFillAfter(true);
+                    search.startAnimation(animate);
+                    searchword.requestFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 1);
                     searchbarbut.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search_category_default,0,0,0);
                 }
             }
@@ -244,6 +271,11 @@ public class MainActivity extends AppCompatActivity
         handler.sendEmptyMessageDelayed(1, 150);
     }
 
+    @SuppressLint("MissingSuperCall")
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+    }
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -314,6 +346,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+
+        search.setVisibility(View.GONE);
 
         Loadhandler = new Handler();
         Loadhandler.postDelayed(new Runnable() { // Affichage de la liste des objets vendu après connexion - TIMEOUT à des fins de test
@@ -546,7 +580,12 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(List<Article> repos) {
             super.onPostExecute(repos);
-            if(repos == null){ connexion.setText(R.string.erreur_reception); }
+            if(repos == null){
+                connexion.setText(R.string.erreur_reception);
+                //repoList.clear();
+                //repos.clear();
+                return;
+            }
             else {
                 // OK Connexion réussi
                 ImageView co = (ImageView) findViewById(R.id.etatco);
