@@ -76,7 +76,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/buttonblack"
-                android:drawableLeft="@android:drawable/ic_search_category_default"
+                android:drawableLeft="@drawable/ic_search_category_defaul2"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp" />
 
@@ -183,11 +183,75 @@
 
         </android.support.constraint.ConstraintLayout>-->
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabMode="scrollable"/>
+            android:layout_height="50dp"
+            android:layout_marginBottom="-7dp"
+            android:background="@drawable/bgloading"
+            android:visibility="visible"
+            android:id="@+id/scrollbar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="-10dp"
+                android:layout_marginTop="-10dp"
+                android:orientation="horizontal"
+                android:paddingTop="-5dp">
+
+                <Button
+                    android:id="@+id/butt1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="ONE"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></Button>
+
+                <Button
+                    android:id="@+id/butt2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="two"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></Button>
+
+                <Button
+                    android:id="@+id/butt3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="three"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></Button>
+
+                <Button
+                    android:id="@+id/butt4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="four"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></Button>
+
+                <Button
+                    android:id="@+id/butt5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="five"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></Button>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
 
     </android.support.design.widget.AppBarLayout>
 
