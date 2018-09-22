@@ -77,7 +77,8 @@ import static android.view.View.GONE;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static int TIME_OUT_INTERNET = 0; // Vérification de connexion internet 100ms
-    public static String URLServer = "10.33.1.60:8888"; // Variable globale de l'URL du serveur
+    public static String URLServer = "10.33.1.60:18080"; // Variable globale de l'URL du serveur Tristan port 18080
+    public static String URLServerImage = "10.33.1.60:8000"; // Images port 8000
     public static String AccessToken = null;
     public static boolean addisplayed = false;
     public static boolean ACCESS = false;
