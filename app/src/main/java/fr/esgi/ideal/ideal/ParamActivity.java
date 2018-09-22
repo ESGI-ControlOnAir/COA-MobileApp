@@ -28,7 +28,7 @@ public class ParamActivity extends AppCompatActivity {
         IP.setText(Content_URLServer[0]);
         PORT.setText(Content_URLServer[1]);
 
-        SETACTUEL.setText("Adresse IP actuelle du serveur : "+MainActivity.URLServer);
+        SETACTUEL.setText("Adresse IP du serveur principal : "+MainActivity.URLServer+"\nAdresse IP du serveur images : "+MainActivity.URLServerImage);
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -43,7 +43,8 @@ public class ParamActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Changement de valeur
-                MainActivity.URLServer = IP.getText().toString()+":"+PORT.getText().toString();
+                MainActivity.URLServer = IP.getText().toString()+":18080";
+                MainActivity.URLServerImage = IP.getText().toString()+":8000";
                 // Sauvegarde pour utilisation utlérieur
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("URLServer",MainActivity.URLServer);
