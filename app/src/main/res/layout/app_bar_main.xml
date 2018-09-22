@@ -76,7 +76,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/buttonblack"
-                android:drawableLeft="@drawable/ic_search_category_defaul2"
+                android:drawableLeft="@drawable/ic_search_category_default"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp" />
 

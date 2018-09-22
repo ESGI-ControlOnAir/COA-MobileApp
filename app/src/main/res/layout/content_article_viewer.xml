@@ -2,34 +2,57 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollarticle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="fr.esgi.ideal.ideal.ArticleViewer"
     tools:showIn="@layout/activity_article_viewer">
 
-    <!--<LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@android:color/holo_blue_light">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_margin="@dimen/text_margin"
-            android:text="_________________" />
 
-        <Button
+        <RelativeLayout
+            android:id="@+id/articledescriptionextend"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="v" />
-    </LinearLayout>-->
+            android:layout_height="35dp"
+            android:background="@drawable/whitegradiant">
+
+            <Button
+                android:id="@+id/extenddesc"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="5dp"
+                android:background="@android:drawable/arrow_up_float"
+                android:gravity="right"
+                android:padding="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/abel"
+                android:gravity="left"
+                android:text="DESCRIPTION"
+                android:textSize="23sp" />
+
+        </RelativeLayout>
 
         <TextView
+            android:id="@+id/articledescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:text="@string/large_text" />
+            android:layout_margin="16dp"
+            android:text="-" />
+
+    </LinearLayout>
 
 
 </android.support.v4.widget.NestedScrollView>

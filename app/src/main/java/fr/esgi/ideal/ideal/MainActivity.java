@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 if(search.getVisibility() == View.VISIBLE){
                     InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 1);
 
                     animate = new TranslateAnimation(0,search.getWidth(),0,0);
                     animate.setDuration(500);
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity
                     search.startAnimation(animate);
                     searchword.requestFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 1);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
                     searchbarbut.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search_category_default,0,0,0);
                 }
             }
