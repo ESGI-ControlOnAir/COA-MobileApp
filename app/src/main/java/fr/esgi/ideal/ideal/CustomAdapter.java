@@ -107,13 +107,13 @@ public class CustomAdapter extends ArrayAdapter<objetEnVente> implements View.On
         viewHolder.image.setTag(position);
 
         ApiService service = new Retrofit.Builder()
-                .baseUrl("http://"+ MainActivity.URLServer)
+                .baseUrl("http://"+ MainActivity.URLServerImage)
                 .build()
                 .create(ApiService.class);
 
         ResponseBody body = null;
         try {
-            body = service.retrieveImageData(0).execute().body();
+            body = service.retrieveImageData("article",0).execute().body();
             byte[] bytes = new byte[0];
             try {
                 bytes = body.bytes();

@@ -48,6 +48,7 @@ public class ParamActivity extends AppCompatActivity {
                 // Sauvegarde pour utilisation utlérieur
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("URLServer",MainActivity.URLServer);
+                editor.putString("URLServerImage",MainActivity.URLServerImage);
                 editor.apply();
                 // Fermeture
                 finish();

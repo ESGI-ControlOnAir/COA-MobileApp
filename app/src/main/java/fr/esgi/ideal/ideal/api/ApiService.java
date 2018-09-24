@@ -56,8 +56,9 @@ public interface ApiService {
     @GET("/ad/{id}")
     Call<Ad> getAd(@Path("id") int ID);
 
-    @GET("/image/{id}/file")
-    Call<ResponseBody> retrieveImageData(@Path("id") int ID);
+    //@GET("/image/{id}/file")
+    @GET("/public/{type}-{id}.jpg")
+    Call<ResponseBody> retrieveImageData(@Path("type") String type, @Path("id") int ID);
 
     // OAUTH2
     @FormUrlEncoded
