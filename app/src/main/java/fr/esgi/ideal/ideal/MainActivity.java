@@ -249,7 +249,8 @@ public class MainActivity extends AppCompatActivity
 
         // Récupération de l'URL du serveur dans les paramètres si présent
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        URLServer = preferences.getString("URLServer", "10.33.1.60:8888");
+        URLServer = preferences.getString("URLServer", "10.33.1.60:18080");
+        URLServerImage = preferences.getString("URLServerImage", "10.33.1.60:8000");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -616,15 +617,15 @@ public class MainActivity extends AppCompatActivity
                     Price = randomValue;
                 }
 
-                /*ApiService service = new Retrofit.Builder()
-                        .baseUrl("http://"+ MainActivity.URLServer)
+                ApiService service2 = new Retrofit.Builder()
+                        .baseUrl("http://"+ MainActivity.URLServerImage)
                         .build()
-                        .create(ApiService.class);*/
+                        .create(ApiService.class);
 
                 ResponseBody body = null;
                 Bitmap imagedata = null;
                 try {
-                    body = service.retrieveImageData(0).execute().body();
+                    body = service2.retrieveImageData("article",0).execute().body();
                     byte[] bytes = new byte[0];
                     try {
                         bytes = body.bytes();
