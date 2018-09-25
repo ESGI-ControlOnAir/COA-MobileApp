@@ -113,15 +113,17 @@ public class CustomAdapter extends ArrayAdapter<objetEnVente> implements View.On
 
         ResponseBody body = null;
         try {
-            body = service.retrieveImageData("article",0).execute().body();
-            byte[] bytes = new byte[0];
-            try {
-                bytes = body.bytes();
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                viewHolder.image.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                Log.i("err","uka uka gros problemes");
-                e.printStackTrace();
+            body = service.retrieveImageData("article",position).execute().body();
+            if(body.contentLength() > 0){
+                byte[] bytes = new byte[0];
+                try {
+                    bytes = body.bytes();
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    viewHolder.image.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    Log.i("err","uka uka gros problemes");
+                    e.printStackTrace();
+                }
             }
         } catch (IOException e) {
             Log.i("err","uka uka ptititi problemes");

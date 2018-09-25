@@ -608,6 +608,11 @@ public class MainActivity extends AppCompatActivity
 
         dataModels = new ArrayList<>();
 
+        ApiService service2 = new Retrofit.Builder()
+                .baseUrl("http://"+ MainActivity.URLServerImage)
+                .build()
+                .create(ApiService.class);
+
         for (int z = 0; z < repos.size(); z++) {
             if( repos.get(z).getName().toLowerCase().contains(searchword.getText().toString().toLowerCase()) ) {
                 double Price = repos.get(z).getPrice();
@@ -617,25 +622,22 @@ public class MainActivity extends AppCompatActivity
                     Price = randomValue;
                 }
 
-                ApiService service2 = new Retrofit.Builder()
-                        .baseUrl("http://"+ MainActivity.URLServerImage)
-                        .build()
-                        .create(ApiService.class);
-
                 ResponseBody body = null;
                 Bitmap imagedata = null;
                 try {
-                    body = service2.retrieveImageData("article",0).execute().body();
-                    byte[] bytes = new byte[0];
-                    try {
-                        bytes = body.bytes();
-                        imagedata = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    } catch (IOException e) {
-                        Log.i("err","uka uka gros problemes");
-                        e.printStackTrace();
+                    body = service2.retrieveImageData("article",z).execute().body();
+                    if(body.contentLength() > 0) {
+                        byte[] bytes = new byte[0];
+                        try {
+                            bytes = body.bytes();
+                            imagedata = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        } catch (IOException e) {
+                            Log.i("err", "uka uka gros problemes");
+                            e.printStackTrace();
+                        }
                     }
                 } catch (IOException e) {
-                    Log.i("err","uka uka ptititi problemes");
+                    Log.i("err","PAS D'IMAGE OBJ NUM "+Integer.toString(z));
                     e.printStackTrace();
                 }
 
