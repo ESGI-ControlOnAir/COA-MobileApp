@@ -5,6 +5,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -69,7 +71,9 @@ public class LoginActivity extends AppCompatActivity  {
     private View mLoginFormView;
     private ProgressBar LoginProg;
     private Class classe;
+    protected ImageView bg;
     public static int classtogo = 0;
+    protected int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +170,8 @@ public class LoginActivity extends AppCompatActivity  {
                 finish();
             }
         });
+
+        handler.sendEmptyMessageDelayed(1, 150);
     }
 
     @Override
@@ -203,5 +209,17 @@ public class LoginActivity extends AppCompatActivity  {
         return password.length() > 4;
     }
 
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            i++;
+
+            bg.setScaleType(ImageView.ScaleType.MATRIX);
+            bg.setPadding(i * 6 +300, 0, i * 6, 0);
+            bg.invalidate(); // REDRAW
+
+            if( i > 30 ) i=0;
+        }
+    };
 }
 
