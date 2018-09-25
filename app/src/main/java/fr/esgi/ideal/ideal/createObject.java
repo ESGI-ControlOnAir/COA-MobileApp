@@ -1,11 +1,14 @@
 package fr.esgi.ideal.ideal;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +40,7 @@ public class createObject extends AppCompatActivity {
     TextView TITRE;
     TextView DESC;
     TextView PRIX;
+    ImageView articleprev;
     String picturePath;
 
     @Override
@@ -47,6 +51,7 @@ public class createObject extends AppCompatActivity {
         TITRE = findViewById(R.id.titleobjcreate);
         DESC = findViewById(R.id.desccreateobj);
         PRIX = findViewById(R.id.objcreateprice);
+        articleprev = findViewById(R.id.articlepreview);
 
         // Creation du compte
         final Button retour = (Button) findViewById(R.id.retourcreateobj);
@@ -62,11 +67,26 @@ public class createObject extends AppCompatActivity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                Log.i("img","1");
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
+                try {
+                    if (ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(createObject.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, RESULT_LOAD_IMAGE);
+                    } else {
+                        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(i, RESULT_LOAD_IMAGE);
+                    }
+
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
+                Log.i("img","2 GO");
             }
         });
 
@@ -86,8 +106,9 @@ public class createObject extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Log.i("img","3");
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Log.i("img","4");
             Uri selectedImage = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
@@ -99,8 +120,11 @@ public class createObject extends AppCompatActivity {
             picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            ImageView imageView = (ImageView) findViewById(R.id.imgView);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
+
+            articleprev.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
+            Log.i("img","6 "+picturePath);
 
         }
     }
