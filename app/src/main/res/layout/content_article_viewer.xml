@@ -23,12 +23,13 @@
 
             <Button
                 android:id="@+id/extenddesc"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_margin="5dp"
                 android:background="@android:drawable/arrow_up_float"
+                android:clickable="false"
                 android:gravity="right"
                 android:padding="5dp" />
 

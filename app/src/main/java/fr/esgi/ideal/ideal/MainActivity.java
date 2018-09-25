@@ -350,7 +350,7 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
-        search.setVisibility(View.GONE);
+        //search.setVisibility(View.GONE);
 
         Loadhandler = new Handler();
         Loadhandler.postDelayed(new Runnable() { // Affichage de la liste des objets vendu après connexion - TIMEOUT à des fins de test
@@ -596,7 +596,7 @@ public class MainActivity extends AppCompatActivity
                 lay_loading.setVisibility(View.INVISIBLE);
                 connexion.setVisibility(View.INVISIBLE);
                 loader.setVisibility(View.INVISIBLE);
-                search.setVisibility(View.VISIBLE);
+                //search.setVisibility(View.VISIBLE);
                 checkarticles.setEnabled(true);
                 ACCESS = true;
                 afficherArticles(repos);

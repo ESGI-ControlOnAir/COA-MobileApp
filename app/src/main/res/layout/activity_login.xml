@@ -12,6 +12,13 @@
     <!-- Login progress -->
 
 
+    <ImageView
+        android:id="@+id/connectbg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitEnd"
+        app:srcCompat="@drawable/connectbg" />
+
     <LinearLayout
         android:id="@+id/email_login_form"
         android:layout_width="0dp"
@@ -119,7 +126,7 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/buttonchange"
             android:drawableLeft="@drawable/regist"
-            android:text="S'enregistrer"
+            android:text="@string/register"
             android:textSize="18sp"
             tools:layout_editor_absoluteX="20dp"
             tools:layout_editor_absoluteY="334dp" />
@@ -133,9 +140,11 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/yelbutton"
+        android:alpha="0.8"
+        android:background="@drawable/buttonback"
         android:drawableLeft="@drawable/back"
         android:text="@string/back"
+        android:textColor="@android:color/background_light"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
