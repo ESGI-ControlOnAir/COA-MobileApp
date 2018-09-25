@@ -84,6 +84,7 @@ public class LoginActivity extends AppCompatActivity  {
         LoginProg = (ProgressBar) findViewById(R.id.LoginProg);
         mPasswordView = (EditText) findViewById(R.id.password);
         final Button createacc = (Button) findViewById(R.id.register_button);
+        bg = (ImageView) findViewById(R.id.connectbg);
 
         // Spinner : liste des methodes de cryptage pour le login
         Spinner spinner = findViewById(R.id.cryptmeth);
