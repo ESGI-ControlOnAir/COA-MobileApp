@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.jar.Attributes;
 
 import fr.esgi.ideal.ideal.MainActivity;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -13,6 +15,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -56,9 +59,17 @@ public interface ApiService {
     @GET("/ad/{id}")
     Call<Ad> getAd(@Path("id") int ID);
 
+    /* * * ImageServer * * */
+
     //@GET("/image/{id}/file")
     @GET("/public/{type}-{id}.jpg")
     Call<ResponseBody> retrieveImageData(@Path("type") String type, @Path("id") int ID);
+
+    /*@POST("/upload")
+    Call<ResponseBody> createImage(@Header("Authorization") String code, ImageAPI image);
+    */
+    @POST("/upload")
+    Call<ResponseBody> postImage(@Part("file") MultipartBody.Part image, @Part("filename") RequestBody name);
 
     // OAUTH2
     @FormUrlEncoded
