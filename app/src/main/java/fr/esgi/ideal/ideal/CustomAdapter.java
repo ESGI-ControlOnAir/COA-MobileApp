@@ -114,7 +114,7 @@ public class CustomAdapter extends ArrayAdapter<objetEnVente> implements View.On
         ResponseBody body = null;
         try {
             body = service.retrieveImageData("article",position).execute().body();
-            if(body.contentLength() > 0){
+            if(body != null){
                 byte[] bytes = new byte[0];
                 try {
                     bytes = body.bytes();

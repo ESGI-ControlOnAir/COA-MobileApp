@@ -626,7 +626,7 @@ public class MainActivity extends AppCompatActivity
                 Bitmap imagedata = null;
                 try {
                     body = service2.retrieveImageData("article",z).execute().body();
-                    if(body.contentLength() > 0) {
+                    if(body != null) {
                         byte[] bytes = new byte[0];
                         try {
                             bytes = body.bytes();
