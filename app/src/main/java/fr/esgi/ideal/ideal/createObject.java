@@ -79,7 +79,6 @@ public class createObject extends AppCompatActivity {
                         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(i, RESULT_LOAD_IMAGE);
                     }
-
                 }catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -147,7 +146,7 @@ public class createObject extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     try {
-                        System.out.println(response.body().string());
+                        System.out.println("REPONSE : "+response.body().string());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -157,6 +156,7 @@ public class createObject extends AppCompatActivity {
                     t.printStackTrace();
                 }
             });
+
             //IMAGE
             ApiService service2 = new Retrofit.Builder()
                     .baseUrl("http://"+ MainActivity.URLServerImage)
