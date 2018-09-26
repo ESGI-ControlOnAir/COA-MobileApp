@@ -125,12 +125,12 @@
         <ImageView
             android:id="@+id/articlepreview"
             android:layout_width="250dp"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/bgloading"
             android:foreground="@drawable/trending_gradient_shape"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:visibility="visible"></ImageView>
 
     </LinearLayout>
