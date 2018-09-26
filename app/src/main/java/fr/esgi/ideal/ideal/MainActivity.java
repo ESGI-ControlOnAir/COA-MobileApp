@@ -363,7 +363,7 @@ public class MainActivity extends AppCompatActivity
                     finish();
                 } else {
                     connexion.setText(getText(R.string.connecting)+"\n["+URLServer+"]");
-                    new ListReposTask().execute();
+                    new TryConnect.execute();
                 }
             }
         }, TIME_OUT_INTERNET);
@@ -562,7 +562,49 @@ public class MainActivity extends AppCompatActivity
         sortMode = 1;
     }
 
-    // Connexion au serveur et listage des objets dans /article
+    // Test connexion au serveur
+    class TryConnect extends AsyncTask<Void, Void, List<Article>>{
+
+        @Override
+        protected List<Article> doInBackground(Void...params) {
+            service = new Retrofit.Builder()
+                    .baseUrl("http://"+ MainActivity.URLServer)
+                    //convertie le json automatiquement
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                    .create(ApiService.class);
+            try {
+                repoList = service.
+            } catch (IOException e) {}
+
+            return repoList;
+        }
+
+        @Override
+        protected void onPostExecute(List<Article> repos) {
+            super.onPostExecute(repos);
+            if(repos == null){
+                connexion.setText(R.string.erreur_reception);
+                //repoList.clear();
+                //repos.clear();
+                return;
+            }
+            else {
+                // OK Connexion réussi
+                ImageView co = (ImageView) findViewById(R.id.etatco);
+                co.setImageResource(android.R.drawable.presence_online);
+                lay_loading.setVisibility(View.INVISIBLE);
+                connexion.setVisibility(View.INVISIBLE);
+                loader.setVisibility(View.INVISIBLE);
+                //search.setVisibility(View.VISIBLE);
+                checkarticles.setEnabled(true);
+                ACCESS = true;
+                afficherArticles(repos);
+            };
+        }
+    }
+
+    // listage des objets dans /article
     class ListReposTask extends AsyncTask<Void, Void, List<Article>>{
 
         @Override

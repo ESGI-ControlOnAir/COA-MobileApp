@@ -18,6 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -33,6 +36,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+import static java.lang.Thread.sleep;
 
 public class createObject extends AppCompatActivity {
 
@@ -83,7 +88,6 @@ public class createObject extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
                 Log.i("img","2 GO");
             }
@@ -119,8 +123,6 @@ public class createObject extends AppCompatActivity {
             picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-
-
             articleprev.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
             Log.i("img","6 "+picturePath);
@@ -146,7 +148,51 @@ public class createObject extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     try {
-                        System.out.println("REPONSE : "+response.body().string());
+                        String reponseart = response.body().string();
+                        Log.i("err","REPONSE : "+reponseart);
+                        if(response.body() != null){
+                            try {
+                                Log.i("err","try img");
+                                JSONObject jsonObject = new JSONObject( reponseart );
+                                int ObjectID = jsonObject.getInt("id");
+                                Log.i("err","article-"+Integer.toString(ObjectID));
+
+                                //IMAGE
+                                ApiService service2 = new Retrofit.Builder()
+                                        .baseUrl("http://"+ MainActivity.URLServerImage)
+                                        //convertie le json automatiquement
+                                        .addConverterFactory(ScalarsConverterFactory.create())
+                                        .addConverterFactory(GsonConverterFactory.create())
+                                        .build()
+                                        .create(ApiService.class);
+
+                                File file = new File(picturePath);
+
+                                RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+                                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
+                                //RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "article-"+Integer.toString(ObjectID));
+
+                                retrofit2.Call<okhttp3.ResponseBody> req = service2.postImage(body,"article-"+Integer.toString(ObjectID));
+                                req.enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) { }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                        t.printStackTrace();
+                                        Log.i("err","ERR upload image");
+                                    }
+                                });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        try {
+                            sleep(10000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -157,34 +203,7 @@ public class createObject extends AppCompatActivity {
                 }
             });
 
-            //IMAGE
-            ApiService service2 = new Retrofit.Builder()
-                    .baseUrl("http://"+ MainActivity.URLServerImage)
-                    //convertie le json automatiquement
-                    .addConverterFactory(ScalarsConverterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(ApiService.class);
-
-            File file = new File(picturePath);
-
-            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
-            RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
-
-            retrofit2.Call<okhttp3.ResponseBody> req = service2.postImage(body, name);
-            req.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) { }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    t.printStackTrace();
-                    Log.i("err","ERR upload image");
-                }
-            });
-
-            return null;
+            return article;
         }
     }
 }

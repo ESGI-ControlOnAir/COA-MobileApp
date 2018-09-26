@@ -26,6 +26,9 @@ import retrofit2.http.Query;
 public interface ApiService {
     public static final String ENDPOINT = "http://"+ MainActivity.URLServer;
 
+    @GET("/")
+    Call<ResponseBody> getInit();
+
     @GET("/article")
     Call<List<Article>> listArticles();
 
@@ -69,7 +72,7 @@ public interface ApiService {
     Call<ResponseBody> createImage(@Header("Authorization") String code, ImageAPI image);
     */
     @POST("/upload")
-    Call<ResponseBody> postImage(@Part("file") MultipartBody.Part image, @Part("filename") RequestBody name);
+    Call<ResponseBody> postImage(@Part("file") MultipartBody.Part image, @Part("filename") String name);
 
     // OAUTH2
     @FormUrlEncoded
