@@ -2,34 +2,22 @@ package fr.esgi.ideal.ideal;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.inputmethodservice.Keyboard;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.media.session.MediaSession;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -43,7 +31,6 @@ import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -53,26 +40,18 @@ import android.widget.TextView;
 import android.widget.RelativeLayout;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.security.AccessController;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import fr.esgi.ideal.ideal.api.ApiService;
 import fr.esgi.ideal.ideal.api.Article;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import android.util.Log;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import static android.view.View.GONE;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -363,7 +342,7 @@ public class MainActivity extends AppCompatActivity
                     finish();
                 } else {
                     connexion.setText(getText(R.string.connecting)+"\n["+URLServer+"]");
-                    new TryConnect.execute();
+                    new TryConnect().execute();
                 }
             }
         }, TIME_OUT_INTERNET);
@@ -563,25 +542,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     // Test connexion au serveur
-    class TryConnect extends AsyncTask<Void, Void, List<Article>>{
+    class TryConnect extends AsyncTask<Void, Void, Call<ResponseBody>>{
 
         @Override
-        protected List<Article> doInBackground(Void...params) {
+        protected Call<ResponseBody> doInBackground(Void...params) {
             service = new Retrofit.Builder()
                     .baseUrl("http://"+ MainActivity.URLServer)
                     //convertie le json automatiquement
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(ApiService.class);
-            try {
-                repoList = service.
-            } catch (IOException e) {}
-
-            return repoList;
+            Call<ResponseBody> r = null;
+            r = service.getInit();
+            return r;
         }
 
         @Override
-        protected void onPostExecute(List<Article> repos) {
+        protected void onPostExecute(Call<ResponseBody> repos) {
             super.onPostExecute(repos);
             if(repos == null){
                 connexion.setText(R.string.erreur_reception);
@@ -591,15 +568,12 @@ public class MainActivity extends AppCompatActivity
             }
             else {
                 // OK Connexion réussi
-                ImageView co = (ImageView) findViewById(R.id.etatco);
-                co.setImageResource(android.R.drawable.presence_online);
                 lay_loading.setVisibility(View.INVISIBLE);
                 connexion.setVisibility(View.INVISIBLE);
                 loader.setVisibility(View.INVISIBLE);
                 //search.setVisibility(View.VISIBLE);
                 checkarticles.setEnabled(true);
                 ACCESS = true;
-                afficherArticles(repos);
             };
         }
     }
@@ -633,8 +607,6 @@ public class MainActivity extends AppCompatActivity
             }
             else {
                 // OK Connexion réussi
-                ImageView co = (ImageView) findViewById(R.id.etatco);
-                co.setImageResource(android.R.drawable.presence_online);
                 lay_loading.setVisibility(View.INVISIBLE);
                 connexion.setVisibility(View.INVISIBLE);
                 loader.setVisibility(View.INVISIBLE);
