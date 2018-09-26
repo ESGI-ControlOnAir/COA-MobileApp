@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity
     Handler Loadhandler = null;
     int sortMode = 0;
     View view;
+    AsyncTask tache = null;
     public static ArrayList<objetEnVente> dataModels;
     private static CustomAdapter adapter;
     ApiService service = null;
@@ -129,7 +130,8 @@ public class MainActivity extends AppCompatActivity
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // ENTER = RECHERCHER
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    new ListReposTask().execute();
+
+                    //new ListReposTask().execute();
                     return true;
                 }
                 return false;
@@ -194,6 +196,7 @@ public class MainActivity extends AppCompatActivity
         checkarticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                tache = new ListReposTask().execute();
                 liste.setVisibility(View.VISIBLE);
                 lay2.setVisibility(View.INVISIBLE);
                 Intent myIntent = new Intent(MainActivity.this, Adpage.class);
@@ -342,7 +345,7 @@ public class MainActivity extends AppCompatActivity
                     finish();
                 } else {
                     connexion.setText(getText(R.string.connecting)+"\n["+URLServer+"]");
-                    new TryConnect().execute();
+                    tache = new TryConnect().execute();
                 }
             }
         }, TIME_OUT_INTERNET);

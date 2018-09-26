@@ -215,11 +215,20 @@ public class LoginActivity extends AppCompatActivity  {
         public void handleMessage(Message msg) {
             i++;
 
-            bg.setScaleType(ImageView.ScaleType.MATRIX);
-            bg.setPadding(i * 6 +300, 0, i * 6, 0);
-            bg.invalidate(); // REDRAW
 
-            if( i > 30 ) i=0;
+            if( i > 120 && i <= 240 ) {
+                bg.setScaleType(ImageView.ScaleType.MATRIX);
+                bg.setPadding((-968 + ((i-120)*8)), 0, 0, 0);
+                bg.invalidate(); // REDRAW
+            } else if( i>240 ) {
+                i = 0;
+            } else if( i <= 120 ) {
+                bg.setScaleType(ImageView.ScaleType.MATRIX);
+                bg.setPadding(-i * 8, 0, -i * 6, 0);
+                bg.invalidate(); // REDRAW
+            }
+
+            handler.sendEmptyMessageDelayed(1, 100);
         }
     };
 }

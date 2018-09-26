@@ -72,7 +72,7 @@ public interface ApiService {
     Call<ResponseBody> createImage(@Header("Authorization") String code, ImageAPI image);
     */
     @POST("/upload")
-    Call<ResponseBody> postImage(@Part("file") MultipartBody.Part image, @Part("filename") String name);
+    Call<ResponseBody> postImage(@Part("file") MultipartBody.Part image, @Body String name);
 
     // OAUTH2
     @FormUrlEncoded
