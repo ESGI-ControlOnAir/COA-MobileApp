@@ -7,7 +7,9 @@ import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,14 +17,35 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.RequestQueue;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.android.volley.Request;
+import com.google.gson.JsonObject;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 import fr.esgi.ideal.ideal.api.ApiService;
 import fr.esgi.ideal.ideal.api.Article;
@@ -32,7 +55,6 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -47,6 +69,7 @@ public class createObject extends AppCompatActivity {
     TextView PRIX;
     ImageView articleprev;
     String picturePath;
+    int ObjectID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,17 +90,17 @@ public class createObject extends AppCompatActivity {
             }
         });
 
-        // Creation objet
+        // ajout image
         final Button img = (Button) findViewById(R.id.buttonLoadPicture);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 Log.i("img","1");
+
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                try {
+                /*try {
                     if (ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(createObject.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, RESULT_LOAD_IMAGE);
                     } else {
@@ -86,7 +109,7 @@ public class createObject extends AppCompatActivity {
                     }
                 }catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
 
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
                 Log.i("img","2 GO");
@@ -98,10 +121,13 @@ public class createObject extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),
-                        R.string.addedprod,
-                        Toast.LENGTH_LONG).show();
+                LinearLayout lay = findViewById(R.id.bottomcreateobj);
+                lay.setVisibility(View.GONE);
+                ProgressBar pb = findViewById(R.id.progresscreateobj);
+                pb.setVisibility(View.VISIBLE);
+
                 new CreateObj().execute();
+                //new SendIMG().execute();
             }
         });
     }
@@ -146,19 +172,88 @@ public class createObject extends AppCompatActivity {
             Call<ResponseBody> call = service.createArticle(MainActivity.AccessToken, article);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                     try {
                         String reponseart = response.body().string();
                         Log.i("err","REPONSE : "+reponseart);
                         if(response.body() != null){
-                            try {
-                                Log.i("err","try img");
-                                JSONObject jsonObject = new JSONObject( reponseart );
-                                int ObjectID = jsonObject.getInt("id");
-                                Log.i("err","article-"+Integer.toString(ObjectID));
+                            //try {
+                            Log.i("err","try img");
 
+                            final RequestQueue queue = Volley.newRequestQueue(getBaseContext());
+                            String url = "http://"+MainActivity.URLServerImage+"/upload";
+                            Log.i("err","img URL:"+url);
+                            VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<NetworkResponse>() {
+                                @Override
+                                public void onResponse(NetworkResponse response) {
+                                    String resultResponse = new String(response.data);
+                                    Log.i("err","img result : "+resultResponse);
+                                    Toast.makeText(getApplicationContext(),
+                                            R.string.addedprod,
+                                            Toast.LENGTH_LONG).show();
+                                    finish();
+                                    // parse success output
+                                }
+                            }, new com.android.volley.Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.i("err","shhit doesntwork2");
+                                    if (error.networkResponse == null) {
+                                        if (error.getClass().equals(TimeoutError.class)) {
+                                            // Show timeout error message
+                                            Toast.makeText(getBaseContext(),
+                                                    "Oops. Timeout error!",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                    error.printStackTrace();
+                                }
+                            }) {
+                                @Override
+                                protected Map<String, String> getParams() {
+                                    Map<String, String> params = new HashMap<>();
+                                    params.put("filename", "article-"+Integer.toString(ObjectID));
+                                    return params;
+                                }
+
+                                @Override
+                                public Map<String, String> getHeaders() throws AuthFailureError {
+                                    Map<String, String> headers = new HashMap<String, String>();
+
+                                    headers.put("Content-Type", "application/multipart");
+
+                                    return headers;
+                                }
+
+                                @RequiresApi(api = Build.VERSION_CODES.O)
+                                @Override
+                                protected Map<String, DataPart> getByteData() {
+                                    Map<String, DataPart> params = new HashMap<>();
+                                    // file name could found file base or direct access from real path
+                                    // for now just get bitmap data from ImageView
+                                    File file = new File(picturePath);
+                                    try {
+                                        params.put("file", new DataPart(file.getName(), Files.readAllBytes(file.toPath()), "*/*"));
+                                    } catch (IOException e) {
+                                        Log.i("err","shhit doesntwork");
+                                        e.printStackTrace();
+                                    }
+
+                                    return params;
+                                }
+                            };
+                            multipartRequest.setRetryPolicy(new DefaultRetryPolicy(10000 * 60, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                            queue.add(multipartRequest);
+                            //VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
+
+                            /*try {
+                                sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }*/
                                 //IMAGE
-                                ApiService service2 = new Retrofit.Builder()
+                                /*ApiService service2 = new Retrofit.Builder()
                                         .baseUrl("http://"+ MainActivity.URLServerImage)
                                         //convertie le json automatiquement
                                         .addConverterFactory(ScalarsConverterFactory.create())
@@ -168,37 +263,44 @@ public class createObject extends AppCompatActivity {
 
                                 File file = new File(picturePath);
 
-                                RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+                                RequestBody reqFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                                 MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
-                                //RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "article-"+Integer.toString(ObjectID));
+                                RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), "article-"+Integer.toString(ObjectID));
 
-                                retrofit2.Call<okhttp3.ResponseBody> req = service2.postImage(body,"article-"+Integer.toString(ObjectID));
-                                req.enqueue(new Callback<ResponseBody>() {
+                                Log.d("err", "7");
+                                Call<ResponseBody> req = service2.postImage(body,filename);
+                                Log.d("err", "8");
+                                req.execute();
+                                Log.d("err", "9");
+
+                                /*req.enqueue(new Callback<ResponseBody>() {
                                     @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) { }
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        Log.d("err", "Reached this place");
+                                    }
 
                                     @Override
                                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                                         t.printStackTrace();
                                         Log.i("err","ERR upload image");
                                     }
-                                });
-                            } catch (JSONException e) {
+                                });*/
+                            /*} catch (JSONException e) {
                                 e.printStackTrace();
-                            }
+                                Log.d("err", "10");
+                            }*/
                         }
 
-                        try {
-                            sleep(10000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+
                     } catch (IOException e) {
+                        Log.i("err","shit3");
                         e.printStackTrace();
+
                     }
                 }
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.i("err","shit2");
                     t.printStackTrace();
                 }
             });
@@ -206,4 +308,41 @@ public class createObject extends AppCompatActivity {
             return article;
         }
     }
+
+    /*class SendIMG extends AsyncTask<Void, Void, Call<ResponseBody>>{
+
+        @Override
+        protected Call<ResponseBody> doInBackground(Void...params) {
+            ApiService service2 = new Retrofit.Builder()
+                    .baseUrl("http://"+ MainActivity.URLServer)
+                    //convertie le json automatiquement
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                    .create(ApiService.class);
+
+            File file = new File(picturePath);
+
+            RequestBody reqFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
+            RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), "article-"+Integer.toString(3));
+
+            Call<ResponseBody> r = null;
+            r = service2.postImage(body,filename);
+            return r;
+        }
+
+        @Override
+        protected void onPostExecute(Call<ResponseBody> repos) {
+            super.onPostExecute(repos);
+            if(repos == null){
+                Log.i("err","shit");
+                return;
+            }
+            else {
+                // OK Connexion réussi
+                Log.i("err","ok");
+            };
+        }
+    }*/
+
 }
