@@ -181,6 +181,18 @@ public class createObject extends AppCompatActivity {
                         if(response.body() != null){
                             //try {
                             Log.i("err","try img");
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(reponseart);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                ObjectID = json.getInt("id");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
 
                             final RequestQueue queue = Volley.newRequestQueue(getBaseContext());
                             String url = "http://"+MainActivity.URLServerImage+"/upload";
@@ -215,16 +227,8 @@ public class createObject extends AppCompatActivity {
                                 protected Map<String, String> getParams() {
                                     Map<String, String> params = new HashMap<>();
                                     params.put("filename", "article-"+Integer.toString(ObjectID));
+                                    Log.i("err","article-"+Integer.toString(ObjectID));
                                     return params;
-                                }
-
-                                @Override
-                                public Map<String, String> getHeaders() throws AuthFailureError {
-                                    Map<String, String> headers = new HashMap<String, String>();
-
-                                    //headers.put("Content-Type", "application/multipart");
-
-                                    return headers;
                                 }
 
                                 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -252,7 +256,7 @@ public class createObject extends AppCompatActivity {
                                     }
 
                                     //try {
-                                        params.put("file", new DataPart(imagefile.filename(), bytes, "*/*"));
+                                        params.put("file", new DataPart("article-"+Integer.toString(ObjectID), bytes, "*/*"));
                                     /*} catch (IOException e) {
                                         e.printStackTrace();
                                     }*/

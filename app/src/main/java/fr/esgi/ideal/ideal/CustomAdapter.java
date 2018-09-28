@@ -58,7 +58,7 @@ public class CustomAdapter extends ArrayAdapter<objetEnVente> implements View.On
         switch (v.getId())
         {
             case R.id.row_item_image:
-                Snackbar.make(v, "Release date " +objetEnVente.getImage(), Snackbar.LENGTH_LONG)
+                Snackbar.make(v, "ARTICLE ID : "+position, Snackbar.LENGTH_LONG)
                         .setAction("No action", null).show();
                 break;
         }
