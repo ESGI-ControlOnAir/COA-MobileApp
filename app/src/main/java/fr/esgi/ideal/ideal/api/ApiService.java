@@ -14,6 +14,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
@@ -71,8 +72,14 @@ public interface ApiService {
     /*@POST("/upload")
     Call<ResponseBody> createImage(@Header("Authorization") String code, ImageAPI image);
     */
+
+    /*@Multipart
     @POST("/upload")
-    Call<ResponseBody> postImage(@Part("file") MultipartBody.Part image, @Body String name);
+    Call<ResponseBody> postImage(@Part("file") MultipartBody.Part image, @Body String filename);*/
+
+    @Multipart
+    @POST("/upload")
+    Call<ResponseBody> postImage( @Part MultipartBody.Part file, @Body RequestBody filename);
 
     // OAUTH2
     @FormUrlEncoded
