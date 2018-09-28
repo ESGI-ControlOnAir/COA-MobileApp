@@ -181,6 +181,18 @@ public class createObject extends AppCompatActivity {
                         if(response.body() != null){
                             //try {
                             Log.i("err","try img");
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(reponseart);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                ObjectID = json.getInt("id");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
 
                             final RequestQueue queue = Volley.newRequestQueue(getBaseContext());
                             String url = "http://"+MainActivity.URLServerImage+"/upload";
