@@ -40,10 +40,12 @@ import com.android.volley.Request;
 import com.google.gson.JsonObject;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,7 +102,7 @@ public class createObject extends AppCompatActivity {
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                /*try {
+                try {
                     if (ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(createObject.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, RESULT_LOAD_IMAGE);
                     } else {
@@ -109,7 +111,7 @@ public class createObject extends AppCompatActivity {
                     }
                 }catch (Exception e) {
                     e.printStackTrace();
-                }*/
+                }
 
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
                 Log.i("img","2 GO");
@@ -220,7 +222,7 @@ public class createObject extends AppCompatActivity {
                                 public Map<String, String> getHeaders() throws AuthFailureError {
                                     Map<String, String> headers = new HashMap<String, String>();
 
-                                    headers.put("Content-Type", "application/multipart");
+                                    //headers.put("Content-Type", "application/multipart");
 
                                     return headers;
                                 }
@@ -232,17 +234,34 @@ public class createObject extends AppCompatActivity {
                                     // file name could found file base or direct access from real path
                                     // for now just get bitmap data from ImageView
                                     File file = new File(picturePath);
+
+                                    Filename imagefile = new Filename(picturePath, '/', '.');
+
+                                    int size = (int) file.length();
+                                    byte[] bytes = new byte[size];
                                     try {
-                                        params.put("file", new DataPart(file.getName(), Files.readAllBytes(file.toPath()), "*/*"));
+                                        BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+                                        buf.read(bytes, 0, bytes.length);
+                                        buf.close();
+                                    } catch (FileNotFoundException e) {
+                                        // TODO Auto-generated catch block
+                                        e.printStackTrace();
                                     } catch (IOException e) {
-                                        Log.i("err","shhit doesntwork");
+                                        // TODO Auto-generated catch block
                                         e.printStackTrace();
                                     }
+
+                                    //try {
+                                        params.put("file", new DataPart(imagefile.filename(), bytes, "*/*"));
+                                    /*} catch (IOException e) {
+                                        e.printStackTrace();
+                                    }*/
+
 
                                     return params;
                                 }
                             };
-                            multipartRequest.setRetryPolicy(new DefaultRetryPolicy(10000 * 60, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                            multipartRequest.setRetryPolicy(new DefaultRetryPolicy(100000 * 60, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                             queue.add(multipartRequest);
                             //VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
@@ -345,4 +364,31 @@ public class createObject extends AppCompatActivity {
         }
     }*/
 
+}
+
+class Filename {
+    private String fullPath;
+    private char pathSeparator, extensionSeparator;
+
+    public Filename(String str, char sep, char ext) {
+        fullPath = str;
+        pathSeparator = sep;
+        extensionSeparator = ext;
+    }
+
+    public String extension() {
+        int dot = fullPath.lastIndexOf(extensionSeparator);
+        return fullPath.substring(dot + 1);
+    }
+
+    public String filename() { // gets filename without extension
+        int dot = fullPath.lastIndexOf(extensionSeparator);
+        int sep = fullPath.lastIndexOf(pathSeparator);
+        return fullPath.substring(sep + 1, dot);
+    }
+
+    public String path() {
+        int sep = fullPath.lastIndexOf(pathSeparator);
+        return fullPath.substring(0, sep);
+    }
 }
