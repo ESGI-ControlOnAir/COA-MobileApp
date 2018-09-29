@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity
                 // ENTER = RECHERCHER
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
                     stophandler = true;
+                    showall = false;
                     new ListReposTask().execute();
                     return true;
                 }
@@ -202,6 +203,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 stophandler = true;
+                showall = false;
                 liste.setVisibility(View.VISIBLE);
                 lay2.setVisibility(View.INVISIBLE);
                 Intent myIntent = new Intent(MainActivity.this, Adpage.class);
@@ -220,6 +222,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 stophandler = true;
+                showall = false;
                 tache = new ListReposTask().execute();
                 liste.setVisibility(View.VISIBLE);
                 lay2.setVisibility(View.INVISIBLE);
@@ -502,6 +505,8 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) { // SELECTION MENU GAUCHE
@@ -664,6 +669,7 @@ public class MainActivity extends AppCompatActivity
         int size = repos.size();
         int limit = size;
 
+
         if(showall ==false && size > 12) {
             limit = 12;
             liste.addFooterView(footerView);
@@ -671,7 +677,7 @@ public class MainActivity extends AppCompatActivity
             numrestant.setText(Integer.toString(size-12));
         }
 
-        for (int z = 0; z < limit; z++) {
+        for (int z = 0,results=0; results < limit && z < size; z++) {
             if( repos.get(z).getName().toLowerCase().contains(searchword.getText().toString().toLowerCase()) ) {
                 double Price = repos.get(z).getPrice();
                 Random r = new Random();
@@ -700,6 +706,7 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 dataModels.add(new objetEnVente(repos.get(z).getName(), repos.get(z).getDescription(), String.format("%.2f",Price), Integer.toString(repos.get(z).getLike()), imagedata));
+                results++;
             }
         }
 
