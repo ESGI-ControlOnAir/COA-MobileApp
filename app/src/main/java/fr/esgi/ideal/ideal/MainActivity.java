@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity
     ApiService service = null;
     View footerView = null;
     TranslateAnimation animate = null;
+    RelativeLayout morearticle = null;
+    ProgressBar pb = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,12 +145,17 @@ public class MainActivity extends AppCompatActivity
         });
 
         footerView = getLayoutInflater().inflate(R.layout.bottomlist, null);
-        RelativeLayout morearticle = footerView.findViewById(R.id.morearticle);
+        morearticle = footerView.findViewById(R.id.morearticle);
+        pb = footerView.findViewById(R.id.progressBarmorearticle);
+        pb.setVisibility(View.GONE);
+        morearticle.setVisibility(View.VISIBLE);
         morearticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 stophandler = true;
                 showall = true;
+                pb.setVisibility(View.VISIBLE);
+                morearticle.setVisibility(View.GONE);
                 tache = new ListReposTask().execute();
             }
         });
@@ -387,6 +394,8 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
+        pb.setVisibility(View.GONE);
+        morearticle.setVisibility(View.VISIBLE);
         Menu menu = navigationView.getMenu();
         MenuItem conmenu = menu.findItem(R.id.connectedmenu);
         MenuItem unconmenu = menu.findItem(R.id.unconnectedmenu);
