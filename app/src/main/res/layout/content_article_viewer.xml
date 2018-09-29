@@ -24,13 +24,15 @@
             <Button
                 android:id="@+id/extenddesc"
                 android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_margin="5dp"
                 android:background="@android:drawable/arrow_up_float"
                 android:clickable="false"
                 android:gravity="right"
+                android:linksClickable="false"
+                android:longClickable="false"
                 android:padding="5dp" />
 
             <TextView

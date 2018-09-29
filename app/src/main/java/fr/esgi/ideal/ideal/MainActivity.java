@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
         fleche1txt = (TextView) findViewById(R.id.fleche1txt);
         Fleche2 = (ImageView) findViewById(R.id.checkit2);
         fleche2txt = (TextView) findViewById(R.id.fleche2txt);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbarviewer);
         final ProgressBar chargement = (ProgressBar) findViewById(R.id.progressBar);
         connexion = (TextView) findViewById(R.id.connexion);
         liste = (ListView) findViewById(R.id.liste);

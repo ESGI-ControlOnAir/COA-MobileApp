@@ -1,6 +1,5 @@
 package fr.esgi.ideal.ideal;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,12 +7,12 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class ArticleViewer extends AppCompatActivity {
@@ -46,14 +45,21 @@ public class ArticleViewer extends AppCompatActivity {
             }
         });
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarviewer);
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         toolbar.setTitle(MainActivity.dataModels.get(ObjectID).nom);
         toolbar.setTitleTextColor(0);
         //toolbar.setTitleTextAppearance(getApplicationContext(),R.style.AppTheme);
         setSupportActionBar(toolbar);
 
         //collapsingToolbarLayout.setTitleEnabled(false);
-        final Toolbar tooolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar tooolbar = (Toolbar) findViewById(R.id.toolbarviewer);
 
         final NestedScrollView mScrollView = (NestedScrollView) findViewById(R.id.scrollarticle);
         mScrollView.post(new Runnable(){
@@ -85,5 +91,15 @@ public class ArticleViewer extends AppCompatActivity {
 
     public static void setObjectID(int ID_Article){
         ObjectID = ID_Article;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

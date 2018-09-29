@@ -98,6 +98,7 @@ public class createObject extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 Log.i("img","1");
+                articleprev.setVisibility(View.VISIBLE);
 
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
