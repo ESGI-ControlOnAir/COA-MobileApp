@@ -47,7 +47,7 @@
             android:layout_gravity="bottom|end"
             android:fontFamily="sans-serif-smallcaps"
             android:padding="3dp"
-            android:text="Copyrights ©IDEAL PROJECT"
+            android:text="Copyrights ©IDEAL PROJECT V2.01b"
             android:textAllCaps="true"
             android:textSize="10sp" />
 

@@ -25,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity
     RelativeLayout lay_loading, lay2;
     ProgressBar loader;
     List<Article> repoList = null;
+    Boolean showall = false;
     Button checkarticles, gosearch, connexiontop, comptetop, regbutton, searchbarbut;
     ConstraintLayout search;
     TextView searchword;
@@ -81,11 +84,16 @@ public class MainActivity extends AppCompatActivity
     Handler Loadhandler = null;
     int sortMode = 0;
     View view;
+    Boolean stophandler = false;
     AsyncTask tache = null;
     public static ArrayList<objetEnVente> dataModels;
     private static CustomAdapter adapter;
     ApiService service = null;
+    View footerView = null;
     TranslateAnimation animate = null;
+    RelativeLayout morearticle = null;
+    LinearLayout moreatic = null;
+    ProgressBar pb = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,11 +138,37 @@ public class MainActivity extends AppCompatActivity
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // ENTER = RECHERCHER
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
-
-                    //new ListReposTask().execute();
-                    return true;
+                    stophandler = true;
+                    showall = false;
+                    liste.setVisibility(View.VISIBLE);
+                    lay2.setVisibility(View.INVISIBLE);
+                    tache = new ListReposTask().execute();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+                    Fleche1.setVisibility(View.GONE);
+                    Fleche2.setVisibility(View.GONE);
+                    fleche1txt.setVisibility(View.GONE);
+                    fleche2txt.setVisibility(View.GONE);
+                    //return true;
                 }
                 return false;
+            }
+        });
+
+        footerView = getLayoutInflater().inflate(R.layout.bottomlist, null);
+        morearticle = footerView.findViewById(R.id.morearticle);
+        moreatic = footerView.findViewById(R.id.linearmorearticle);
+        pb = footerView.findViewById(R.id.progressBarmorearticle);
+        pb.setVisibility(View.GONE);
+        morearticle.setVisibility(View.VISIBLE);
+        morearticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stophandler = true;
+                showall = true;
+                pb.setVisibility(View.VISIBLE);
+                moreatic.setVisibility(View.GONE);
+                tache = new ListReposTask().execute();
             }
         });
 
@@ -179,10 +213,12 @@ public class MainActivity extends AppCompatActivity
         gosearch.setOnClickListener(new View.OnClickListener() { // VALIDATION PAR LE BOUTON "GO"
             @Override
             public void onClick(View v) {
+                stophandler = true;
+                showall = false;
                 liste.setVisibility(View.VISIBLE);
                 lay2.setVisibility(View.INVISIBLE);
-                Intent myIntent = new Intent(MainActivity.this, Adpage.class);
-                MainActivity.this.startActivity(myIntent);
+                /*Intent myIntent = new Intent(MainActivity.this, Adpage.class);
+                MainActivity.this.startActivity(myIntent);*/
                 new ListReposTask().execute();
                 Fleche1.setVisibility(View.GONE);
                 Fleche2.setVisibility(View.GONE);
@@ -196,6 +232,8 @@ public class MainActivity extends AppCompatActivity
         checkarticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                stophandler = true;
+                showall = false;
                 tache = new ListReposTask().execute();
                 liste.setVisibility(View.VISIBLE);
                 lay2.setVisibility(View.INVISIBLE);
@@ -323,7 +361,7 @@ public class MainActivity extends AppCompatActivity
                 j = 0; i = 0;
             }
 
-            handler.sendEmptyMessageDelayed(1, 40);
+            if(!stophandler)handler.sendEmptyMessageDelayed(1, 40);
         }
     };
 
@@ -401,6 +439,9 @@ public class MainActivity extends AppCompatActivity
             Fleche1.setVisibility(View.GONE);
             Fleche2.setVisibility(View.GONE);
         }
+
+        stophandler = false;
+        handler.sendEmptyMessageDelayed(1, 150);
     }
 
     private void isauth() {
@@ -473,10 +514,14 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) { // SELECTION MENU GAUCHE
         int id = item.getItemId();
+
+        stophandler = true;
 
         if( !ACCESS ) {
             Toast.makeText(getApplicationContext(),
@@ -622,6 +667,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     void afficherArticles(List<Article> repos){
+        pb.setVisibility(View.GONE);
+        moreatic.setVisibility(View.VISIBLE);
 
         dataModels = new ArrayList<>();
 
@@ -630,8 +677,23 @@ public class MainActivity extends AppCompatActivity
                 .build()
                 .create(ApiService.class);
 
-        for (int z = 0; z < repos.size(); z++) {
+        int size = repos.size();
+        int limit = size;
+
+        if(showall == false){
+            limit = 12;
+        }
+
+        int results=0;
+        for (int z = 0; z < size; z++) {
             if( repos.get(z).getName().toLowerCase().contains(searchword.getText().toString().toLowerCase()) ) {
+                results++;
+                if(results > limit){
+                    liste.addFooterView(footerView);
+                    TextView numrestant = footerView.findViewById(R.id.otheraticlesnum);
+                    numrestant.setText(Integer.toString(size-12));
+                    break;
+                }
                 double Price = repos.get(z).getPrice();
                 Random r = new Random();
                 double randomValue = 10 + (30 - 10) * r.nextDouble();
@@ -661,6 +723,7 @@ public class MainActivity extends AppCompatActivity
                 dataModels.add(new objetEnVente(repos.get(z).getName(), repos.get(z).getDescription(), String.format("%.2f",Price), Integer.toString(repos.get(z).getLike()), imagedata));
             }
         }
+        showall = false;
 
         if(repos.size()==0){
             Toast.makeText(getApplicationContext(),
@@ -676,6 +739,7 @@ public class MainActivity extends AppCompatActivity
         adapter = new CustomAdapter(dataModels, getApplicationContext());
 
         if(adapter != null) liste.setAdapter(adapter);
+
     }
 
     // Fonction générique de detection d'un accès internet existant
