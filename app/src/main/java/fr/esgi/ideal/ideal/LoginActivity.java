@@ -228,7 +228,7 @@ public class LoginActivity extends AppCompatActivity  {
                 bg.invalidate(); // REDRAW
             }
 
-            handler.sendEmptyMessageDelayed(1, 100);
+            handler.sendEmptyMessageDelayed(1, 70);
         }
     };
 }
