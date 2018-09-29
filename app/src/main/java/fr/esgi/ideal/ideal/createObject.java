@@ -84,13 +84,13 @@ public class createObject extends AppCompatActivity {
         articleprev = findViewById(R.id.articlepreview);
 
         // Creation du compte
-        final Button retour = (Button) findViewById(R.id.retourcreateobj);
+        /*final Button retour = (Button) findViewById(R.id.retourcreateobj);
         retour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
-        });
+        });*/
 
         // ajout image
         final Button img = (Button) findViewById(R.id.buttonLoadPicture);

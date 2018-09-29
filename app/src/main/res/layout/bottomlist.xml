@@ -18,7 +18,18 @@
         android:gravity="center"
         android:visibility="visible">
 
+        <ProgressBar
+            android:id="@+id/progressBarmorearticle"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal|center"
+            android:layout_weight="1"
+            android:foregroundGravity="fill_horizontal|center"
+            android:visibility="gone" />
+
         <LinearLayout
+            android:id="@+id/linearmorearticle"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:orientation="horizontal">
@@ -61,13 +72,5 @@
 
         </LinearLayout>
     </RelativeLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBarmorearticle"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:visibility="gone" />
 
 </LinearLayout>

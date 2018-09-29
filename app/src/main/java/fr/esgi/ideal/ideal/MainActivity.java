@@ -35,6 +35,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity
     View footerView = null;
     TranslateAnimation animate = null;
     RelativeLayout morearticle = null;
+    LinearLayout moreatic = null;
     ProgressBar pb = null;
 
     @Override
@@ -138,8 +140,16 @@ public class MainActivity extends AppCompatActivity
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
                     stophandler = true;
                     showall = false;
-                    new ListReposTask().execute();
-                    return true;
+                    liste.setVisibility(View.VISIBLE);
+                    lay2.setVisibility(View.INVISIBLE);
+                    tache = new ListReposTask().execute();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+                    Fleche1.setVisibility(View.GONE);
+                    Fleche2.setVisibility(View.GONE);
+                    fleche1txt.setVisibility(View.GONE);
+                    fleche2txt.setVisibility(View.GONE);
+                    //return true;
                 }
                 return false;
             }
@@ -147,6 +157,7 @@ public class MainActivity extends AppCompatActivity
 
         footerView = getLayoutInflater().inflate(R.layout.bottomlist, null);
         morearticle = footerView.findViewById(R.id.morearticle);
+        moreatic = footerView.findViewById(R.id.linearmorearticle);
         pb = footerView.findViewById(R.id.progressBarmorearticle);
         pb.setVisibility(View.GONE);
         morearticle.setVisibility(View.VISIBLE);
@@ -156,7 +167,7 @@ public class MainActivity extends AppCompatActivity
                 stophandler = true;
                 showall = true;
                 pb.setVisibility(View.VISIBLE);
-                morearticle.setVisibility(View.GONE);
+                moreatic.setVisibility(View.GONE);
                 tache = new ListReposTask().execute();
             }
         });
@@ -206,8 +217,8 @@ public class MainActivity extends AppCompatActivity
                 showall = false;
                 liste.setVisibility(View.VISIBLE);
                 lay2.setVisibility(View.INVISIBLE);
-                Intent myIntent = new Intent(MainActivity.this, Adpage.class);
-                MainActivity.this.startActivity(myIntent);
+                /*Intent myIntent = new Intent(MainActivity.this, Adpage.class);
+                MainActivity.this.startActivity(myIntent);*/
                 new ListReposTask().execute();
                 Fleche1.setVisibility(View.GONE);
                 Fleche2.setVisibility(View.GONE);
@@ -397,8 +408,6 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
-        pb.setVisibility(View.GONE);
-        morearticle.setVisibility(View.VISIBLE);
         Menu menu = navigationView.getMenu();
         MenuItem conmenu = menu.findItem(R.id.connectedmenu);
         MenuItem unconmenu = menu.findItem(R.id.unconnectedmenu);
@@ -658,6 +667,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     void afficherArticles(List<Article> repos){
+        pb.setVisibility(View.GONE);
+        moreatic.setVisibility(View.VISIBLE);
 
         dataModels = new ArrayList<>();
 
@@ -669,16 +680,20 @@ public class MainActivity extends AppCompatActivity
         int size = repos.size();
         int limit = size;
 
-
-        if(showall ==false && size > 12) {
+        if(showall == false){
             limit = 12;
-            liste.addFooterView(footerView);
-            TextView numrestant = footerView.findViewById(R.id.otheraticlesnum);
-            numrestant.setText(Integer.toString(size-12));
         }
 
-        for (int z = 0,results=0; results < limit && z < size; z++) {
+        int results=0;
+        for (int z = 0; z < size; z++) {
             if( repos.get(z).getName().toLowerCase().contains(searchword.getText().toString().toLowerCase()) ) {
+                results++;
+                if(results > limit){
+                    liste.addFooterView(footerView);
+                    TextView numrestant = footerView.findViewById(R.id.otheraticlesnum);
+                    numrestant.setText(Integer.toString(size-12));
+                    break;
+                }
                 double Price = repos.get(z).getPrice();
                 Random r = new Random();
                 double randomValue = 10 + (30 - 10) * r.nextDouble();
@@ -706,10 +721,8 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 dataModels.add(new objetEnVente(repos.get(z).getName(), repos.get(z).getDescription(), String.format("%.2f",Price), Integer.toString(repos.get(z).getLike()), imagedata));
-                results++;
             }
         }
-
         showall = false;
 
         if(repos.size()==0){
