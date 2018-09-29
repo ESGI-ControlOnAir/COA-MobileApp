@@ -45,6 +45,60 @@ public class ArticleViewer extends AppCompatActivity {
             }
         });
 
+        // Prix
+        final RelativeLayout prixextend = (RelativeLayout) findViewById(R.id.articleprixextend);
+        final Button prixextendicon = (Button) findViewById(R.id.extendprix);
+        final TextView prixedit = (TextView) findViewById(R.id.articleprix);
+        prixedit.setText(MainActivity.dataModels.get(ObjectID).prix);
+        prixextend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( prixedit.getVisibility() == View.GONE ){
+                    prixextendicon.setBackgroundResource(android.R.drawable.arrow_down_float);
+                    prixedit.setVisibility(View.VISIBLE);
+                } else {
+                    prixextendicon.setBackgroundResource(android.R.drawable.arrow_up_float);
+                    prixedit.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        // Likes
+        final RelativeLayout likesextend = (RelativeLayout) findViewById(R.id.articlelikesextend);
+        final Button likesextendicon = (Button) findViewById(R.id.extendlikes);
+        final TextView likesedit = (TextView) findViewById(R.id.articlelikes);
+        likesedit.setText(MainActivity.dataModels.get(ObjectID).like);
+        likesextend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( likesedit.getVisibility() == View.GONE ){
+                    likesextendicon.setBackgroundResource(android.R.drawable.arrow_down_float);
+                    likesedit.setVisibility(View.VISIBLE);
+                } else {
+                    likesextendicon.setBackgroundResource(android.R.drawable.arrow_up_float);
+                    likesedit.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        // fav
+        final RelativeLayout favextend = (RelativeLayout) findViewById(R.id.articlefavextend);
+        final Button favextendicon = (Button) findViewById(R.id.extendfav);
+        final TextView favedit = (TextView) findViewById(R.id.articlefav);
+        favedit.setText("0");
+        favextend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( favedit.getVisibility() == View.GONE ){
+                    favextendicon.setBackgroundResource(android.R.drawable.arrow_down_float);
+                    favedit.setVisibility(View.VISIBLE);
+                } else {
+                    favextendicon.setBackgroundResource(android.R.drawable.arrow_up_float);
+                    favedit.setVisibility(View.GONE);
+                }
+            }
+        });
+
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarviewer);
 
         // add back arrow to toolbar
