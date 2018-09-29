@@ -99,21 +99,24 @@ public class CustomAdapter extends ArrayAdapter<objetEnVente> implements View.On
         result.startAnimation(animation);
         lastPosition = position;
 
+        Log.i("err","article : "+position+" NOM "+objetEnVente.getName());
+
         viewHolder.txtNom.setText(objetEnVente.getName());
         viewHolder.txtDesc.setText(objetEnVente.getDescription());
         viewHolder.txtPrix.setText(objetEnVente.getPrix());
         viewHolder.txtLike.setText(objetEnVente.getLike());
         viewHolder.image.setOnClickListener(this);
         viewHolder.image.setTag(position);
+        viewHolder.image.setImageBitmap(objetEnVente.image);
 
-        ApiService service = new Retrofit.Builder()
+        /*ApiService service = new Retrofit.Builder()
                 .baseUrl("http://"+ MainActivity.URLServerImage)
                 .build()
                 .create(ApiService.class);
 
         ResponseBody body = null;
         try {
-            body = service.retrieveImageData("article",position).execute().body();
+            body = service.retrieveImageData("article", position).execute().body();
             if(body != null){
                 byte[] bytes = new byte[0];
                 try {
@@ -128,7 +131,7 @@ public class CustomAdapter extends ArrayAdapter<objetEnVente> implements View.On
         } catch (IOException e) {
             Log.i("err","uka uka ptititi problemes");
             e.printStackTrace();
-        }
+        }*/
 
         return convertView;
     }
