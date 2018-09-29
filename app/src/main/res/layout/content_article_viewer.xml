@@ -83,10 +83,17 @@
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/abel"
                 android:gravity="left"
-                android:text="@string/price"
+                android:text="@string/prixx"
                 android:textSize="23sp" />
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/articleprix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="-" />
 
         <RelativeLayout
             android:id="@+id/articlelikesextend"
@@ -121,6 +128,13 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/articlelikes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="-" />
+
         <RelativeLayout
             android:id="@+id/articlefavextend"
             android:layout_width="match_parent"
@@ -153,6 +167,13 @@
                 android:textSize="23sp" />
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/articlefav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="-" />
 
     </LinearLayout>
 
