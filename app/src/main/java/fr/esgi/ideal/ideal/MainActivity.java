@@ -25,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity
     RelativeLayout lay_loading, lay2;
     ProgressBar loader;
     List<Article> repoList = null;
+    Boolean showall = false;
     Button checkarticles, gosearch, connexiontop, comptetop, regbutton, searchbarbut;
     ConstraintLayout search;
     TextView searchword;
@@ -81,10 +83,12 @@ public class MainActivity extends AppCompatActivity
     Handler Loadhandler = null;
     int sortMode = 0;
     View view;
+    Boolean stophandler = false;
     AsyncTask tache = null;
     public static ArrayList<objetEnVente> dataModels;
     private static CustomAdapter adapter;
     ApiService service = null;
+    View footerView = null;
     TranslateAnimation animate = null;
 
     @Override
@@ -130,11 +134,22 @@ public class MainActivity extends AppCompatActivity
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // ENTER = RECHERCHER
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
-
-                    //new ListReposTask().execute();
+                    stophandler = true;
+                    new ListReposTask().execute();
                     return true;
                 }
                 return false;
+            }
+        });
+
+        footerView = getLayoutInflater().inflate(R.layout.bottomlist, null);
+        RelativeLayout morearticle = footerView.findViewById(R.id.morearticle);
+        morearticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stophandler = true;
+                showall = true;
+                tache = new ListReposTask().execute();
             }
         });
 
@@ -179,6 +194,7 @@ public class MainActivity extends AppCompatActivity
         gosearch.setOnClickListener(new View.OnClickListener() { // VALIDATION PAR LE BOUTON "GO"
             @Override
             public void onClick(View v) {
+                stophandler = true;
                 liste.setVisibility(View.VISIBLE);
                 lay2.setVisibility(View.INVISIBLE);
                 Intent myIntent = new Intent(MainActivity.this, Adpage.class);
@@ -196,6 +212,7 @@ public class MainActivity extends AppCompatActivity
         checkarticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                stophandler = true;
                 tache = new ListReposTask().execute();
                 liste.setVisibility(View.VISIBLE);
                 lay2.setVisibility(View.INVISIBLE);
@@ -323,7 +340,7 @@ public class MainActivity extends AppCompatActivity
                 j = 0; i = 0;
             }
 
-            handler.sendEmptyMessageDelayed(1, 40);
+            if(!stophandler)handler.sendEmptyMessageDelayed(1, 40);
         }
     };
 
@@ -401,6 +418,9 @@ public class MainActivity extends AppCompatActivity
             Fleche1.setVisibility(View.GONE);
             Fleche2.setVisibility(View.GONE);
         }
+
+        stophandler = false;
+        handler.sendEmptyMessageDelayed(1, 150);
     }
 
     private void isauth() {
@@ -477,6 +497,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) { // SELECTION MENU GAUCHE
         int id = item.getItemId();
+
+        stophandler = true;
 
         if( !ACCESS ) {
             Toast.makeText(getApplicationContext(),
@@ -630,7 +652,17 @@ public class MainActivity extends AppCompatActivity
                 .build()
                 .create(ApiService.class);
 
-        for (int z = 0; z < repos.size(); z++) {
+        int size = repos.size();
+        int limit = size;
+
+        if(showall ==false && size > 12) {
+            limit = 12;
+            liste.addFooterView(footerView);
+            TextView numrestant = footerView.findViewById(R.id.otheraticlesnum);
+            numrestant.setText(Integer.toString(size-12));
+        }
+
+        for (int z = 0; z < limit; z++) {
             if( repos.get(z).getName().toLowerCase().contains(searchword.getText().toString().toLowerCase()) ) {
                 double Price = repos.get(z).getPrice();
                 Random r = new Random();
@@ -662,6 +694,8 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+        showall = false;
+
         if(repos.size()==0){
             Toast.makeText(getApplicationContext(),
                     R.string.no_res,
@@ -676,6 +710,7 @@ public class MainActivity extends AppCompatActivity
         adapter = new CustomAdapter(dataModels, getApplicationContext());
 
         if(adapter != null) liste.setAdapter(adapter);
+
     }
 
     // Fonction générique de detection d'un accès internet existant

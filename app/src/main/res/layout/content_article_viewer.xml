@@ -43,7 +43,7 @@
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/abel"
                 android:gravity="left"
-                android:text="DESCRIPTION"
+                android:text="@string/description"
                 android:textSize="23sp" />
 
         </RelativeLayout>
@@ -54,6 +54,105 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="-" />
+
+        <RelativeLayout
+            android:id="@+id/articleprixextend"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/whitegradiant">
+
+            <Button
+                android:id="@+id/extendprix"
+                android:layout_width="22dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="5dp"
+                android:background="@android:drawable/arrow_up_float"
+                android:clickable="false"
+                android:gravity="right"
+                android:linksClickable="false"
+                android:longClickable="false"
+                android:padding="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/abel"
+                android:gravity="left"
+                android:text="@string/price"
+                android:textSize="23sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/articlelikesextend"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/whitegradiant">
+
+            <Button
+                android:id="@+id/extendlikes"
+                android:layout_width="22dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="5dp"
+                android:background="@android:drawable/arrow_up_float"
+                android:clickable="false"
+                android:gravity="right"
+                android:linksClickable="false"
+                android:longClickable="false"
+                android:padding="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/abel"
+                android:gravity="left"
+                android:text="@string/likes"
+                android:textSize="23sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/articlefavextend"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/whitegradiant">
+
+            <Button
+                android:id="@+id/extendfav"
+                android:layout_width="22dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="5dp"
+                android:background="@android:drawable/arrow_up_float"
+                android:clickable="false"
+                android:gravity="right"
+                android:linksClickable="false"
+                android:longClickable="false"
+                android:padding="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/abel"
+                android:gravity="left"
+                android:text="@string/favoris"
+                android:textSize="23sp" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
