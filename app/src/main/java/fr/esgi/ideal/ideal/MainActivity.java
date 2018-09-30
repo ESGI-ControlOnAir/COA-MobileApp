@@ -271,8 +271,8 @@ public class MainActivity extends AppCompatActivity
             }
         });*/
 
-        CreateNotificationActivity notif = new CreateNotificationActivity();
-        notif.createNotification(this.view);
+        /*CreateNotificationActivity notif = new CreateNotificationActivity();
+        notif.createNotification(this.view);*/
 
         // Récupération de l'URL du serveur dans les paramètres si présent
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -695,7 +695,7 @@ public class MainActivity extends AppCompatActivity
         for (int z = 0; z < size; z++) {
             if( repos.get(z).getName().toLowerCase().contains(searchword.getText().toString().toLowerCase()) ) {
                 results++;
-                if(results > limit){
+                if(results > limit && showall == false){
                     liste.addFooterView(footerView);
                     TextView numrestant = footerView.findViewById(R.id.otheraticlesnum);
                     numrestant.setText(Integer.toString(size-12));
