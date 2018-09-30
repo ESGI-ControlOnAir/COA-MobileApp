@@ -18,3 +18,7 @@ Gestion des notifications
 Barre de recherche dynamique
 
 Visualisation de la liste des articles dynamique et par pages
+
+Tri par : Nouveauté, Prix ("les moins cher"), Aléatoire ("nos suggestions"), ordre alphabêtique, Normal (du plus vieux au plus ancien)
+
+Fonctionnalité de tri ascendant et descendant
