@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -66,8 +67,8 @@ public class ArticleViewer extends AppCompatActivity {
         // Likes
         final RelativeLayout likesextend = (RelativeLayout) findViewById(R.id.articlelikesextend);
         final Button likesextendicon = (Button) findViewById(R.id.extendlikes);
-        final TextView likesedit = (TextView) findViewById(R.id.articlelikes);
-        likesedit.setText(MainActivity.dataModels.get(ObjectID).like);
+        final LinearLayout likesedit = findViewById(R.id.likeslay);
+
         likesextend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,10 +107,12 @@ public class ArticleViewer extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         toolbar.setTitle(MainActivity.dataModels.get(ObjectID).nom);
         toolbar.setTitleTextColor(0);
-        //toolbar.setTitleTextAppearance(getApplicationContext(),R.style.AppTheme);
+        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.AppTheme);
         setSupportActionBar(toolbar);
 
         //collapsingToolbarLayout.setTitleEnabled(false);

@@ -164,6 +164,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:text="Nouveau produits"
+                    android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"></Button>

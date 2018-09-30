@@ -2,17 +2,20 @@ package fr.esgi.ideal.ideal;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -72,6 +75,7 @@ public class createObject extends AppCompatActivity {
     ImageView articleprev;
     String picturePath;
     int ObjectID;
+    SharedPreferences preferences = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +95,8 @@ public class createObject extends AppCompatActivity {
                 finish();
             }
         });*/
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // ajout image
         final Button img = (Button) findViewById(R.id.buttonLoadPicture);
@@ -203,6 +209,24 @@ public class createObject extends AppCompatActivity {
                                 public void onResponse(NetworkResponse response) {
                                     String resultResponse = new String(response.data);
                                     Log.i("err","img result : "+resultResponse);
+
+                                    String savedobjects = preferences.getString("MyObjects", "");
+                                    String savedobjectsdates = preferences.getString("MyObjectsDates", "");
+
+                                    Time now = new Time();
+                                    now.setToNow();
+
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    if(savedobjects.isEmpty()){
+                                        editor.putString("MyObjects",Integer.toString(ObjectID));
+                                        editor.putString("MyObjects",Integer.toString(now.monthDay)+"/"+Integer.toString(now.month)+"/"+Integer.toString(now.year)+" "+now.format("%k:%M:%S"));
+                                    }
+                                    else {
+                                        editor.putString("MyObjects",savedobjects+";"+Integer.toString(ObjectID));
+                                        editor.putString("MyObjects",savedobjectsdates+";"+Integer.toString(now.monthDay)+"/"+Integer.toString(now.month)+"/"+Integer.toString(now.year)+" "+now.format("%k:%M:%S"));
+                                    }
+                                    editor.apply();
+
                                     Toast.makeText(getApplicationContext(),
                                             R.string.addedprod,
                                             Toast.LENGTH_LONG).show();
