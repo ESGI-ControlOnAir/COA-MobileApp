@@ -50,6 +50,7 @@ import android.widget.RelativeLayout;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity
     TextView searchword;
     public static String ACTIONMAIN = ""; // Tache de l'activité
     Handler Loadhandler = null;
-    int sortMode = 0;
+
     View view;
     Boolean stophandler = false;
     AsyncTask tache = null;
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity
     LinearLayout moreatic = null;
     ProgressBar pb = null;
 
+    int sortMode = 0;
     Boolean descmode = false;
 
     @Override
@@ -209,6 +211,17 @@ public class MainActivity extends AppCompatActivity
                 butt4_.setVisibility(View.GONE);
                 butt5.setVisibility(View.VISIBLE);
                 butt5_.setVisibility(View.GONE);
+                sortMode = 0;
+
+                stophandler = true;
+                showall = false;
+                tache = new ListReposTask().execute();
+                Fleche1.setVisibility(View.GONE);
+                Fleche2.setVisibility(View.GONE);
+                fleche1txt.setVisibility(View.INVISIBLE);
+                liste.setVisibility(View.VISIBLE);
+                lay2.setVisibility(View.INVISIBLE);
+                fleche2txt.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -227,6 +240,17 @@ public class MainActivity extends AppCompatActivity
                 butt4_.setVisibility(View.GONE);
                 butt5.setVisibility(View.VISIBLE);
                 butt5_.setVisibility(View.GONE);
+                sortMode = 1;
+
+                stophandler = true;
+                showall = false;
+                tache = new ListReposTask().execute();
+                Fleche1.setVisibility(View.GONE);
+                Fleche2.setVisibility(View.GONE);
+                fleche1txt.setVisibility(View.INVISIBLE);
+                liste.setVisibility(View.VISIBLE);
+                lay2.setVisibility(View.INVISIBLE);
+                fleche2txt.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -244,6 +268,17 @@ public class MainActivity extends AppCompatActivity
                 butt4_.setVisibility(View.GONE);
                 butt5.setVisibility(View.VISIBLE);
                 butt5_.setVisibility(View.GONE);
+                sortMode = 2;
+
+                stophandler = true;
+                showall = false;
+                tache = new ListReposTask().execute();
+                Fleche1.setVisibility(View.GONE);
+                Fleche2.setVisibility(View.GONE);
+                fleche1txt.setVisibility(View.INVISIBLE);
+                liste.setVisibility(View.VISIBLE);
+                lay2.setVisibility(View.INVISIBLE);
+                fleche2txt.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -261,6 +296,17 @@ public class MainActivity extends AppCompatActivity
                 butt2_.setVisibility(View.GONE);
                 butt5.setVisibility(View.VISIBLE);
                 butt5_.setVisibility(View.GONE);
+                sortMode = 3;
+
+                stophandler = true;
+                showall = false;
+                tache = new ListReposTask().execute();
+                Fleche1.setVisibility(View.GONE);
+                Fleche2.setVisibility(View.GONE);
+                fleche1txt.setVisibility(View.INVISIBLE);
+                liste.setVisibility(View.VISIBLE);
+                lay2.setVisibility(View.INVISIBLE);
+                fleche2txt.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -278,10 +324,21 @@ public class MainActivity extends AppCompatActivity
                 butt4_.setVisibility(View.GONE);
                 butt2.setVisibility(View.VISIBLE);
                 butt2_.setVisibility(View.GONE);
+                sortMode = 4;
+
+                stophandler = true;
+                showall = false;
+                tache = new ListReposTask().execute();
+                Fleche1.setVisibility(View.GONE);
+                Fleche2.setVisibility(View.GONE);
+                fleche1txt.setVisibility(View.INVISIBLE);
+                liste.setVisibility(View.VISIBLE);
+                lay2.setVisibility(View.INVISIBLE);
+                fleche2txt.setVisibility(View.INVISIBLE);
             }
         });
 
-        // BOUTON NOTIFICATIONS
+        // BOUTON SORT ASC / DESC
         final Button notifbut = (Button) findViewById(R.id.notifbarbut);
         notifbut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,9 +346,19 @@ public class MainActivity extends AppCompatActivity
                 if(descmode){
                     notifbut.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_menu_sort_by_size,0,0,0);
                     descmode = false;
+                    if(liste.getVisibility() == View.VISIBLE){
+                        stophandler = true;
+                        showall = false;
+                        tache = new ListReposTask().execute();
+                    }
                 } else {
                     notifbut.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_menu_sort_by_size_rev,0,0,0);
                     descmode = true;
+                    if(liste.getVisibility() == View.VISIBLE){
+                        stophandler = true;
+                        showall = false;
+                        tache = new ListReposTask().execute();
+                    }
                 }
             }
         });
@@ -357,16 +424,28 @@ public class MainActivity extends AppCompatActivity
         checkarticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                butt1.setVisibility(View.GONE);
+                butt1_.setVisibility(View.VISIBLE);
+
+                butt2.setVisibility(View.VISIBLE);
+                butt2_.setVisibility(View.GONE);
+                butt3.setVisibility(View.VISIBLE);
+                butt3_.setVisibility(View.GONE);
+                butt4.setVisibility(View.VISIBLE);
+                butt4_.setVisibility(View.GONE);
+                butt5.setVisibility(View.VISIBLE);
+                butt5_.setVisibility(View.GONE);
+                sortMode = 0;
+                Intent myIntent = new Intent(MainActivity.this, Adpage.class);
                 stophandler = true;
                 showall = false;
                 tache = new ListReposTask().execute();
-                liste.setVisibility(View.VISIBLE);
-                lay2.setVisibility(View.INVISIBLE);
-                Intent myIntent = new Intent(MainActivity.this, Adpage.class);
                 MainActivity.this.startActivity(myIntent);
                 Fleche1.setVisibility(View.GONE);
                 Fleche2.setVisibility(View.GONE);
                 fleche1txt.setVisibility(View.INVISIBLE);
+                liste.setVisibility(View.VISIBLE);
+                lay2.setVisibility(View.INVISIBLE);
                 fleche2txt.setVisibility(View.INVISIBLE);
             }
         });
@@ -810,19 +889,27 @@ public class MainActivity extends AppCompatActivity
 
         if(showall == false){
             limit = 12;
+        }else{
+            liste.removeFooterView(footerView);
         }
 
-        //Collections.shuffle(repoList);
+        if(sortMode==1)Collections.shuffle(repoList);
+        if(sortMode==2)Collections.reverse(repoList);
+        if(sortMode==3)Collections.sort(repoList,new Sortbyroll());
+        if(sortMode==4)Collections.sort(repoList,new Sortbyrollprice());
+        if(descmode)Collections.reverse(repoList);
 
         int results=0;
+        outerloop:
         for (int z = 0; z < size; z++) {
             if( repos.get(z).getName().toLowerCase().contains(searchword.getText().toString().toLowerCase()) ) {
                 results++;
                 if(results > limit && showall == false){
+                    Log.i("err","FIN DE LIST showall "+showall+" res "+results+" limit "+limit);
                     liste.addFooterView(footerView);
                     TextView numrestant = footerView.findViewById(R.id.otheraticlesnum);
                     numrestant.setText(Integer.toString(size-12));
-                    break;
+                    break outerloop;
                 }
                 double Price = repos.get(z).getPrice();
                 Random r = new Random();
@@ -861,10 +948,6 @@ public class MainActivity extends AppCompatActivity
                     Toast.LENGTH_LONG).show();
         }
 
-        if(sortMode == 1){
-            //Collections.sort(objlist,String.CASE_INSENSITIVE_ORDER);
-        }
-
         // création de l'adapteur de la liste
         adapter = new CustomAdapter(dataModels, getApplicationContext());
 
@@ -878,5 +961,20 @@ public class MainActivity extends AppCompatActivity
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+}
+
+class Sortbyroll implements Comparator<Article>
+{
+    @Override
+    public int compare(Article article, Article t1) {
+        return article.getName().charAt(0) - t1.getName().charAt(0);
+    }
+}
+class Sortbyrollprice implements Comparator<Article>
+{
+    @Override
+    public int compare(Article article, Article t1) {
+        return ((int)article.getPrice()*100) - ((int)t1.getPrice()*100);
     }
 }
