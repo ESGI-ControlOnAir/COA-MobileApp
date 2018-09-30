@@ -2,6 +2,9 @@ package fr.esgi.ideal.ideal;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +20,7 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -266,6 +270,9 @@ public class MainActivity extends AppCompatActivity
                 MainActivity.this.startActivity(myIntent);
             }
         });*/
+
+        CreateNotificationActivity notif = new CreateNotificationActivity();
+        notif.createNotification(this.view);
 
         // Récupération de l'URL du serveur dans les paramètres si présent
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
