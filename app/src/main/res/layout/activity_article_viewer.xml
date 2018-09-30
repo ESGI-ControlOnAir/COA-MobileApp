@@ -31,8 +31,7 @@
                 android:id="@+id/toolbarviewer"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@drawable/blacktopgradiant"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_collapseMode="pin"
                 app:layout_collapseParallaxMultiplier="1.0"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
