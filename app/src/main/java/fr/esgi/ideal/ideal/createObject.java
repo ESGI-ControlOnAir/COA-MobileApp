@@ -1,6 +1,8 @@
 package fr.esgi.ideal.ideal;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -13,6 +15,8 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.Time;
@@ -227,9 +231,8 @@ public class createObject extends AppCompatActivity {
                                     }
                                     editor.apply();
 
-                                    Toast.makeText(getApplicationContext(),
-                                            R.string.addedprod,
-                                            Toast.LENGTH_LONG).show();
+                                    createNotificationChannel();
+                                    notifyThis("IDEAL", getText(R.string.addedprod).toString());
                                     finish();
                                     // parse success output
                                 }
@@ -355,6 +358,35 @@ public class createObject extends AppCompatActivity {
 
             return article;
         }
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.fav);
+            String description = getString(R.string.description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("666", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    public void notifyThis(String title, String message) {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "666")
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(0, mBuilder.build());
     }
 
     /*class SendIMG extends AsyncTask<Void, Void, Call<ResponseBody>>{
