@@ -107,10 +107,12 @@ public class ArticleViewer extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         toolbar.setTitle(MainActivity.dataModels.get(ObjectID).nom);
         toolbar.setTitleTextColor(0);
-        //toolbar.setTitleTextAppearance(getApplicationContext(),R.style.AppTheme);
+        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.AppTheme);
         setSupportActionBar(toolbar);
 
         //collapsingToolbarLayout.setTitleEnabled(false);

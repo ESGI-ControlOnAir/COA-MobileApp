@@ -47,8 +47,10 @@ import android.widget.RelativeLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import fr.esgi.ideal.ideal.api.ApiService;
 import fr.esgi.ideal.ideal.api.Article;
@@ -176,6 +178,48 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // BOUTONS TRIS
+        Button butt1 = (Button) findViewById(R.id.butt1); // NOUVEAU DEFAULT
+        butt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        Button butt2 = (Button) findViewById(R.id.butt2);
+        butt2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        Button butt3 = (Button) findViewById(R.id.butt3);
+        butt3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        Button butt4 = (Button) findViewById(R.id.butt4);
+        butt4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        Button butt5 = (Button) findViewById(R.id.butt5);
+        butt5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        // BOUTON NOTIFICATIONS
+        Button notifbut = (Button) findViewById(R.id.notifbarbut);
+        // todo
+
+        // BOUTON LOUPE CHERCHER
         searchbarbut = (Button) findViewById(R.id.searchbarbut);
         searchbarbut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -690,6 +734,8 @@ public class MainActivity extends AppCompatActivity
         if(showall == false){
             limit = 12;
         }
+
+        //Collections.shuffle(repoList);
 
         int results=0;
         for (int z = 0; z < size; z++) {
