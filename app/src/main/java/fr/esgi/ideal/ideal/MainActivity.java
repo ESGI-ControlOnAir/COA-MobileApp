@@ -13,11 +13,13 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.NotificationCompat;
@@ -179,35 +181,45 @@ public class MainActivity extends AppCompatActivity
         });
 
         // BOUTONS TRIS
-        Button butt1 = (Button) findViewById(R.id.butt1); // NOUVEAU DEFAULT
-        butt1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        Button butt2 = (Button) findViewById(R.id.butt2);
-        butt2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        final Button butt1 = (Button) findViewById(R.id.butt1); // NOUVEAU DEFAULT
+        final Button butt2 = (Button) findViewById(R.id.butt2);
         Button butt3 = (Button) findViewById(R.id.butt3);
+        Button butt4 = (Button) findViewById(R.id.butt4);
+        Button butt5 = (Button) findViewById(R.id.butt5);
+
+        butt1.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                butt2.setBackgroundResource(R.drawable.btn_default_holo_dark);
+                butt1.setBackgroundResource(0);
+            }
+        });
+
+        butt2.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                Log.i("err","ccccccliok");
+                butt1.setBackgroundResource(android.R.drawable.btn_default_holo_dark);
+                butt2.rest
+            }
+        });
+
         butt3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
-        Button butt4 = (Button) findViewById(R.id.butt4);
+
         butt4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
-        Button butt5 = (Button) findViewById(R.id.butt5);
+
         butt5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -117,6 +117,12 @@ by sending an e-mail to the following address : nbaptista@myges.fr.</string>
     <string name="voirles">SEE THE</string>
     <string name="autresarticles">OTHERS ARTICLES</string>
 
+    <string name="nouveauproduits">New products</string>
+    <string name="nossuggestion">Our suggestions</string>
+    <string name="lesplusrecents">The most recents</string>
+    <string name="ordrealphabetique">Alphabetic order</string>
+    <string name="lesmoinschers">The less expensive</string>
+
     <string name="fleche1txt">Or should you want to see our products</string>
     <string name="fleche2txt">Find the article you need</string>
     <string name="title_activity_article_viewer">ArticleViewer</string>
