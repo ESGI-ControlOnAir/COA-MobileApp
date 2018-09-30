@@ -50,16 +50,17 @@ public class ArticleViewer extends AppCompatActivity {
         final RelativeLayout prixextend = (RelativeLayout) findViewById(R.id.articleprixextend);
         final Button prixextendicon = (Button) findViewById(R.id.extendprix);
         final TextView prixedit = (TextView) findViewById(R.id.articleprix);
+        final LinearLayout prixlay = (LinearLayout) findViewById(R.id.articleprixlay);
         prixedit.setText(MainActivity.dataModels.get(ObjectID).prix);
         prixextend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if( prixedit.getVisibility() == View.GONE ){
+                if( prixlay.getVisibility() == View.GONE ){
                     prixextendicon.setBackgroundResource(android.R.drawable.arrow_down_float);
-                    prixedit.setVisibility(View.VISIBLE);
+                    prixlay.setVisibility(View.VISIBLE);
                 } else {
                     prixextendicon.setBackgroundResource(android.R.drawable.arrow_up_float);
-                    prixedit.setVisibility(View.GONE);
+                    prixlay.setVisibility(View.GONE);
                 }
             }
         });
@@ -82,33 +83,36 @@ public class ArticleViewer extends AppCompatActivity {
             }
         });
 
+        final Button back = (Button) findViewById(R.id.backarticleview);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         // fav
         final RelativeLayout favextend = (RelativeLayout) findViewById(R.id.articlefavextend);
         final Button favextendicon = (Button) findViewById(R.id.extendfav);
         final TextView favedit = (TextView) findViewById(R.id.articlefav);
-        favedit.setText("0");
+        final Button favadd = (Button) findViewById(R.id.favadd);
         favextend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if( favedit.getVisibility() == View.GONE ){
                     favextendicon.setBackgroundResource(android.R.drawable.arrow_down_float);
                     favedit.setVisibility(View.VISIBLE);
+                    favadd.setVisibility(View.VISIBLE);
                 } else {
                     favextendicon.setBackgroundResource(android.R.drawable.arrow_up_float);
                     favedit.setVisibility(View.GONE);
+                    favadd.setVisibility(View.GONE);
                 }
             }
         });
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarviewer);
 
-        // add back arrow to toolbar
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         toolbar.setTitle(MainActivity.dataModels.get(ObjectID).nom);
         toolbar.setTitleTextColor(0);
