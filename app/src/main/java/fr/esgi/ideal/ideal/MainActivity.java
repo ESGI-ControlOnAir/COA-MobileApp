@@ -952,7 +952,6 @@ public class MainActivity extends AppCompatActivity
         adapter = new CustomAdapter(dataModels, getApplicationContext());
 
         if(adapter != null) liste.setAdapter(adapter);
-
     }
 
     // Fonction générique de detection d'un accès internet existant
