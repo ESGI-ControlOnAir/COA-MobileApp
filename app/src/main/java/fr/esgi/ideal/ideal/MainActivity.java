@@ -64,6 +64,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.widget.Toast;
 
+import static java.lang.StrictMath.toIntExact;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static int TIME_OUT_INTERNET = 0; // Vérification de connexion internet 100ms
@@ -873,6 +875,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     void afficherArticles(List<Article> repos){
         pb.setVisibility(View.GONE);
         moreatic.setVisibility(View.VISIBLE);
@@ -892,6 +895,7 @@ public class MainActivity extends AppCompatActivity
         }else{
             liste.removeFooterView(footerView);
         }
+
 
         if(sortMode==1)Collections.shuffle(repoList);
         if(sortMode==2)Collections.reverse(repoList);
@@ -921,7 +925,7 @@ public class MainActivity extends AppCompatActivity
                 ResponseBody body = null;
                 Bitmap imagedata = null;
                 try {
-                    body = service2.retrieveImageData("article",z).execute().body();
+                    body = service2.retrieveImageData("article",toIntExact(repos.get(z).getId())).execute().body();
                     if(body != null) {
                         byte[] bytes = new byte[0];
                         try {
@@ -940,6 +944,7 @@ public class MainActivity extends AppCompatActivity
                 dataModels.add(new objetEnVente(repos.get(z).getName(), repos.get(z).getDescription(), String.format("%.2f",Price), Integer.toString(repos.get(z).getLike()), imagedata));
             }
         }
+
         showall = false;
 
         if(repos.size()==0){
