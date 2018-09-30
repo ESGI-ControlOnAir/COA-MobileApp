@@ -183,16 +183,30 @@ public class MainActivity extends AppCompatActivity
         // BOUTONS TRIS
         final Button butt1 = (Button) findViewById(R.id.butt1); // NOUVEAU DEFAULT
         final Button butt2 = (Button) findViewById(R.id.butt2);
-        Button butt3 = (Button) findViewById(R.id.butt3);
-        Button butt4 = (Button) findViewById(R.id.butt4);
-        Button butt5 = (Button) findViewById(R.id.butt5);
+        final Button butt3 = (Button) findViewById(R.id.butt3);
+        final Button butt4 = (Button) findViewById(R.id.butt4);
+        final Button butt5 = (Button) findViewById(R.id.butt5);
+        final Button butt1_ = (Button) findViewById(R.id.butt1_); // NOUVEAU DEFAULT
+        final Button butt2_ = (Button) findViewById(R.id.butt2_);
+        final Button butt3_ = (Button) findViewById(R.id.butt3_);
+        final Button butt4_ = (Button) findViewById(R.id.butt4_);
+        final Button butt5_ = (Button) findViewById(R.id.butt5_);
 
         butt1.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                butt2.setBackgroundResource(R.drawable.btn_default_holo_dark);
-                butt1.setBackgroundResource(0);
+                butt1.setVisibility(View.GONE);
+                butt1_.setVisibility(View.VISIBLE);
+
+                butt2.setVisibility(View.VISIBLE);
+                butt2_.setVisibility(View.GONE);
+                butt3.setVisibility(View.VISIBLE);
+                butt3_.setVisibility(View.GONE);
+                butt4.setVisibility(View.VISIBLE);
+                butt4_.setVisibility(View.GONE);
+                butt5.setVisibility(View.VISIBLE);
+                butt5_.setVisibility(View.GONE);
             }
         });
 
@@ -200,30 +214,68 @@ public class MainActivity extends AppCompatActivity
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                Log.i("err","ccccccliok");
-                butt1.setBackgroundResource(android.R.drawable.btn_default_holo_dark);
-                butt2.rest
+                butt2.setVisibility(View.GONE);
+                butt2_.setVisibility(View.VISIBLE);
+
+                butt1.setVisibility(View.VISIBLE);
+                butt1_.setVisibility(View.GONE);
+                butt3.setVisibility(View.VISIBLE);
+                butt3_.setVisibility(View.GONE);
+                butt4.setVisibility(View.VISIBLE);
+                butt4_.setVisibility(View.GONE);
+                butt5.setVisibility(View.VISIBLE);
+                butt5_.setVisibility(View.GONE);
             }
         });
 
         butt3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                butt3.setVisibility(View.GONE);
+                butt3_.setVisibility(View.VISIBLE);
 
+                butt1.setVisibility(View.VISIBLE);
+                butt1_.setVisibility(View.GONE);
+                butt2.setVisibility(View.VISIBLE);
+                butt2_.setVisibility(View.GONE);
+                butt4.setVisibility(View.VISIBLE);
+                butt4_.setVisibility(View.GONE);
+                butt5.setVisibility(View.VISIBLE);
+                butt5_.setVisibility(View.GONE);
             }
         });
 
         butt4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                butt4.setVisibility(View.GONE);
+                butt4_.setVisibility(View.VISIBLE);
 
+                butt1.setVisibility(View.VISIBLE);
+                butt1_.setVisibility(View.GONE);
+                butt3.setVisibility(View.VISIBLE);
+                butt3_.setVisibility(View.GONE);
+                butt2.setVisibility(View.VISIBLE);
+                butt2_.setVisibility(View.GONE);
+                butt5.setVisibility(View.VISIBLE);
+                butt5_.setVisibility(View.GONE);
             }
         });
 
         butt5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                butt5.setVisibility(View.GONE);
+                butt5_.setVisibility(View.VISIBLE);
 
+                butt1.setVisibility(View.VISIBLE);
+                butt1_.setVisibility(View.GONE);
+                butt3.setVisibility(View.VISIBLE);
+                butt3_.setVisibility(View.GONE);
+                butt4.setVisibility(View.VISIBLE);
+                butt4_.setVisibility(View.GONE);
+                butt2.setVisibility(View.VISIBLE);
+                butt2_.setVisibility(View.GONE);
             }
         });
 
