@@ -103,6 +103,8 @@ public class MainActivity extends AppCompatActivity
     LinearLayout moreatic = null;
     ProgressBar pb = null;
 
+    Boolean descmode = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -280,8 +282,19 @@ public class MainActivity extends AppCompatActivity
         });
 
         // BOUTON NOTIFICATIONS
-        Button notifbut = (Button) findViewById(R.id.notifbarbut);
-        // todo
+        final Button notifbut = (Button) findViewById(R.id.notifbarbut);
+        notifbut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(descmode){
+                    notifbut.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_menu_sort_by_size,0,0,0);
+                    descmode = false;
+                } else {
+                    notifbut.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_menu_sort_by_size_rev,0,0,0);
+                    descmode = true;
+                }
+            }
+        });
 
         // BOUTON LOUPE CHERCHER
         searchbarbut = (Button) findViewById(R.id.searchbarbut);

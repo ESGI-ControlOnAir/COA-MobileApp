@@ -53,20 +53,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@android:drawable/ic_notification_overlay"
+                android:src="@drawable/ic_menu_sort_by_size"
                 android:visibility="gone" />
 
             <Button
-            android:id="@+id/notifbarbut"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/buttonblack"
-            android:drawableLeft="@android:drawable/ic_popup_reminder"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+                android:id="@+id/notifbarbut"
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonblack"
+                android:drawableLeft="@drawable/ic_menu_sort_by_size"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
 
             <Button
                 android:id="@+id/searchbarbut"
@@ -76,7 +76,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/buttonblack"
-                android:drawableLeft="@drawable/ic_search_category_default"
+                android:drawableLeft="@drawable/ic_search_category_defaul2"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp" />
 
