@@ -95,6 +95,12 @@ et ce simplement en envoyant un email à l\'adresse suivante : nbaptista@myges.f
     <string name="voirles">VOIR LES</string>
     <string name="autresarticles">AUTRES ARTICLES</string>
 
+    <string name="nouveauproduits">Nouveau produits</string>
+    <string name="nossuggestion">Nos suggestions</string>
+    <string name="lesplusrecents">Les plus récents</string>
+    <string name="ordrealphabetique">Par ordre alphabêtique</string>
+    <string name="lesmoinschers">Les moins cher</string>
+
     <string name="fleche1txt">Ou laissez-vous tenter par nos produits</string>
     <string name="fleche2txt">Recherchez des articles pour commencer</string>
 </resources>
