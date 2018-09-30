@@ -338,7 +338,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // BOUTON NOTIFICATIONS
+        // BOUTON SORT ASC / DESC
         final Button notifbut = (Button) findViewById(R.id.notifbarbut);
         notifbut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -346,9 +346,19 @@ public class MainActivity extends AppCompatActivity
                 if(descmode){
                     notifbut.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_menu_sort_by_size,0,0,0);
                     descmode = false;
+                    if(liste.getVisibility() == View.VISIBLE){
+                        stophandler = true;
+                        showall = false;
+                        tache = new ListReposTask().execute();
+                    }
                 } else {
                     notifbut.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_menu_sort_by_size_rev,0,0,0);
                     descmode = true;
+                    if(liste.getVisibility() == View.VISIBLE){
+                        stophandler = true;
+                        showall = false;
+                        tache = new ListReposTask().execute();
+                    }
                 }
             }
         });
@@ -879,6 +889,8 @@ public class MainActivity extends AppCompatActivity
 
         if(showall == false){
             limit = 12;
+        }else{
+            liste.removeFooterView(footerView);
         }
 
         if(sortMode==1)Collections.shuffle(repoList);
@@ -888,14 +900,16 @@ public class MainActivity extends AppCompatActivity
         if(descmode)Collections.reverse(repoList);
 
         int results=0;
+        outerloop:
         for (int z = 0; z < size; z++) {
             if( repos.get(z).getName().toLowerCase().contains(searchword.getText().toString().toLowerCase()) ) {
                 results++;
                 if(results > limit && showall == false){
+                    Log.i("err","FIN DE LIST showall "+showall+" res "+results+" limit "+limit);
                     liste.addFooterView(footerView);
                     TextView numrestant = footerView.findViewById(R.id.otheraticlesnum);
                     numrestant.setText(Integer.toString(size-12));
-                    break;
+                    break outerloop;
                 }
                 double Price = repos.get(z).getPrice();
                 Random r = new Random();
