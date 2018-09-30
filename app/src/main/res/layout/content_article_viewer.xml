@@ -149,14 +149,6 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/articlelikes"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp"
-            android:baselineAligned="false"
-            android:text="-" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -165,7 +157,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/like"
                 android:layout_width="wrap_content"
                 android:layout_height="250px"
                 android:layout_marginLeft="-50dp"
@@ -176,11 +168,13 @@
                 android:shadowDx="0"
                 android:shadowDy="0"
                 android:shadowRadius="2"
-                android:text="@string/like"
-                android:textColor="@android:color/white" />
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <Button
-                android:id="@+id/button6"
+                android:id="@+id/unlike"
                 android:layout_width="wrap_content"
                 android:layout_height="250px"
                 android:layout_marginRight="-50dp"
@@ -188,8 +182,13 @@
                 android:background="@drawable/redgradiantpushed"
                 android:drawableLeft="@drawable/pouce_rouge"
                 android:paddingLeft="15dp"
-                android:text="@string/unlike"
-                android:textColor="@android:color/white" />
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="2"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <RelativeLayout
@@ -230,7 +229,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="-" />
+            android:text="Cet article n'a pas été ajouté en favoris" />
+
+        <Button
+            android:id="@+id/favadd"
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:layout_marginLeft="-15dp"
+            android:layout_marginRight="-15dp"
+            android:layout_weight="1"
+            android:background="@drawable/favorited"
+            android:drawableRight="@drawable/favorited"
+            android:paddingRight="15dp"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="2"
+            android:text="@string/fav"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
