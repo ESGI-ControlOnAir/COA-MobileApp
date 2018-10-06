@@ -72,7 +72,9 @@
             android:layout_centerInParent="false"
             android:layout_centerVertical="true"
             android:layout_marginRight="25dp"
-            android:layout_toLeftOf="@+id/row_item_image">
+            android:layout_toLeftOf="@+id/row_item_image"
+            android:background="@drawable/radiuswhitebg"
+            android:padding="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"

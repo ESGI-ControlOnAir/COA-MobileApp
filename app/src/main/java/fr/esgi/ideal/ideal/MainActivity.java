@@ -842,6 +842,17 @@ public class MainActivity extends AppCompatActivity
     class ListReposTask extends AsyncTask<Void, Void, List<Article>>{
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            lay_loading.setVisibility(View.VISIBLE);
+            loader.setVisibility(View.VISIBLE);
+            connexion.setVisibility(View.VISIBLE);
+            connexion.setText("Chargement...");
+            lay_loading.bringToFront();
+        }
+
+        @Override
         protected List<Article> doInBackground(Void...params) {
             service = new Retrofit.Builder()
                     .baseUrl("http://"+ MainActivity.URLServer)
@@ -878,7 +889,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    //@RequiresApi(api = Build.VERSION_CODES.N)
     void afficherArticles(List<Article> repos){
         pb.setVisibility(View.GONE);
         moreatic.setVisibility(View.VISIBLE);
@@ -928,7 +939,7 @@ public class MainActivity extends AppCompatActivity
                 ResponseBody body = null;
                 Bitmap imagedata = null;
                 try {
-                    body = service2.retrieveImageData("article",toIntExact(repos.get(z).getId())).execute().body();
+                    body = service2.retrieveImageData("article",Integer.valueOf(repos.get(z).getId().toString())).execute().body();
                     if(body != null) {
                         byte[] bytes = new byte[0];
                         try {
@@ -955,6 +966,9 @@ public class MainActivity extends AppCompatActivity
                     R.string.no_res,
                     Toast.LENGTH_LONG).show();
         }
+
+        lay_loading.setVisibility(View.INVISIBLE);
+        loader.setVisibility(View.INVISIBLE);
 
         // création de l'adapteur de la liste
         adapter = new CustomAdapter(dataModels, getApplicationContext());
