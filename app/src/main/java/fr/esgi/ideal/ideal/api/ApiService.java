@@ -66,7 +66,7 @@ public interface ApiService {
     Call<Ad> getAd(@Path("id") int ID);
 
     @POST("/article/{id}/like")
-    Call<ResponseBody> setLike(@Body String liked, @Path("id") int ID);
+    Call<ResponseBody> setLike(@Header("Authorization") String code, @Body String liked, @Path("id") int ID);
 
     @GET("/user/me/favs")
     Call<ResponseBody> getFavs (@Header("Authorization") String code);

@@ -955,7 +955,7 @@ public class MainActivity extends AppCompatActivity
                     e.printStackTrace();
                 }
 
-                dataModels.add(new objetEnVente(repos.get(z).getName(), repos.get(z).getDescription(), String.format("%.2f",Price), Integer.toString(repos.get(z).getLike()), imagedata));
+                dataModels.add(new objetEnVente(repos.get(z).getName(), repos.get(z).getDescription(), String.format("%.2f",Price), imagedata, repos.get(z).getLike(), repos.get(z).getUnlike()));
             }
         }
 
