@@ -11,7 +11,9 @@ public class Article {
     private String name;
     private String description;
     private double price;
-    private int like;
+    private int img = 0;
+    private int customerRatingPositive;
+    private int customerRatingNegative;
 
     public Long getId() {
         return id;
@@ -21,9 +23,15 @@ public class Article {
         this.id = id;
     }
 
+    public void setImg(int id) { this.img = id; }
+
     public String getName() {
         return name;
     }
+
+    public int getLike() { return customerRatingPositive; }
+
+    public int getUnlike() { return customerRatingNegative; }
 
     public void setName(String name) {
         this.name = name;
@@ -43,14 +51,6 @@ public class Article {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public int getLike() {
-        return like;
-    }
-
-    public void setLike(int like) {
-        this.like = like;
     }
 
     public Article(String name, String description, double Price){

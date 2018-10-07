@@ -99,12 +99,12 @@ public class CustomAdapter extends ArrayAdapter<objetEnVente> implements View.On
         result.startAnimation(animation);
         lastPosition = position;
 
-        Log.i("err","article : "+position+" NOM "+objetEnVente.getName());
+        Log.i("err","article : "+position+" NOM "+objetEnVente.getName()+" LIKE "+objetEnVente.getLike()+" UNLIKE "+objetEnVente.getUnlike());
 
         viewHolder.txtNom.setText(objetEnVente.getName());
         viewHolder.txtDesc.setText(objetEnVente.getDescription());
         viewHolder.txtPrix.setText(objetEnVente.getPrix());
-        viewHolder.txtLike.setText(objetEnVente.getLike());
+        viewHolder.txtLike.setText(Integer.toString(objetEnVente.getLike()));
         viewHolder.image.setOnClickListener(this);
         viewHolder.image.setTag(position);
         viewHolder.image.setImageBitmap(objetEnVente.image);

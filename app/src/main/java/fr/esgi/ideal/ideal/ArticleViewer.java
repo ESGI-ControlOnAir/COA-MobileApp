@@ -1,5 +1,6 @@
 package fr.esgi.ideal.ideal;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,10 +16,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.IOException;
+
+import fr.esgi.ideal.ideal.api.ApiService;
+import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ArticleViewer extends AppCompatActivity {
     static int ObjectID = 1;
     ImageView ArticleView;
+    boolean liked = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +85,23 @@ public class ArticleViewer extends AppCompatActivity {
         final Button likesextendicon = (Button) findViewById(R.id.extendlikes);
         final LinearLayout likesedit = findViewById(R.id.likeslay);
         final Button like = findViewById(R.id.like);
+        like.setText(Integer.toString(MainActivity.dataModels.get(ObjectID).liked));
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                liked = true;
+                new Like().execute();
             }
         });
         final Button unlike = findViewById(R.id.unlike);
+        unlike.setText(Integer.toString(MainActivity.dataModels.get(ObjectID).unliked));
+        unlike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                liked = false;
+                new Like().execute();
+            }
+        });
 
         likesextend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,5 +195,56 @@ public class ArticleViewer extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    class Like extends AsyncTask<Void, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(Void...params) {
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+            ApiService service = new Retrofit.Builder()
+                    .baseUrl("http://"+ MainActivity.URLServer)
+                    //convertie le json automatiquement
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(client)
+                    .build()
+                    .create(ApiService.class);
+            Call<ResponseBody> call = null;
+            if(liked){ call = service.setLike("Bearer "+MainActivity.AccessToken,"true",ObjectID); }
+            else { call = service.setLike("Bearer "+MainActivity.AccessToken,"false",ObjectID); }
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                    if(response.body() != null) {
+                        try {
+                            String reponse = response.body().string();
+                            Log.i("err", "REPONSE "+response.toString());
+                            String lliked = "Article liké avec succès";
+                            if (!liked) lliked = "Article unliké avec succès";
+                            Toast.makeText(getBaseContext(),
+                                    lliked,
+                                    Toast.LENGTH_LONG).show();
+                            recreate();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else
+                    {
+                        Log.i("err", "PAS DE REPONSE ");
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.i("err","shitlike");
+                    t.printStackTrace();
+                }
+            });
+            return 1;
+        }
     }
 }

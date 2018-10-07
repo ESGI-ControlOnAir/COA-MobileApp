@@ -7,15 +7,19 @@ public class objetEnVente {
     String nom;
     String description;
     String prix;
-    String like;
     Bitmap image;
+    int liked;
+    int unliked;
 
-    public objetEnVente(String name, String description, String prix, String like, Bitmap image ) {
+
+    public objetEnVente(String name, String description, String prix, Bitmap image, int liked, int unliked ) {
         this.nom=name;
         this.description=description;
         this.prix=prix;
-        this.like=like;
+        this.liked=liked;
         this.image=image;
+        this.unliked=unliked;
+        this.liked=liked;
     }
 
     public String getName() {
@@ -30,7 +34,9 @@ public class objetEnVente {
         return prix;
     }
 
-    public String getLike() { return like; }
+    public int getLike() { return liked; }
+
+    public int getUnlike() { return unliked; }
 
     public Bitmap getImage() {
         return image;
