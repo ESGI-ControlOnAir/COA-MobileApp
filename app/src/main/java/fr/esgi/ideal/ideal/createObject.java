@@ -55,13 +55,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import fr.esgi.ideal.ideal.api.ApiService;
 import fr.esgi.ideal.ideal.api.Article;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit.RestAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -80,6 +84,7 @@ public class createObject extends AppCompatActivity {
     String picturePath;
     int ObjectID;
     SharedPreferences preferences = null;
+    boolean withimage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +155,7 @@ public class createObject extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.i("img","3");
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            withimage = true;
             Log.i("img","4");
             Uri selectedImage = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
@@ -173,23 +179,27 @@ public class createObject extends AppCompatActivity {
 
         @Override
         protected Article doInBackground(Void...params) {
-            Log.i("error","1");
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
             ApiService service = new Retrofit.Builder()
                     .baseUrl("http://"+ MainActivity.URLServer)
                     //convertie le json automatiquement
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
+                    .client(client)
                     .build()
                     .create(ApiService.class);
             Article article = new Article(TITRE.getText().toString(),DESC.getText().toString(),Double.parseDouble(PRIX.getText().toString()));
-            Call<ResponseBody> call = service.createArticle(MainActivity.AccessToken, article);
+            Call<ResponseBody> call = service.createArticle("Bearer "+MainActivity.AccessToken, article);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                     try {
-                        String reponseart = response.body().string();
-                        Log.i("err","REPONSE : "+reponseart);
                         if(response.body() != null){
+                            String reponseart = response.body().string();
+                            Log.i("err","REPONSE : "+reponseart);
                             //try {
                             Log.i("err","try img");
                             JSONObject json = null;
@@ -205,143 +215,97 @@ public class createObject extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
-                            final RequestQueue queue = Volley.newRequestQueue(getBaseContext());
-                            String url = "http://"+MainActivity.URLServerImage+"/upload";
-                            Log.i("err","img URL:"+url);
-                            VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<NetworkResponse>() {
-                                @Override
-                                public void onResponse(NetworkResponse response) {
-                                    String resultResponse = new String(response.data);
-                                    Log.i("err","img result : "+resultResponse);
 
-                                    String savedobjects = preferences.getString("MyObjects", "");
-                                    String savedobjectsdates = preferences.getString("MyObjectsDates", "");
+                            if(withimage) {
+                                final RequestQueue queue = Volley.newRequestQueue(getBaseContext());
+                                String url = "http://" + MainActivity.URLServerImage + "/upload";
+                                Log.i("err", "img URL:" + url);
+                                VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<NetworkResponse>() {
+                                    @Override
+                                    public void onResponse(NetworkResponse response) {
+                                        String resultResponse = new String(response.data);
+                                        Log.i("err", "img result : " + resultResponse);
 
-                                    Time now = new Time();
-                                    now.setToNow();
+                                        String savedobjects = preferences.getString("MyObjects", "");
+                                        String savedobjectsdates = preferences.getString("MyObjectsDates", "");
 
-                                    SharedPreferences.Editor editor = preferences.edit();
-                                    if(savedobjects.isEmpty()){
-                                        editor.putString("MyObjects",Integer.toString(ObjectID));
-                                        editor.putString("MyObjects",Integer.toString(now.monthDay)+"/"+Integer.toString(now.month)+"/"+Integer.toString(now.year)+" "+now.format("%k:%M:%S"));
-                                    }
-                                    else {
-                                        editor.putString("MyObjects",savedobjects+";"+Integer.toString(ObjectID));
-                                        editor.putString("MyObjects",savedobjectsdates+";"+Integer.toString(now.monthDay)+"/"+Integer.toString(now.month)+"/"+Integer.toString(now.year)+" "+now.format("%k:%M:%S"));
-                                    }
-                                    editor.apply();
+                                        Time now = new Time();
+                                        now.setToNow();
 
-                                    createNotificationChannel();
-                                    notifyThis("IDEAL", getText(R.string.addedprod).toString());
-                                    finish();
-                                    // parse success output
-                                }
-                            }, new com.android.volley.Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Log.i("err","shhit doesntwork2");
-                                    if (error.networkResponse == null) {
-                                        if (error.getClass().equals(TimeoutError.class)) {
-                                            // Show timeout error message
-                                            Toast.makeText(getBaseContext(),
-                                                    "Oops. Timeout error!",
-                                                    Toast.LENGTH_LONG).show();
+                                        SharedPreferences.Editor editor = preferences.edit();
+                                        if (savedobjects.isEmpty()) {
+                                            editor.putString("MyObjects", Integer.toString(ObjectID));
+                                            editor.putString("MyObjects", Integer.toString(now.monthDay) + "/" + Integer.toString(now.month) + "/" + Integer.toString(now.year) + " " + now.format("%k:%M:%S"));
+                                        } else {
+                                            editor.putString("MyObjects", savedobjects + ";" + Integer.toString(ObjectID));
+                                            editor.putString("MyObjects", savedobjectsdates + ";" + Integer.toString(now.monthDay) + "/" + Integer.toString(now.month) + "/" + Integer.toString(now.year) + " " + now.format("%k:%M:%S"));
                                         }
+                                        editor.apply();
+
+                                        createNotificationChannel();
+                                        notifyThis("IDEAL", getText(R.string.addedprod).toString());
+                                        finish();
+                                        // parse success output
                                     }
-                                    error.printStackTrace();
-                                }
-                            }) {
-                                @Override
-                                protected Map<String, String> getParams() {
-                                    Map<String, String> params = new HashMap<>();
-                                    params.put("filename", "article-"+Integer.toString(ObjectID));
-                                    Log.i("err","article-"+Integer.toString(ObjectID));
-                                    return params;
-                                }
-
-                                @RequiresApi(api = Build.VERSION_CODES.O)
-                                @Override
-                                protected Map<String, DataPart> getByteData() {
-                                    Map<String, DataPart> params = new HashMap<>();
-                                    // file name could found file base or direct access from real path
-                                    // for now just get bitmap data from ImageView
-                                    File file = new File(picturePath);
-
-                                    Filename imagefile = new Filename(picturePath, '/', '.');
-
-                                    int size = (int) file.length();
-                                    byte[] bytes = new byte[size];
-                                    try {
-                                        BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
-                                        buf.read(bytes, 0, bytes.length);
-                                        buf.close();
-                                    } catch (FileNotFoundException e) {
-                                        // TODO Auto-generated catch block
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        // TODO Auto-generated catch block
-                                        e.printStackTrace();
-                                    }
-
-                                    //try {
-                                        params.put("file", new DataPart("article-"+Integer.toString(ObjectID), bytes, "*/*"));
-                                    /*} catch (IOException e) {
-                                        e.printStackTrace();
-                                    }*/
-
-
-                                    return params;
-                                }
-                            };
-                            multipartRequest.setRetryPolicy(new DefaultRetryPolicy(100000 * 60, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                            queue.add(multipartRequest);
-                            //VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
-
-                            /*try {
-                                sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }*/
-                                //IMAGE
-                                /*ApiService service2 = new Retrofit.Builder()
-                                        .baseUrl("http://"+ MainActivity.URLServerImage)
-                                        //convertie le json automatiquement
-                                        .addConverterFactory(ScalarsConverterFactory.create())
-                                        .addConverterFactory(GsonConverterFactory.create())
-                                        .build()
-                                        .create(ApiService.class);
-
-                                File file = new File(picturePath);
-
-                                RequestBody reqFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
-                                RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), "article-"+Integer.toString(ObjectID));
-
-                                Log.d("err", "7");
-                                Call<ResponseBody> req = service2.postImage(body,filename);
-                                Log.d("err", "8");
-                                req.execute();
-                                Log.d("err", "9");
-
-                                /*req.enqueue(new Callback<ResponseBody>() {
+                                }, new com.android.volley.Response.ErrorListener() {
                                     @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        Log.d("err", "Reached this place");
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.i("err", "shhit doesntwork2");
+                                        if (error.networkResponse == null) {
+                                            if (error.getClass().equals(TimeoutError.class)) {
+                                                // Show timeout error message
+                                                Toast.makeText(getBaseContext(),
+                                                        "Oops. Timeout error!",
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                        error.printStackTrace();
+                                    }
+                                }) {
+                                    @Override
+                                    protected Map<String, String> getParams() {
+                                        Map<String, String> params = new HashMap<>();
+                                        params.put("filename", "article-" + Integer.toString(ObjectID));
+                                        Log.i("err", "article-" + Integer.toString(ObjectID));
+                                        return params;
                                     }
 
+                                    @RequiresApi(api = Build.VERSION_CODES.O)
                                     @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        t.printStackTrace();
-                                        Log.i("err","ERR upload image");
+                                    protected Map<String, DataPart> getByteData() {
+                                        Map<String, DataPart> params = new HashMap<>();
+                                        // file name could found file base or direct access from real path
+                                        // for now just get bitmap data from ImageView
+                                        File file = new File(picturePath);
+
+                                        Filename imagefile = new Filename(picturePath, '/', '.');
+
+                                        int size = (int) file.length();
+                                        byte[] bytes = new byte[size];
+                                        try {
+                                            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+                                            buf.read(bytes, 0, bytes.length);
+                                            buf.close();
+                                        } catch (FileNotFoundException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        }
+
+                                        //try {
+                                        params.put("file", new DataPart("article-" + Integer.toString(ObjectID), bytes, "*/*"));
+
+                                        return params;
                                     }
-                                });*/
-                            /*} catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.d("err", "10");
-                            }*/
+                                };
+                                multipartRequest.setRetryPolicy(new DefaultRetryPolicy(100000 * 60, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                                queue.add(multipartRequest);
+                            }
                         }
-
+                        else  Log.i("err","REPONSE NULLE");
 
                     } catch (IOException e) {
                         Log.i("err","shit3");

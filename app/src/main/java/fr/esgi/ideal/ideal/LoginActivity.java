@@ -119,6 +119,7 @@ public class LoginActivity extends AppCompatActivity  {
                                     Log.d("Login", "Erreur parse JSON");
                                 }
                                 if(!token.isEmpty()){
+                                    Log.i("err","ACCESSTOKEN: "+token.toString());
                                     MainActivity.AccessToken = token;
                                     /*Toast.makeText(getApplicationContext(),
                                             "SUCCESS! Token: "+token,
@@ -133,7 +134,10 @@ public class LoginActivity extends AppCompatActivity  {
                         {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.d("Login", error.getMessage());
+                                Toast.makeText(getBaseContext(),
+                                        "ERROR "+error.toString(),
+                                        Toast.LENGTH_LONG).show();
+                                //error.getMessage());
                             }
                         }
                 ) {
@@ -146,7 +150,7 @@ public class LoginActivity extends AppCompatActivity  {
                         params.put("username",mEmailView.getText().toString());
                         params.put("password",mPasswordView.getText().toString());
                         params.put("secret","secret_");
-                        params.put("scope","nimportequoi");
+                        params.put("scope","user");
                         return params;
                     }
                 };

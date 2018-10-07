@@ -11,6 +11,7 @@ public class Article {
     private String name;
     private String description;
     private double price;
+    private int img = 0;
     private int like;
 
     public Long getId() {
@@ -20,6 +21,8 @@ public class Article {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public void setImg(int id) { this.img = id; }
 
     public String getName() {
         return name;

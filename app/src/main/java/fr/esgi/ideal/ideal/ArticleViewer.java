@@ -1,5 +1,6 @@
 package fr.esgi.ideal.ideal;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,10 +16,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import fr.esgi.ideal.ideal.api.ApiService;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ArticleViewer extends AppCompatActivity {
     static int ObjectID = 1;
     ImageView ArticleView;
+    boolean liked = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +84,18 @@ public class ArticleViewer extends AppCompatActivity {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                liked = true;
+                new Like().execute();
             }
         });
         final Button unlike = findViewById(R.id.unlike);
+        unlike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                liked = false;
+                new Like().execute();
+            }
+        });
 
         likesextend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,5 +189,40 @@ public class ArticleViewer extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    class Like extends AsyncTask<Void, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(Void...params) {
+            ApiService service = new Retrofit.Builder()
+                    .baseUrl("http://"+ MainActivity.URLServer)
+                    //convertie le json automatiquement
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                    .create(ApiService.class);
+            Call<ResponseBody> call = null;
+            if(liked) service.setLike("true",ObjectID);
+            else service.setLike("false",ObjectID);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                    String lliked = "Article liké avec succès";
+                    if(!liked)lliked = "Article unliké avec succès";
+                    Toast.makeText(getBaseContext(),
+                            lliked,
+                            Toast.LENGTH_LONG).show();
+                    recreate();
+                }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.i("err","shitlike");
+                    t.printStackTrace();
+                }
+            });
+            return 1;
+        }
     }
 }
