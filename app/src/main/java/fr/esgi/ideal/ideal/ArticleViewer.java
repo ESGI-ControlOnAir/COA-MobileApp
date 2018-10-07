@@ -69,6 +69,14 @@ public class ArticleViewer extends AppCompatActivity {
         final RelativeLayout likesextend = (RelativeLayout) findViewById(R.id.articlelikesextend);
         final Button likesextendicon = (Button) findViewById(R.id.extendlikes);
         final LinearLayout likesedit = findViewById(R.id.likeslay);
+        final Button like = findViewById(R.id.like);
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        final Button unlike = findViewById(R.id.unlike);
 
         likesextend.setOnClickListener(new View.OnClickListener() {
             @Override
