@@ -212,7 +212,7 @@ public class ArticleViewer extends AppCompatActivity {
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client)
                     .build()
-                    .create(ApiService.class);
+                    .create(ApiService.class); 
             Call<ResponseBody> call = null;
             if(liked){ call = service.setLike("Bearer "+MainActivity.AccessToken,"true",ObjectID); }
             else { call = service.setLike("Bearer "+MainActivity.AccessToken,"false",ObjectID); }
